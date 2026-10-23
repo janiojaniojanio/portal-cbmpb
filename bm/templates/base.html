@@ -1,0 +1,399 @@
+{% load static wagtailcore_tags wagtailuserbar %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>
+        {% block title %}
+        {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
+        {% endblock %}
+        {% block title_suffix %}
+        - Corpo de Bombeiros Militar da Paraíba
+        {% endblock %}
+    </title>
+    {% if page.search_description %}
+    <meta name="description" content="{{ page.search_description }}" />
+    {% else %}
+    <meta name="description" content="Portal Institucional do Corpo de Bombeiros Militar da Paraíba (CBMPB). Vidas alheias e riquezas salvar." />
+    {% endif %}
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Favicon Oficial CBMPB -->
+    <link rel="icon" type="image/png" href="{% static 'images/brasao-cbmpb.png' %}?v=2">
+
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Custom CBMPB Style inspired by 'Current' Template -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bm.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+    {% wagtailuserbar %}
+
+    <!-- Atalho de Acessibilidade -->
+    <a href="#main-content" class="skip-link">Ir para o conteúdo principal [Alt + 1]</a>
+
+    <!-- BARRA DO GOVERNO DA PARAÍBA & ACESSIBILIDADE (TOTALMENTE RESPONSIVA) -->
+    <header class="header-global">
+        <div class="gov-topbar">
+            <div class="container">
+                <div class="topbar-inner">
+                    <div class="topbar-left">
+                        <a href="https://paraiba.pb.gov.br/" target="_blank" rel="noopener" class="gov-state-brand">
+                            <span class="gov-state-flag" title="Bandeira da Paraíba"></span>
+                            <span>GOVERNO DA PARAÍBA</span>
+                        </a>
+                        <span class="d-none d-md-inline text-secondary">|</span>
+                        <span class="d-none d-lg-inline small text-light opacity-75">Secretaria de Segurança e Defesa Social</span>
+                    </div>
+
+                    <div class="access-tools">
+                        <div class="d-none d-sm-flex align-items-center gap-1">
+                            <button type="button" class="access-btn" id="toggle-contrast" title="Alternar Alto Contraste">
+                                <i class="fa-solid fa-circle-half-stroke me-1"></i><span class="d-none d-md-inline">Contraste</span>
+                            </button>
+                            <button type="button" class="access-btn" id="font-decrease" title="Diminuir Fonte">A-</button>
+                            <button type="button" class="access-btn" id="font-reset" title="Tamanho Padrão">A</button>
+                            <button type="button" class="access-btn" id="font-increase" title="Aumentar Fonte">A+</button>
+                        </div>
+                        <span class="text-secondary mx-1 d-none d-md-inline">|</span>
+                        <a href="https://transparencia.pb.gov.br/" target="_blank" class="topbar-link d-none d-md-inline">Transparência</a>
+                        <a href="https://ouvidoria.pb.gov.br/" target="_blank" class="topbar-link d-none d-md-inline ms-2">Ouvidoria</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NAVBAR PRINCIPAL COM OFFCANVAS NO MOBILE -->
+        <nav class="navbar navbar-expand-lg main-header" id="navbar">
+            <div class="container">
+                <!-- Marca / Brasão Oficial -->
+                <a class="navbar-brand navbar-brand-cbmpb" href="/">
+                    <div class="brand-crest">
+                        <img src="{% static 'images/brasao-cbmpb.png' %}?v=2" alt="Brasão Oficial CBMPB">
+                    </div>
+                    <div class="brand-text">
+                        <h2>CBMPB</h2>
+                        <span>Corpo de Bombeiros Militar</span>
+                    </div>
+                </a>
+
+                <!-- Ações Diretas no Mobile (Emergência + Menu Hambúrguer) -->
+                <div class="d-flex align-items-center gap-2 d-lg-none">
+                    <a href="tel:193" class="btn btn-emergency-mobile" title="Ligue 193">
+                        <i class="fa-solid fa-phone-volume"></i> 193
+                    </a>
+                    <button class="navbar-toggler mobile-menu-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenuOffcanvas" aria-controls="mobileMenuOffcanvas" aria-label="Abrir menu de navegação">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+
+                <!-- Menu Desktop -->
+                <div class="collapse navbar-collapse d-none d-lg-flex" id="navDesktop">
+                    <ul class="navbar-nav ms-auto align-items-lg-center gap-1 mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-cbmpb active" href="/">Início</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link nav-link-cbmpb dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Institucional
+                            </a>
+                            <ul class="dropdown-menu shadow border-0">
+                                <li><a class="dropdown-item" href="#institucional"><i class="fa-solid fa-landmark me-2 text-danger"></i>Quem Somos & Histórico</a></li>
+                                <li><a class="dropdown-item fw-bold text-navy" href="/quadro-organizacional/"><i class="fa-solid fa-sitemap me-2 text-danger"></i>Quadro Organizacional (Lei 191/24)</a></li>
+                                <li><a class="dropdown-item fw-bold text-navy" href="/concursos/"><i class="fa-solid fa-graduation-cap me-2 text-danger"></i>Concursos & Seleções (DEIP)</a></li>
+                                <li><a class="dropdown-item" href="#institucional"><i class="fa-solid fa-user-shield me-2 text-danger"></i>Comando Geral</a></li>
+                                <li><a class="dropdown-item" href="/unidades/"><i class="fa-solid fa-map-location-dot me-2 text-danger"></i>Quartéis & Batalhões</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="https://transparencia.pb.gov.br/" target="_blank"><i class="fa-solid fa-magnifying-glass-dollar me-2 text-danger"></i>Transparência Pública</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link nav-link-cbmpb dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                DSPCI (Segurança Contra Incêndio)
+                            </a>
+                            <ul class="dropdown-menu shadow border-0">
+                                <li><a class="dropdown-item fw-bold text-navy" href="/dspci/"><i class="fa-solid fa-shield-halved me-2 text-danger"></i>Portal DSPCI (Serviços e Sistemas)</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/dspci/#repositorio"><i class="fa-solid fa-book-bookmark me-2 text-danger"></i>Normas Técnicas (NTs)</a></li>
+                                <li><a class="dropdown-item" href="/dspci/?categoria=legislacao#repositorio"><i class="fa-solid fa-scale-balanced me-2 text-danger"></i>Legislação e Código Estadual</a></li>
+                                <li><a class="dropdown-item" href="/dspci/?categoria=pareceres-ctd#repositorio"><i class="fa-solid fa-gavel me-2 text-danger"></i>Pareceres do CTD</a></li>
+                                <li><a class="dropdown-item" href="/dspci/#conselho-tecnico"><i class="fa-solid fa-users-gear me-2 text-danger"></i>Conselho Técnico Deliberativo</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="https://bravo.bombeiros.pb.gov.br" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square me-2 text-danger"></i>Sistema Bravo (Vistorias & AVCB)</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-cbmpb" href="/concursos/"><i class="fa-solid fa-graduation-cap me-1 d-none d-xl-inline text-danger"></i>Concursos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-cbmpb" href="#areas">Operações</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-cbmpb" href="/unidades/">Quartéis</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-cbmpb" href="/noticias/">Notícias</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-cbmpb" href="#contato">Contato</a>
+                        </li>
+                        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                            <a href="tel:193" class="btn btn-emergency-193" title="Ligue para Emergência 193">
+                                <i class="fa-solid fa-phone-volume"></i>
+                                <span>193 EMERGÊNCIA</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- MENU GAVETA OFFCANVAS PARA MOBILE (EXPERIÊNCIA MODERNA & NATIVA) -->
+        <div class="offcanvas offcanvas-end offcanvas-cbmpb d-lg-none" tabindex="-1" id="mobileMenuOffcanvas" aria-labelledby="mobileMenuOffcanvasLabel">
+            <div class="offcanvas-header">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="brand-crest" style="width: 44px; height: 44px;">
+                        <img src="{% static 'images/brasao-cbmpb.png' %}?v=2" alt="Brasão Oficial CBMPB">
+                    </div>
+                    <div>
+                        <h5 class="offcanvas-title text-white fw-bold mb-0" id="mobileMenuOffcanvasLabel">CBMPB</h5>
+                        <span class="text-warning small text-uppercase fw-semibold" style="font-size: 0.65rem;">Corpo de Bombeiros Militar</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Fechar menu"></button>
+            </div>
+            <div class="offcanvas-body">
+                <!-- Ações de Emergência no Topo do Menu Mobile -->
+                <div class="mobile-emergency-banner mb-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="d-block text-warning small fw-bold">SOCORRO URGENTE</span>
+                            <strong class="text-white fs-4">LIGUE 193</strong>
+                        </div>
+                        <a href="tel:193" class="btn btn-danger btn-sm px-3 py-2 fw-bold rounded-pill">
+                            <i class="fa-solid fa-phone me-1"></i> Discar
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Links de Navegação Mobile -->
+                <ul class="nav flex-column mobile-nav-list mb-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/" data-bs-dismiss="offcanvas"><i class="fa-solid fa-house"></i> Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dspci/" data-bs-dismiss="offcanvas"><i class="fa-solid fa-shield-halved text-danger"></i> DSPCI (Normas & AVCB)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/quadro-organizacional/" data-bs-dismiss="offcanvas"><i class="fa-solid fa-sitemap text-danger"></i> Quadro Organizacional (Lei 191/24)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/concursos/" data-bs-dismiss="offcanvas"><i class="fa-solid fa-graduation-cap text-danger"></i> Concursos & Seleções (DEIP)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#institucional" data-bs-dismiss="offcanvas"><i class="fa-solid fa-landmark"></i> Institucional / Quem Somos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#areas" data-bs-dismiss="offcanvas"><i class="fa-solid fa-fire-extinguisher"></i> Áreas de Atuação & Operações</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/unidades/" data-bs-dismiss="offcanvas"><i class="fa-solid fa-map-location-dot"></i> Batalhões & Quartéis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/noticias/" data-bs-dismiss="offcanvas"><i class="fa-solid fa-newspaper"></i> Notícias & Comunicação</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contato" data-bs-dismiss="offcanvas"><i class="fa-solid fa-phone"></i> Fale Conosco</a>
+                    </li>
+                </ul>
+
+                <!-- Ferramentas de Acessibilidade no Mobile -->
+                <div class="mobile-accessibility-box p-3 rounded mb-4">
+                    <span class="d-block small text-light opacity-75 fw-bold mb-2">ACESSIBILIDADE:</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" class="access-btn flex-grow-1 py-2 text-center" id="mobile-toggle-contrast">
+                            <i class="fa-solid fa-circle-half-stroke me-1"></i> Alto Contraste
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Links Institucionais do Governo PB -->
+                <div class="mobile-gov-links">
+                    <a href="https://transparencia.pb.gov.br/" target="_blank" class="d-block small text-light opacity-75 mb-2">
+                        <i class="fa-solid fa-external-link-alt me-1 text-danger"></i> Portal da Transparência PB
+                    </a>
+                    <a href="https://ouvidoria.pb.gov.br/" target="_blank" class="d-block small text-light opacity-75 mb-3">
+                        <i class="fa-solid fa-external-link-alt me-1 text-danger"></i> Ouvidoria Geral PB
+                    </a>
+                </div>
+
+                <!-- Redes Sociais no Mobile -->
+                <div class="d-flex gap-2 pt-2 border-top border-secondary">
+                    <a href="https://www.instagram.com/bombeirospb/" target="_blank" class="social-circle-btn"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/bombeirospb" target="_blank" class="social-circle-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.youtube.com/@cbmpb" target="_blank" class="social-circle-btn"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main id="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- RODAPÉ MEGA FOOTER -->
+    <footer class="main-footer" id="contato">
+        <div class="container">
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6 footer-brand">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="brand-crest" style="width: 54px; height: 54px;">
+                            <img src="{% static 'images/brasao-cbmpb.png' %}?v=2" alt="Brasão Oficial CBMPB">
+                        </div>
+                        <div>
+                            <h3 class="mb-0 fs-5 text-white">CBMPB</h3>
+                            <span class="text-warning small text-uppercase fw-bold letter-spacing-1">Corpo de Bombeiros Militar da Paraíba</span>
+                        </div>
+                    </div>
+                    <p class="text-light opacity-75">
+                        Instituição secular dedicada à preservação de vidas, do meio ambiente e do patrimônio de toda a sociedade paraibana. <em>"Vidas alheias e riquezas salvar!"</em>
+                    </p>
+                    <div class="emergency-phone-box py-2 px-3 mt-3 d-inline-flex">
+                        <div class="emergency-phone-icon" style="width: 48px; height: 48px; font-size: 22px;">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div class="emergency-phone-text">
+                            <div class="number fs-3">193</div>
+                            <div class="desc small" style="font-size: 0.7rem;">Plantão Emergencial 24h</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h5 class="footer-heading">Institucional</h5>
+                    <ul class="footer-links">
+                        <li><a href="#institucional"><i class="fa-solid fa-angle-right text-danger"></i> Quem Somos</a></li>
+                        <li><a href="/quadro-organizacional/"><i class="fa-solid fa-angle-right text-danger"></i> Quadro Organizacional</a></li>
+                        <li><a href="/concursos/"><i class="fa-solid fa-angle-right text-danger"></i> Concursos & Seleções</a></li>
+                        <li><a href="#institucional"><i class="fa-solid fa-angle-right text-danger"></i> Comando Geral</a></li>
+                        <li><a href="/unidades/"><i class="fa-solid fa-angle-right text-danger"></i> Batalhões</a></li>
+                        <li><a href="#areas"><i class="fa-solid fa-angle-right text-danger"></i> Especialidades</a></li>
+                        <li><a href="/noticias/"><i class="fa-solid fa-angle-right text-danger"></i> Notícias</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-6">
+                    <h5 class="footer-heading">Serviços & DSPCI</h5>
+                    <ul class="footer-links">
+                        <li><a href="/dspci/"><i class="fa-solid fa-angle-right text-danger"></i> Portal DSPCI</a></li>
+                        <li><a href="/dspci/#repositorio"><i class="fa-solid fa-angle-right text-danger"></i> Normas Técnicas (NTs)</a></li>
+                        <li><a href="/dspci/?categoria=legislacao#repositorio"><i class="fa-solid fa-angle-right text-danger"></i> Legislação Estadual</a></li>
+                        <li><a href="/dspci/?categoria=pareceres-ctd#repositorio"><i class="fa-solid fa-angle-right text-danger"></i> Pareceres do CTD</a></li>
+                        <li><a href="https://bravo.bombeiros.pb.gov.br" target="_blank"><i class="fa-solid fa-angle-right text-danger"></i> Sistema Bravo (AVCB)</a></li>
+                        <li><a href="https://transparencia.pb.gov.br/" target="_blank"><i class="fa-solid fa-angle-right text-danger"></i> Transparência</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading">Comando Geral</h5>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span class="small text-light opacity-75">Rodovia BR-230, Km 23, s/n - Cristo Redentor, João Pessoa - PB</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-phone"></i>
+                        <span class="small text-light opacity-75"><a href="tel:08332185700" class="text-light text-decoration-none">(83) 3218-5700</a> (Geral)</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span class="small text-light opacity-75">ouvidoria@bombeiros.pb.gov.br</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-clock"></i>
+                        <span class="small text-light opacity-75">Expediente: Seg a Sex, 07h30 às 13h30</span>
+                    </div>
+
+                    <div class="footer-social-links">
+                        <a href="https://www.instagram.com/bombeirospb/" target="_blank" class="social-circle-btn" title="Instagram CBMPB"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/bombeirospb" target="_blank" class="social-circle-btn" title="Facebook CBMPB"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.youtube.com/@cbmpb" target="_blank" class="social-circle-btn" title="YouTube CBMPB"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 text-secondary text-center text-md-start">
+                    <div class="w-100 w-md-auto mb-2 mb-md-0">
+                        © {% now "Y" %} Corpo de Bombeiros Militar da Paraíba.
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center gap-3 w-100 w-md-auto">
+                        <span>Governo do Estado da Paraíba</span>
+                        <span>•</span>
+                        <a href="https://paraiba.pb.gov.br/" target="_blank" class="text-secondary text-decoration-none">paraiba.pb.gov.br</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BARRA FLUTUANTE DE EMERGÊNCIA NO MOBILE (STICKY BOTTOM BAR) -->
+    <div class="mobile-sticky-bar d-lg-none" id="mobileStickyBar">
+        <a href="tel:193" class="mobile-sticky-action emergency-action">
+            <i class="fa-solid fa-phone-volume"></i>
+            <span>Ligar 193</span>
+        </a>
+        <a href="#servicos" class="mobile-sticky-action">
+            <i class="fa-solid fa-file-shield"></i>
+            <span>Vistorias</span>
+        </a>
+        <a href="/unidades/" class="mobile-sticky-action">
+            <i class="fa-solid fa-map-location-dot"></i>
+            <span>Quartéis</span>
+        </a>
+        <button type="button" class="mobile-sticky-action" data-bs-toggle="offcanvas" data-bs-target="#mobileMenuOffcanvas">
+            <i class="fa-solid fa-bars"></i>
+            <span>Menu</span>
+        </button>
+    </div>
+
+    <!-- BOTÃO VOLTAR AO TOPO -->
+    <button type="button" class="btn-back-to-top" id="backToTopBtn" title="Voltar ao Topo">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- VLibras Widget (Acessibilidade) -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+
+    <!-- Bootstrap 5.3 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom CBMPB Script -->
+    <script src="{% static 'js/bm.js' %}"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,519 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailroutablepage_tags %}
+
+{% block body_class %}cbmpb-concursos-page{% endblock %}
+
+{% block content %}
+
+<!-- HEADER & HERO DE CONCURSOS E SELEÇÕES -->
+<section class="concursos-hero-strip py-4">
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house me-1"></i> Início</a></li>
+                <li class="breadcrumb-item"><a href="#">Ensino & Carreira</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Concursos & Seleções</li>
+            </ol>
+        </nav>
+
+        <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+                <span class="badge bg-gold text-dark fw-bold px-3 py-1 mb-2 text-uppercase tracking-wider">
+                    <i class="fa-solid fa-graduation-cap me-1"></i> DIRETORIA DE ENSINO, INSTRUÇÃO E PESQUISA (DEIP)
+                </span>
+                <h1 class="display-6 fw-bold text-white mb-2">{{ page.title }}</h1>
+                <p class="lead mb-3" style="font-size: 1.15rem; color: #F8FAFC;">
+                    {{ page.intro_subtitle }}
+                </p>
+                {% if page.intro_description %}
+                <div class="intro-richtext mb-0" style="color: #E2E8F0; line-height: 1.6;">
+                    {{ page.intro_description|richtext }}
+                </div>
+                {% endif %}
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+<!-- FAIXA DE AVISO AO CANDIDATO -->
+{% if page.notice_text %}
+<section class="py-3 bg-white border-bottom">
+    <div class="container">
+        <div class="p-3 rounded-3 bg-light border border-slate-200 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3"
+            style="border-left: 5px solid var(--bm-gold) !important;">
+            <div class="d-flex align-items-start gap-3">
+                <div class="d-flex align-items-center justify-content-center bg-warning bg-opacity-15 text-dark rounded-circle flex-shrink-0"
+                    style="width: 44px; height: 44px;">
+                    <i class="fa-solid fa-bullhorn text-warning fs-5"></i>
+                </div>
+                <div>
+                    <h6 class="fw-bold text-navy mb-1" style="font-size: 0.95rem;">Aviso Oficial aos Candidatos</h6>
+                    <p class="small mb-0" style="color: #334155; line-height: 1.5;">
+                        {{ page.notice_text }}
+                    </p>
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                {% if page.contact_email %}
+                <a href="mailto:{{ page.contact_email }}"
+                    class="btn btn-outline-navy btn-sm fw-bold d-inline-flex align-items-center gap-1"
+                    title="E-mail DEIP">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Dúvidas DEIP</span>
+                </a>
+                {% endif %}
+                <a href="/dspci/?categoria=legislacao#repositorio"
+                    class="btn btn-outline-danger btn-sm fw-bold d-inline-flex align-items-center gap-1"
+                    title="Legislação CBMPB">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <span>Leis & Estatuto</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ÁREA PRINCIPAL: FILTROS & LISTA DE CERTAMES -->
+<section class="py-5 bg-light" id="certames-lista">
+    <div class="container">
+
+        <!-- CABEÇALHO DA SEÇÃO COM BUSCA -->
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+            <div>
+                <span class="section-tag mb-1"><i class="fa-solid fa-folder-tree me-1"></i> PAINEL DE CERTAMES</span>
+                <h2 class="display-6 fw-bold text-navy mb-1" style="font-size: 1.75rem;">Processos Seletivos e Concursos
+                </h2>
+                <p class="mb-0" style="color: #475569;">Consulte os editais, portarias, convocações e resultados
+                    agrupados por cada certame.</p>
+            </div>
+
+            <!-- Busca Rápida -->
+            <div class="concursos-search-wrapper" style="min-width: 320px;">
+                <form method="get" action="#certames-lista" class="d-flex gap-2">
+                    {% if current_category %}
+                    <input type="hidden" name="categoria" value="{{ current_category }}">
+                    {% endif %}
+                    {% if current_status %}
+                    <input type="hidden" name="status" value="{{ current_status }}">
+                    {% endif %}
+                    {% if current_year %}
+                    <input type="hidden" name="ano" value="{{ current_year }}">
+                    {% endif %}
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0 text-muted"><i
+                                class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" name="q" class="form-control border-start-0"
+                            placeholder="Buscar certame, edital ou cargo..." value="{{ search_query|default:'' }}"
+                            aria-label="Buscar certame">
+                        <button class="btn btn-primary-cbmpb px-3" type="submit">Buscar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- BARRA DE FILTROS CATEGORIZADOS -->
+        <div class="concursos-filter-box p-3 rounded-3 bg-white border shadow-sm mb-4">
+            <div class="row g-3 align-items-center">
+                <!-- Filtro Tipo de Certame (Público vs Interno) -->
+                <div class="col-12 col-md-auto">
+                    <span class="small fw-bold text-uppercase d-block mb-1" style="font-size: 0.75rem; color: #475569;">
+                        <i class="fa-solid fa-layer-group me-1 text-danger"></i> Modalidade:
+                    </span>
+                    <div class="d-flex flex-wrap gap-1">
+                        <a href="?{% if current_status %}status={{ current_status }}&{% endif %}{% if current_year %}ano={{ current_year }}&{% endif %}{% if search_query %}q={{ search_query }}{% endif %}#certames-lista"
+                            class="concursos-filter-pill {% if not current_category %}active{% endif %}">
+                            Todos ({{ total_certames }})
+                        </a>
+                        <a href="?categoria=PUBLICO{% if current_status %}&status={{ current_status }}{% endif %}{% if current_year %}&ano={{ current_year }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}#certames-lista"
+                            class="concursos-filter-pill {% if current_category == 'PUBLICO' %}active{% endif %}">
+                            <i class="fa-solid fa-users me-1"></i> Concursos Públicos
+                        </a>
+                        <a href="?categoria=INTERNO{% if current_status %}&status={{ current_status }}{% endif %}{% if current_year %}&ano={{ current_year }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}#certames-lista"
+                            class="concursos-filter-pill {% if current_category == 'INTERNO' %}active{% endif %}">
+                            <i class="fa-solid fa-id-badge me-1"></i> Seleções Internas
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Filtro Situação -->
+                <div class="col-12 col-md-auto ms-md-auto">
+                    <span class="small fw-bold text-uppercase d-block mb-1" style="font-size: 0.75rem; color: #475569;">
+                        <i class="fa-solid fa-filter me-1 text-danger"></i> Situação:
+                    </span>
+                    <div class="d-flex flex-wrap gap-1">
+                        <a href="?{% if current_category %}categoria={{ current_category }}&{% endif %}{% if current_year %}ano={{ current_year }}&{% endif %}{% if search_query %}q={{ search_query }}{% endif %}#certames-lista"
+                            class="concursos-filter-pill-sub {% if not current_status %}active{% endif %}">
+                            Todas
+                        </a>
+                        <a href="?status=INSCRICOES_ABERTAS{% if current_category %}&categoria={{ current_category }}{% endif %}{% if current_year %}&ano={{ current_year }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}#certames-lista"
+                            class="concursos-filter-pill-sub {% if current_status == 'INSCRICOES_ABERTAS' %}active{% endif %}">
+                            Inscrições Abertas
+                        </a>
+                        <a href="?status=EM_ANDAMENTO{% if current_category %}&categoria={{ current_category }}{% endif %}{% if current_year %}&ano={{ current_year }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}#certames-lista"
+                            class="concursos-filter-pill-sub {% if current_status == 'EM_ANDAMENTO' %}active{% endif %}">
+                            Em Andamento
+                        </a>
+                        <a href="?status=CONCLUIDO{% if current_category %}&categoria={{ current_category }}{% endif %}{% if current_year %}&ano={{ current_year }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}#certames-lista"
+                            class="concursos-filter-pill-sub {% if current_status == 'CONCLUIDO' %}active{% endif %}">
+                            Concluídos
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Filtro Ano -->
+                {% if years_list %}
+                <div class="col-12 col-lg-auto">
+                    <span class="small fw-bold text-uppercase d-block mb-1" style="font-size: 0.75rem; color: #475569;">
+                        <i class="fa-solid fa-calendar me-1 text-danger"></i> Ano:
+                    </span>
+                    <div class="d-flex flex-wrap gap-1">
+                        <a href="?{% if current_category %}categoria={{ current_category }}&{% endif %}{% if current_status %}status={{ current_status }}&{% endif %}{% if search_query %}q={{ search_query }}{% endif %}#certames-lista"
+                            class="concursos-filter-pill-year {% if not current_year %}active{% endif %}">
+                            Todos
+                        </a>
+                        {% for y in years_list %}
+                        <a href="?ano={{ y }}{% if current_category %}&categoria={{ current_category }}{% endif %}{% if current_status %}&status={{ current_status }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}#certames-lista"
+                            class="concursos-filter-pill-year {% if current_year == y|stringformat:'i' %}active{% endif %}">
+                            {{ y }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Filtros Ativos / Reset -->
+            {% if current_category or current_status or current_year or search_query %}
+            <div class="mt-3 pt-2 border-top d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <span class="small text-muted">
+                    Exibindo <strong>{{ certames.count }}</strong> certame(s) filtrado(s).
+                </span>
+                <a href="{{ page.url }}#certames-lista"
+                    class="btn btn-link btn-sm text-danger p-0 text-decoration-none fw-bold">
+                    <i class="fa-solid fa-xmark me-1"></i> Limpar filtros e mostrar todos
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- LISTAGEM AGRUPADA DE CADA CERTAME ESPECÍFICO -->
+        {% if certames %}
+        <div class="d-flex flex-column gap-4">
+            {% for c in certames %}
+            <div class="concurso-certame-card card border-0 shadow-sm rounded-3 overflow-hidden"
+                id="certame-{{ c.slug }}">
+
+                <!-- CABEÇALHO DO CERTAME -->
+                <div class="card-header bg-white p-3 p-md-4 border-bottom">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-3">
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
+                                <span class="badge {{ c.badge_category_class }} px-2 py-1 fw-bold">
+                                    {% if c.category == 'PUBLICO' %}
+                                    <i class="fa-solid fa-users me-1"></i> CONCURSO PÚBLICO
+                                    {% else %}
+                                    <i class="fa-solid fa-id-badge me-1"></i> SELEÇÃO INTERNA
+                                    {% endif %}
+                                </span>
+                                <span
+                                    class="badge {{ c.badge_status_class }} px-2 py-1 fw-bold d-inline-flex align-items-center gap-1">
+                                    {% if c.status == 'INSCRICOES_ABERTAS' %}
+                                    <span class="pulse-indicator"></span>
+                                    {% endif %}
+                                    {{ c.get_status_display }}
+                                </span>
+                                <span class="badge bg-light text-navy border fw-bold px-2 py-1">
+                                    Ano {{ c.year }}
+                                </span>
+                                <span class="small text-muted font-monospace fw-bold ms-auto ms-md-0">
+                                    {{ c.edital_number }}
+                                </span>
+                            </div>
+
+                            <h3 class="fw-bold text-navy mb-2" style="font-size: 1.35rem;">
+                                <a href="{% routablepageurl page 'detail_view' c.slug %}"
+                                    class="text-navy text-decoration-none hover-danger">
+                                    {{ c.title }}
+                                </a>
+                            </h3>
+
+                            {% if c.summary %}
+                            <p class="small mb-0" style="color: #334155; line-height: 1.6;">
+                                {{ c.summary }}
+                            </p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Botão de Ação do Certame -->
+                        <div class="d-flex flex-column gap-2 flex-shrink-0 text-md-end">
+                            {% if c.registration_url %}
+                            <a href="{{ c.registration_url }}" target="_blank" rel="noopener noreferrer"
+                                class="btn {% if c.status == 'INSCRICOES_ABERTAS' %}btn-success{% else %}btn-primary-cbmpb{% endif %} fw-bold btn-sm px-3 py-2 d-inline-flex align-items-center justify-content-center gap-2 shadow-sm text-nowrap">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <span>{% if c.status == 'INSCRICOES_ABERTAS' %}Inscrição Online{% else %}Link de Inscrição{% endif %}</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square small"></i>
+                            </a>
+                            {% endif %}
+                            <a href="{% routablepageurl page 'detail_view' c.slug %}"
+                                class="btn btn-outline-danger btn-sm fw-bold px-3 py-2 d-inline-flex align-items-center justify-content-center gap-2 text-nowrap">
+                                <span>Página do Certame</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- GRADE DE PARÂMETROS RÁPIDOS -->
+                    <div class="row g-2 mt-3 pt-3 border-top small"
+                        style="background-color: #F8FAFC; border-radius: 8px; padding: 12px;">
+                        <div class="col-sm-6 col-md-3">
+                            <span class="concurso-meta-label">Banca / Coordenação:</span>
+                            <strong class="concurso-meta-val">{{ c.banca }}</strong>
+                        </div>
+                        {% if c.vagas %}
+                        <div class="col-sm-6 col-md-3">
+                            <span class="concurso-meta-label">Vagas Previstas:</span>
+                            <strong class="concurso-meta-val text-danger">{{ c.vagas }}</strong>
+                        </div>
+                        {% endif %}
+                        {% if c.requisito_escolaridade %}
+                        <div class="col-sm-6 col-md-3">
+                            <span class="concurso-meta-label">Escolaridade / Posto:</span>
+                            <strong class="concurso-meta-val">{{ c.requisito_escolaridade }}</strong>
+                        </div>
+                        {% endif %}
+                        {% if c.remuneracao %}
+                        <div class="col-sm-6 col-md-3">
+                            <span class="concurso-meta-label">Remuneração Inicial:</span>
+                            <strong class="concurso-meta-val text-success">{{ c.remuneracao }}</strong>
+                        </div>
+                        {% endif %}
+                        {% if c.registration_start_date and c.registration_end_date %}
+                        <div class="col-sm-6 col-md-3">
+                            <span class="concurso-meta-label">Período de Inscrição:</span>
+                            <strong class="concurso-meta-val">{{ c.registration_start_date|date:"d/m/Y" }} a {{
+                                c.registration_end_date|date:"d/m/Y" }}</strong>
+                        </div>
+                        {% endif %}
+                        {% if c.registration_url %}
+                        <div class="col-sm-6 col-md-3">
+                            <span class="concurso-meta-label">Página de Inscrições:</span>
+                            <a href="{{ c.registration_url }}" target="_blank" rel="noopener noreferrer"
+                                class="concurso-meta-val text-primary fw-bold d-inline-flex align-items-center gap-1 text-decoration-underline"
+                                title="Acessar página de inscrição">
+                                <span>Acessar Link Externo</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square small" style="font-size: 0.75rem;"></i>
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- FAIXA EM DESTAQUE DE INSCRIÇÃO QUANDO HOUVER LINK REGISTRADO -->
+                    {% if c.registration_url %}
+                    <div class="mt-3 p-2 px-3 rounded-2 {% if c.status == 'INSCRICOES_ABERTAS' %}bg-success bg-opacity-10 border border-success border-opacity-25 text-success-emphasis{% else %}bg-primary bg-opacity-10 border border-primary border-opacity-25 text-primary-emphasis{% endif %} d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div class="d-flex align-items-center gap-2 small">
+                            <i class="fa-solid fa-circle-check {% if c.status == 'INSCRICOES_ABERTAS' %}text-success{% else %}text-primary{% endif %}"></i>
+                            <span>
+                                <strong>Inscrições:</strong>
+                                {% if c.registration_start_date and c.registration_end_date %}
+                                    Período oficial de {{ c.registration_start_date|date:"d/m/Y" }} até {{ c.registration_end_date|date:"d/m/Y" }}.
+                                {% else %}
+                                    Link oficial para realização de inscrições e emissão de boletos disponível.
+                                {% endif %}
+                            </span>
+                        </div>
+                        <a href="{{ c.registration_url }}" target="_blank" rel="noopener noreferrer"
+                            class="btn {% if c.status == 'INSCRICOES_ABERTAS' %}btn-success{% else %}btn-primary-cbmpb{% endif %} btn-sm fw-bold px-3 py-1 d-inline-flex align-items-center gap-1 shadow-sm text-nowrap">
+                            <span>{% if c.status == 'INSCRICOES_ABERTAS' %}Fazer Inscrição{% else %}Acessar Inscrição{% endif %}</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square small"></i>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- SEÇÃO DE PUBLICAÇÕES, ATOS, PORTARIAS E RESULTADOS DO CERTAME -->
+                <div class="card-body p-3 p-md-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-file-shield text-danger fs-5"></i>
+                            <h5 class="fw-bold text-navy mb-0" style="font-size: 1.05rem;">
+                                Publicações Oficiais & Documentos ({{ c.total_documents }})
+                            </h5>
+                        </div>
+                        <span class="small text-muted">
+                            Última atualização: <strong>{{
+                                c.latest_document.publication_date|date:"d/m/Y"|default:"Atualizado recentemente"
+                                }}</strong>
+                        </span>
+                    </div>
+
+                    {% if c.documents.exists %}
+                    <div class="concurso-docs-list d-flex flex-column gap-2">
+                        {% for doc in c.documents_list %}
+                        <div
+                            class="concurso-doc-item p-2 p-md-3 rounded-2 border d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2 {% if doc.is_highlight %}doc-item-highlight{% endif %}">
+                            <div class="d-flex align-items-start gap-2 flex-grow-1">
+                                <span
+                                    class="badge {{ doc.badge_type_class }} text-nowrap fw-bold px-2 py-1 mt-1 mt-md-0"
+                                    style="font-size: 0.72rem;">
+                                    {{ doc.get_document_type_display }}
+                                </span>
+                                <div>
+                                    <div class="fw-bold text-navy" style="font-size: 0.95rem;">
+                                        {{ doc.title }}
+                                        {% if doc.is_highlight %}
+                                        <span class="badge bg-danger text-white px-1 py-0 ms-1 fw-bold"
+                                            style="font-size: 0.65rem;">NOVO</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="d-flex align-items-center gap-3 text-muted small flex-wrap mt-1">
+                                        <span><i class="fa-regular fa-calendar me-1"></i> Publicado em: <strong
+                                                class="text-dark">{{ doc.publication_date|date:"d/m/Y"
+                                                }}</strong></span>
+                                        {% if doc.description %}
+                                        <span><i class="fa-solid fa-circle-info me-1"></i> {{ doc.description }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Botão de Download / Visualização -->
+                            <div class="flex-shrink-0 text-md-end mt-2 mt-md-0">
+                                {% if doc.download_url %}
+                                <a href="{{ doc.download_url }}" target="_blank" rel="noopener noreferrer"
+                                    class="btn btn-sm btn-doc-download fw-bold d-inline-flex align-items-center gap-2">
+                                    <i class="fa-solid fa-file-pdf text-danger fs-6"></i>
+                                    <span>Baixar PDF</span>
+                                    <span class="badge bg-secondary bg-opacity-25 text-dark"
+                                        style="font-size: 0.7rem;">{{ doc.file_size_display }}</span>
+                                </a>
+                                {% elif doc.external_url %}
+                                <a href="{{ doc.external_url }}" target="_blank" rel="noopener noreferrer"
+                                    class="btn btn-sm btn-outline-navy fw-bold d-inline-flex align-items-center gap-2">
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-primary"></i>
+                                    <span>Acessar Publicação</span>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="p-3 bg-light rounded text-center text-muted small">
+                        <i class="fa-regular fa-folder-open me-1"></i> Documentos e editais em fase de processamento
+                        pela comissão.
+                    </div>
+                    {% endif %}
+
+                    <!-- Link para a página completa do certame -->
+                    <div class="mt-3 pt-3 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <span class="small text-muted">
+                            Consulte a íntegra das portarias, cronogramas e histórico completo de convocações.
+                        </span>
+                        <a href="{% routablepageurl page 'detail_view' c.slug %}"
+                            class="small fw-bold text-danger text-decoration-none d-inline-flex align-items-center gap-1">
+                            <span>Acessar Histórico Completo do {{ c.title }}</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- Estado Vazio / Nenhum Certame Encontrado -->
+        <div class="text-center py-5 bg-white rounded-3 border shadow-sm">
+            <div class="mb-3">
+                <i class="fa-solid fa-graduation-cap text-muted fs-1"></i>
+            </div>
+            <h4 class="fw-bold text-navy">Nenhum certame localizado</h4>
+            <p class="small text-muted mb-3 max-w-500 mx-auto">
+                Não foram encontrados concursos públicos ou seleções internas correspondentes aos critérios
+                selecionados.
+            </p>
+            <a href="{{ page.url }}#certames-lista" class="btn btn-outline-danger btn-sm fw-bold">
+                <i class="fa-solid fa-rotate-left me-1"></i> Ver todos os certames
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+<!-- SEÇÃO DE INFORMAÇÕES DE INGRESSO NO CBMPB (COMO INGRESSAR) -->
+<section class="py-5 bg-white border-top">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+                <span class="section-tag mb-1"><i class="fa-solid fa-shield-halved me-1"></i> CARREIRA MILITAR</span>
+                <h3 class="display-6 fw-bold text-navy mb-3" style="font-size: 1.75rem;">Como Ingressar no Corpo de
+                    Bombeiros Militar?</h3>
+                <p class="text-secondary small mb-3" style="line-height: 1.6;">
+                    O ingresso na carreira militar do CBMPB dá-se exclusivamente por meio de concurso público de provas
+                    e títulos, compreendendo etapas intelectuais, exames de saúde física e mental, testes de aptidão
+                    física (TAF) e avaliação social.
+                </p>
+                <div class="d-flex flex-column gap-2 mb-4">
+                    <div class="d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-check-circle text-danger mt-1"></i>
+                        <span class="small" style="color: #1E293B;"><strong>Curso de Formação de Oficiais
+                                (CFO):</strong> Ingresso como Cadete BM, formação superior na Academia e ascensão até
+                            Coronel BM.</span>
+                    </div>
+                    <div class="d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-check-circle text-danger mt-1"></i>
+                        <span class="small" style="color: #1E293B;"><strong>Curso de Formação de Soldados
+                                (CFSd):</strong> Ingresso como Soldado BM, formação técnico-profissional e ascensão na
+                            carreira de praças (Cabo, Sargento, Subtenente).</span>
+                    </div>
+                    <div class="d-flex align-items-start gap-2">
+                        <i class="fa-solid fa-check-circle text-danger mt-1"></i>
+                        <span class="small" style="color: #1E293B;"><strong>Seleções Internas:</strong> Cursos de
+                            especialização (Mergulho, Salvamento em Altura, Operações Aéreas, Incêndio Florestal) e
+                            cursos de promoção (CFC, CFS, CHOA).</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="p-4 rounded-3 border shadow-sm"
+                    style="background: linear-gradient(135deg, #0B1B3D 0%, #061025 100%); color: #FFFFFF;">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center"
+                            style="width: 48px; height: 48px;">
+                            <i class="fa-solid fa-headset fs-4"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-white mb-0">Coordenação de Concursos - DEIP</h5>
+                            <span class="small text-white-50">Diretoria de Ensino, Instrução e Pesquisa</span>
+                        </div>
+                    </div>
+                    <p class="small text-white-75 mb-3" style="line-height: 1.6;">
+                        Para esclarecimento de dúvidas sobre editais em andamento, pedidos de isenção de taxa e prazos
+                        de recursos administrativos, entre em contato direto com a comissão examinadora:
+                    </p>
+                    <ul class="list-unstyled small d-flex flex-column gap-2 mb-3">
+                        <li><i class="fa-solid fa-envelope text-gold me-2"></i> <strong>E-mail:</strong> <a
+                                href="mailto:{{ page.contact_email }}" class="text-white text-decoration-underline">{{
+                                page.contact_email }}</a></li>
+                        <li><i class="fa-solid fa-phone text-gold me-2"></i> <strong>Telefone:</strong> {{
+                            page.contact_phone }}</li>
+                        <li><i class="fa-solid fa-location-dot text-gold me-2"></i> <strong>Sede DEIP:</strong> Centro
+                            de Ensino Bombeiro Militar (CEBM), Rodovia BR-230, Km 23, João Pessoa - PB</li>
+                    </ul>
+                    <a href="https://auniao.pb.gov.br" target="_blank" rel="noopener noreferrer"
+                        class="btn btn-gold btn-sm fw-bold px-3 py-2 d-inline-flex align-items-center gap-2">
+                        <i class="fa-solid fa-newspaper"></i>
+                        <span>Consultar Diário Oficial do Estado (A União)</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

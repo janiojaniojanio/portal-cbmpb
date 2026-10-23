@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}cbmpb-unidades-index{% endblock %}
+
+{% block content %}
+
+<!-- BREADCRUMBS & CABEÇALHO -->
+<div class="news-header-strip py-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house me-1"></i> Início</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Quartéis & Batalhões</li>
+            </ol>
+        </nav>
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <span class="section-tag mb-1">PRESENÇA OPERACIONAL EM TODO O ESTADO</span>
+                <h1 class="display-6 fw-bold text-navy mb-1">{{ page.title }}</h1>
+                <p class="text-muted mb-0">{{ page.intro }}</p>
+            </div>
+
+            <!-- BUSCA RÁPIDA POR MUNICÍPIO OU BATALHÃO -->
+            <div class="news-search-box">
+                <form method="get" action="." class="d-flex gap-2">
+                    {% if selected_region %}
+                    <input type="hidden" name="regiao" value="{{ selected_region.slug }}">
+                    {% endif %}
+                    {% if selected_type %}
+                    <input type="hidden" name="tipo" value="{{ selected_type }}">
+                    {% endif %}
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Buscar por cidade ou batalhão..."
+                            value="{{ search_query|default:'' }}" aria-label="Buscar quartel">
+                        <button class="btn btn-primary-cbmpb px-3" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BARRA DE FILTROS REGIONAIS -->
+<div class="news-filter-bar py-3 border-top border-bottom bg-light">
+    <div class="container">
+        <div class="d-flex align-items-center gap-2 overflow-x-auto pb-1 pb-md-0">
+            <span class="small fw-bold text-muted text-uppercase me-2 text-nowrap"><i
+                    class="fa-solid fa-map-location-dot me-1"></i> Comandos Regionais:</span>
+            <a href="{% pageurl page %}{% if selected_type %}?tipo={{ selected_type }}{% endif %}"
+                class="category-pill {% if not selected_region %}active{% endif %} text-nowrap">
+                Todas as Regiões
+            </a>
+            {% for reg in regions %}
+            <a href="{% pageurl page %}?regiao={{ reg.slug }}{% if selected_type %}&tipo={{ selected_type }}{% endif %}"
+                class="category-pill {% if selected_region.slug == reg.slug %}active{% endif %} text-nowrap">
+                {{ reg.name }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- CONTEÚDO PRINCIPAL: RESUMO + GRADE DE QUARTÉIS -->
+<div class="py-5 bg-white">
+    <div class="container">
+
+        <!-- BARRA DE ESTATÍSTICAS RÁPIDAS -->
+        <div class="row g-3 mb-5">
+            <div class="col-md-3 col-6">
+                <div class="p-3 border rounded bg-light text-center">
+                    <div class="fs-4 fw-bold text-danger">4</div>
+                    <div class="small text-muted fw-semibold">Comandos Regionais (CRBM)</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="p-3 border rounded bg-light text-center">
+                    <div class="fs-4 fw-bold text-navy">223</div>
+                    <div class="small text-muted fw-semibold">Municípios Paraibanos Atendidos</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="p-3 border rounded bg-light text-center">
+                    <div class="fs-4 fw-bold text-danger">193</div>
+                    <div class="small text-muted fw-semibold">CICC</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="p-3 border rounded bg-light text-center">
+                    <div class="fs-4 fw-bold text-warning">24h</div>
+                    <div class="small text-muted fw-semibold">Prontidão e Resgate Contínuo</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CABEÇALHO DO RESULTADO DA BUSCA / FILTRO -->
+        {% if search_query or selected_region or selected_type %}
+        <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+            <h4 class="mb-0 fs-5 text-navy">
+                {% if search_query %}
+                Buscando por: <em>"{{ search_query }}"</em>
+                {% elif selected_region %}
+                Região: <strong>{{ selected_region.name }}</strong>
+                {% endif %}
+                <span class="badge bg-secondary ms-2">{{ total_units }} quartéis</span>
+            </h4>
+            <a href="{% pageurl page %}" class="small text-danger fw-bold"><i class="fa-solid fa-xmark me-1"></i> Limpar
+                filtros</a>
+        </div>
+        {% endif %}
+
+        <!-- GRADE DE BATALHÕES E QUARTÉIS -->
+        <div class="row g-4">
+            {% for unit in units_list %}
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="battalion-card h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge bg-danger text-uppercase fw-bold">{{ unit.unit_code }}</span>
+                        {% if unit.regional_command %}
+                        <span
+                            class="badge bg-light text-dark border">{{unit.regional_command.name|truncatechars:20}}</span>
+                        {% endif %}
+                    </div>
+
+                    <h3 class="battalion-name fs-5 mb-2">
+                        <a href="{% pageurl unit %}" class="text-navy text-decoration-none">{{ unit.title }}</a>
+                    </h3>
+
+                    {% if unit.commander_name %}
+                    <div class="small text-muted mb-2">
+                        <i class="fa-solid fa-user-shield text-danger me-1"></i> <strong>Comando:</strong>
+                        {{unit.commander_name }}
+                    </div>
+                    {% endif %}
+
+                    <div class="battalion-info mb-2">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>{{ unit.address_street }}, {{ unit.address_neighborhood }} -
+                            {{unit.address_city}}/PB</span>
+                    </div>
+
+                    <div class="battalion-info mb-3">
+                        <i class="fa-solid fa-phone"></i>
+                        <a href="tel:{{ unit.phone_primary }}"
+                            class="text-secondary text-decoration-none fw-bold">{{unit.phone_primary }}</a>
+                        {% if unit.phone_secondary %}
+                        <span class="text-muted ms-1">/ {{ unit.phone_secondary }}</span>
+                        {% endif %}
+                    </div>
+
+                    {% if unit.covered_cities %}
+                    <div class="p-2 rounded bg-light small mb-3 border">
+                        <strong class="text-danger d-block mb-1"><i class="fa-solid fa-shield-halved me-1"></i> Área de
+                            Cobertura:</strong>
+                        <span class="text-muted">{{ unit.covered_cities|truncatewords:15 }}</span>
+                    </div>
+                    {% endif %}
+
+                    <div class="mt-auto pt-3 border-top d-flex gap-2">
+                        <a href="{% pageurl unit %}" class="btn btn-outline-danger btn-sm flex-grow-1 fw-bold">
+                            Ver Detalhes do Quartel
+                        </a>
+                        {% if unit.google_maps_url %}
+                        <a href="{{ unit.google_maps_url }}" target="_blank" rel="noopener"
+                            class="btn btn-outline-secondary btn-sm px-2" title="Abrir rotas no Google Maps">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 py-5 text-center">
+                <div class="p-5 border rounded bg-light">
+                    <i class="fa-solid fa-building-shield text-muted fs-1 mb-3"></i>
+                    <h4 class="text-navy">Nenhum quartel encontrado</h4>
+                    <p class="text-muted mb-3">Tente buscar pelo nome da cidade ou selecione outra região.</p>
+                    <a href="{% pageurl page %}" class="btn btn-outline-danger">Ver todos os batalhões</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database
+*.sqlite3
+*.sqlite3.bak
+*.sqlite3-journal
+*.db
+
+# Django local settings / secrets
+local.py
+.env
+.env.*
+!.env.example
+
+# Collected static files (Wagtail / Django collectstatic output)
+/static/
+
+# Virtual environments
+venv/
+env/
+ENV/
+mysiteenv/
+.venv/
+
+# IDE & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs & temp
+*.log
+tmp/
+temp/

@@ -1,0 +1,356 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}cbmpb-news-single{% endblock %}
+
+{% block extra_css %}
+<style>
+.article-header {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid var(--bm-border);
+}
+.article-title {
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--bm-navy);
+}
+.article-subtitle {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: #475569;
+    line-height: 1.5;
+}
+.article-meta {
+    font-size: 0.875rem;
+    color: var(--bm-text-muted);
+}
+.article-cover-wrap {
+    border-radius: var(--bm-radius);
+    overflow: hidden;
+    box-shadow: var(--bm-shadow);
+    margin-bottom: 35px;
+}
+.article-cover-wrap img {
+    width: 100%;
+    max-height: 540px;
+    object-fit: cover;
+    display: block;
+}
+.article-caption {
+    font-size: 0.8rem;
+    color: #64748B;
+    background: #F8FAFC;
+    padding: 10px 16px;
+    border-left: 3px solid var(--bm-red);
+}
+.article-body-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #2D3748;
+}
+.article-body-content p {
+    margin-bottom: 1.5rem;
+}
+.article-body-content h2,
+.article-body-content h3 {
+    margin-top: 2.2rem;
+    margin-bottom: 1rem;
+}
+.article-quote-box {
+    background: linear-gradient(135deg, #F8FAFC 0%, #FFF5F5 100%);
+    border-left: 5px solid var(--bm-red);
+    padding: 24px 30px;
+    border-radius: 0 12px 12px 0;
+    margin: 30px 0;
+    font-style: italic;
+}
+.article-quote-box .quote-text {
+    font-size: 1.2rem;
+    color: var(--bm-navy);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+.article-quote-box .quote-author {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--bm-red);
+    font-size: 0.95rem;
+}
+.article-share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #FFFFFF !important;
+    text-decoration: none;
+    transition: var(--bm-transition);
+}
+.article-share-btn.btn-wa { background-color: #25D366; }
+.article-share-btn.btn-wa:hover { background-color: #1EBE5D; }
+.article-share-btn.btn-fb { background-color: #1877F2; }
+.article-share-btn.btn-fb:hover { background-color: #166FE5; }
+.article-share-btn.btn-x { background-color: #000000; }
+.article-share-btn.btn-x:hover { background-color: #333333; }
+.article-share-btn.btn-copy { background-color: #475569; }
+.article-share-btn.btn-copy:hover { background-color: #334155; }
+
+.download-box {
+    background: #F8FAFC;
+    border: 1px solid var(--bm-border);
+    border-radius: var(--bm-radius);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 25px 0;
+}
+.video-responsive-wrap {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: var(--bm-radius);
+    margin: 30px 0;
+    box-shadow: var(--bm-shadow);
+}
+.video-responsive-wrap iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+
+<!-- BREADCRUMBS -->
+<div class="py-3 bg-light border-bottom">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 small">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house me-1"></i> Início</a></li>
+                {% if page.get_parent %}
+                <li class="breadcrumb-item"><a href="{% pageurl page.get_parent %}">Notícias</a></li>
+                {% endif %}
+                {% if page.category %}
+                <li class="breadcrumb-item active" aria-current="page">{{ page.category.name }}</li>
+                {% endif %}
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- CABEÇALHO DO ARTIGO -->
+<article class="article-header py-4 py-md-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-9 col-xl-8">
+                
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    {% if page.category %}
+                    <span class="badge bg-{{ page.category.badge_color }} text-uppercase px-3 py-2 fw-bold">
+                        {{ page.category.name }}
+                    </span>
+                    {% else %}
+                    <span class="badge bg-danger text-uppercase px-3 py-2 fw-bold">
+                        COMUNICAÇÃO CBMPB
+                    </span>
+                    {% endif %}
+                    <span class="text-muted small">
+                        <i class="fa-regular fa-clock me-1"></i> Publicado em {{ page.date|date:"d \d\e F \d\e Y" }}
+                    </span>
+                </div>
+
+                <h1 class="article-title mb-3">{{ page.title }}</h1>
+
+                {% if page.subtitle %}
+                <p class="article-subtitle mb-4">{{ page.subtitle }}</p>
+                {% endif %}
+
+                <!-- AUTOR E BOTÕES DE COMPARTILHAMENTO -->
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 py-3 border-top border-bottom my-4">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-user-pen text-danger fs-5"></i>
+                        <span class="small text-muted">Por: <strong>{{ page.author }}</strong></span>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <span class="small text-muted fw-bold d-none d-sm-inline">Compartilhar:</span>
+                        <a href="https://api.whatsapp.com/send?text={{ page.title|urlencode }}%20{{ request.build_absolute_uri|urlencode }}" target="_blank" class="article-share-btn btn-wa" title="Compartilhar no WhatsApp">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode }}" target="_blank" class="article-share-btn btn-fb" title="Compartilhar no Facebook">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?text={{ page.title|urlencode }}&url={{ request.build_absolute_uri|urlencode }}" target="_blank" class="article-share-btn btn-x" title="Compartilhar no X / Twitter">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                        <button type="button" class="article-share-btn btn-copy border-0" id="btnCopyLink" title="Copiar Link da Matéria">
+                            <i class="fa-solid fa-link"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- IMAGEM DE CAPA DA MATÉRIA -->
+                {% if page.feed_image %}
+                <div class="article-cover-wrap">
+                    {% image page.feed_image width-1200 as cover_img %}
+                    <img src="{{ cover_img.url }}" alt="{{ page.title }}">
+                    {% if page.feed_image_caption %}
+                    <div class="article-caption">
+                        <i class="fa-solid fa-camera text-danger me-1"></i> {{ page.feed_image_caption }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- INTRODUÇÃO / CHAPEU -->
+                {% if page.intro %}
+                <div class="lead fw-semibold text-dark mb-4 pb-2">
+                    {{ page.intro }}
+                </div>
+                {% endif %}
+
+                <!-- CORPO DA NOTÍCIA (STREAMFIELD) -->
+                <div class="article-body-content">
+                    {% for block in page.body %}
+                        {% if block.block_type == 'paragraph' %}
+                            <div class="mb-4">
+                                {{ block.value }}
+                            </div>
+
+                        {% elif block.block_type == 'captioned_image' %}
+                            <figure class="my-4">
+                                {% image block.value.image width-1000 as b_img %}
+                                <img src="{{ b_img.url }}" alt="{{ block.value.caption|default:page.title }}" class="img-fluid rounded shadow-sm">
+                                {% if block.value.caption or block.value.credit %}
+                                <figcaption class="small text-muted mt-2 border-start border-3 border-danger ps-2">
+                                    {% if block.value.caption %}{{ block.value.caption }}{% endif %}
+                                    {% if block.value.credit %} <span class="text-secondary fw-semibold">({{ block.value.credit }})</span>{% endif %}
+                                </figcaption>
+                                {% endif %}
+                            </figure>
+
+                        {% elif block.block_type == 'quote' %}
+                            <blockquote class="article-quote-box">
+                                <div class="quote-text">
+                                    <i class="fa-solid fa-quote-left text-danger opacity-50 me-2"></i>
+                                    "{{ block.value.quote }}"
+                                </div>
+                                {% if block.value.author %}
+                                <div class="quote-author">
+                                    — {{ block.value.author }}{% if block.value.role %}, <span class="text-muted fw-normal">{{ block.value.role }}</span>{% endif %}
+                                </div>
+                                {% endif %}
+                            </blockquote>
+
+                        {% elif block.block_type == 'video_embed' %}
+                            <div class="video-responsive-wrap">
+                                {{ block.value }}
+                            </div>
+
+                        {% elif block.block_type == 'download' %}
+                            <div class="download-box">
+                                <div class="d-flex align-items-center gap-3">
+                                    <i class="fa-solid fa-file-pdf text-danger fs-1"></i>
+                                    <div>
+                                        <h5 class="mb-1 fs-6 fw-bold text-navy">{{ block.value.title }}</h5>
+                                        {% if block.value.description %}
+                                        <p class="text-muted small mb-0">{{ block.value.description }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <a href="{{ block.value.document.url }}" class="btn btn-outline-danger btn-sm px-3 py-2 fw-bold" target="_blank" download>
+                                    <i class="fa-solid fa-download me-1"></i> Baixar Arquivo
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <!-- ASSINATURA DA ASSESSORIA DE IMPRENSA -->
+                <div class="p-4 rounded bg-light border mt-5">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="brand-crest" style="width: 48px; height: 48px;">
+                            <img src="{% static 'images/brasao-cbmpb.png' %}?v=2" alt="Brasão Oficial CBMPB">
+                        </div>
+                        <div>
+                            <h5 class="fs-6 fw-bold text-navy mb-0">Assessoria de Comunicação Social (ACS)</h5>
+                            <span class="small text-muted">Corpo de Bombeiros Militar da Paraíba • Governo do Estado da Paraíba</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VOLTAR PARA LISTA DE NOTÍCIAS -->
+                <div class="mt-4 pt-2">
+                    <a href="{% pageurl page.get_parent %}" class="btn btn-outline-secondary">
+                        <i class="fa-solid fa-arrow-left me-2"></i> Ver todas as notícias
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- NOTÍCIAS RELACIONADAS -->
+{% if related_news %}
+<section class="py-5 bg-light border-top">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-4">
+            <span class="section-tag">LEIA TAMBÉM</span>
+            <h2 class="section-title fs-3 mb-0">Notícias Relacionadas</h2>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            {% for rel in related_news %}
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="news-card">
+                    <div class="news-thumb">
+                        {% if rel.feed_image %}
+                            {% image rel.feed_image fill-800x460 as r_img %}
+                            <img src="{{ r_img.url }}" alt="{{ rel.title }}">
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80" alt="{{ rel.title }}">
+                        {% endif %}
+                        {% if rel.category %}
+                        <span class="news-badge bg-{{ rel.category.badge_color }}">{{ rel.category.name }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="news-body">
+                        <div class="news-date">
+                            <i class="fa-regular fa-calendar-days text-danger"></i> {{ rel.date|date:"d \d\e F \d\e Y" }}
+                        </div>
+                        <h4 class="news-title fs-6">
+                            <a href="{% pageurl rel %}">{{ rel.title }}</a>
+                        </h4>
+                        <a href="{% pageurl rel %}" class="news-link mt-auto small">
+                            Ler matéria completa <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+document.getElementById('btnCopyLink')?.addEventListener('click', () => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+        alert('Link da matéria copiado para a área de transferência!');
+    });
+});
+</script>
+{% endblock extra_js %}

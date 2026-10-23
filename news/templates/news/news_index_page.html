@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}cbmpb-news-index{% endblock %}
+
+{% block content %}
+
+<!-- BREADCRUMBS & TOPO DA PÁGINA -->
+<div class="news-header-strip py-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house me-1"></i> Início</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Notícias & Operações</li>
+            </ol>
+        </nav>
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <span class="section-tag mb-1">COMUNICAÇÃO INSTITUCIONAL</span>
+                <h1 class="display-6 fw-bold text-navy mb-1">{{ page.title }}</h1>
+                <p class="text-muted mb-0">{{ page.intro }}</p>
+            </div>
+            
+            <!-- BUSCA EM NOTÍCIAS -->
+            <div class="news-search-box">
+                <form method="get" action="." class="d-flex gap-2">
+                    {% if selected_category %}
+                    <input type="hidden" name="categoria" value="{{ selected_category.slug }}">
+                    {% endif %}
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Buscar matéria..." value="{{ search_query|default:'' }}" aria-label="Buscar notícia">
+                        <button class="btn btn-primary-cbmpb px-3" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FILTROS POR CATEGORIA -->
+<div class="news-filter-bar py-3 border-top border-bottom bg-light">
+    <div class="container">
+        <div class="d-flex align-items-center gap-2 overflow-x-auto pb-1 pb-md-0">
+            <span class="small fw-bold text-muted text-uppercase me-2 text-nowrap"><i class="fa-solid fa-filter me-1"></i> Categorias:</span>
+            <a href="{% pageurl page %}" class="category-pill {% if not selected_category %}active{% endif %} text-nowrap">
+                Todas
+            </a>
+            {% for cat in categories %}
+            <a href="{% pageurl page %}?categoria={{ cat.slug }}" class="category-pill {% if selected_category.slug == cat.slug %}active{% endif %} text-nowrap">
+                {{ cat.name }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- LISTAGEM DE NOTÍCIAS -->
+<div class="news-content-section py-5 bg-white">
+    <div class="container">
+
+        <!-- DESTAQUE PRINCIPAL (QUANDO NA PRIMEIRA PÁGINA E SEM BUSCA) -->
+        {% if featured_news and not search_query and not selected_category %}
+        <div class="featured-news-card mb-5">
+            <div class="row g-0 align-items-center">
+                <div class="col-lg-7">
+                    <div class="featured-thumb">
+                        {% if featured_news.feed_image %}
+                            {% image featured_news.feed_image fill-900x520 as f_img %}
+                            <img src="{{ f_img.url }}" alt="{{ featured_news.title }}">
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=900&q=80" alt="{{ featured_news.title }}">
+                        {% endif %}
+                        <span class="featured-badge">DESTAQUE PRINCIPAL</span>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="featured-body p-4 p-xl-5">
+                        {% if featured_news.category %}
+                        <span class="badge bg-danger text-uppercase mb-2">{{ featured_news.category.name }}</span>
+                        {% endif %}
+                        <div class="small text-muted mb-2">
+                            <i class="fa-regular fa-calendar-days text-danger me-1"></i> {{ featured_news.date|date:"d \d\e F \d\e Y" }}
+                        </div>
+                        <h2 class="featured-title mb-3">
+                            <a href="{% pageurl featured_news %}" class="text-decoration-none text-navy">{{ featured_news.title }}</a>
+                        </h2>
+                        {% if featured_news.subtitle %}
+                        <p class="featured-subtitle text-muted mb-3">{{ featured_news.subtitle }}</p>
+                        {% endif %}
+                        <p class="featured-excerpt text-secondary mb-4">{{ featured_news.intro|truncatewords:30 }}</p>
+                        <a href="{% pageurl featured_news %}" class="btn-primary-cbmpb">
+                            Ler Matéria Completa <i class="fa-solid fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- CABEÇALHO DO GRID -->
+        {% if search_query or selected_category %}
+        <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+            <h4 class="mb-0 fs-5 text-navy">
+                {% if search_query %}
+                Resultados para: <em>"{{ search_query }}"</em>
+                {% elif selected_category %}
+                Categoria: <strong>{{ selected_category.name }}</strong>
+                {% endif %}
+            </h4>
+            <a href="{% pageurl page %}" class="small text-danger fw-bold"><i class="fa-solid fa-xmark me-1"></i> Limpar filtros</a>
+        </div>
+        {% endif %}
+
+        <!-- GRID DE NOTÍCIAS -->
+        <div class="row g-4">
+            {% for item in news_list %}
+                {# Pular o destaque se ele já foi renderizado no card grande #}
+                {% if featured_news and item.id == featured_news.id and not search_query and not selected_category %}
+                {% else %}
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="news-card">
+                        <div class="news-thumb">
+                            {% if item.feed_image %}
+                                {% image item.feed_image fill-800x460 as n_img %}
+                                <img src="{{ n_img.url }}" alt="{{ item.title }}">
+                            {% else %}
+                                <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80" alt="{{ item.title }}">
+                            {% endif %}
+                            {% if item.category %}
+                            <span class="news-badge bg-{{ item.category.badge_color }}">{{ item.category.name }}</span>
+                            {% else %}
+                            <span class="news-badge">CBMPB</span>
+                            {% endif %}
+                        </div>
+                        <div class="news-body">
+                            <div class="news-date">
+                                <i class="fa-regular fa-calendar-days text-danger"></i> {{ item.date|date:"d \d\e F \d\e Y" }}
+                            </div>
+                            <h3 class="news-title">
+                                <a href="{% pageurl item %}">{{ item.title }}</a>
+                            </h3>
+                            <p class="news-excerpt">{{ item.intro|default:item.subtitle|truncatewords:24 }}</p>
+                            <a href="{% pageurl item %}" class="news-link mt-auto">
+                                Ler matéria completa <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% empty %}
+                <div class="col-12 py-5 text-center">
+                    <div class="p-5 border rounded bg-light">
+                        <i class="fa-solid fa-newspaper text-muted fs-1 mb-3"></i>
+                        <h4 class="text-navy">Nenhuma matéria encontrada</h4>
+                        <p class="text-muted mb-3">Não foram encontradas notícias com os termos ou categoria selecionados.</p>
+                        <a href="{% pageurl page %}" class="btn btn-outline-danger">Ver todas as notícias</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- PAGINAÇÃO -->
+        {% if news_list.has_other_pages %}
+        <nav aria-label="Navegação de páginas" class="mt-5 pt-3">
+            <ul class="pagination justify-content-center">
+                {% if news_list.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ news_list.previous_page_number }}{% if selected_category %}&categoria={{ selected_category.slug }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" aria-label="Anterior">
+                        <i class="fa-solid fa-chevron-left me-1"></i> Anterior
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link"><i class="fa-solid fa-chevron-left me-1"></i> Anterior</span></li>
+                {% endif %}
+
+                {% for p in news_list.paginator.page_range %}
+                    {% if news_list.number == p %}
+                    <li class="page-item active" aria-current="page"><span class="page-link">{{ p }}</span></li>
+                    {% elif p > news_list.number|add:'-3' and p < news_list.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ p }}{% if selected_category %}&categoria={{ selected_category.slug }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}">{{ p }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if news_list.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ news_list.next_page_number }}{% if selected_category %}&categoria={{ selected_category.slug }}{% endif %}{% if search_query %}&q={{ search_query }}{% endif %}" aria-label="Próxima">
+                        Próxima <i class="fa-solid fa-chevron-right ms-1"></i>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">Próxima <i class="fa-solid fa-chevron-right ms-1"></i></span></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock content %}

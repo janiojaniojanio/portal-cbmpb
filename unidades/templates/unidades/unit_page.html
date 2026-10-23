@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}cbmpb-unidade-single{% endblock %}
+
+{% block content %}
+
+<!-- BREADCRUMBS -->
+<div class="py-3 bg-light border-bottom">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 small">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house me-1"></i> Início</a></li>
+                {% if page.get_parent %}
+                <li class="breadcrumb-item"><a href="{% pageurl page.get_parent %}">Quartéis & Batalhões</a></li>
+                {% endif %}
+                <li class="breadcrumb-item active" aria-current="page">{{ page.unit_code }} - {{ page.title }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- CABEÇALHO DO BATALHÃO -->
+<section class="py-4 py-md-5 bg-white border-bottom">
+    <div class="container">
+        <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+            <span class="badge bg-danger text-uppercase px-3 py-2 fw-bold fs-6">{{ page.unit_code }}</span>
+            <span class="badge bg-navy text-uppercase px-3 py-2 fw-bold" style="background-color: var(--bm-navy); color: #fff;">
+                {{ page.get_unit_type_display }}
+            </span>
+            {% if page.regional_command %}
+            <span class="badge bg-light text-dark border px-3 py-2 fw-semibold">
+                <i class="fa-solid fa-shield-halved text-danger me-1"></i> {{ page.regional_command.name }}
+            </span>
+            {% endif %}
+        </div>
+        <h1 class="display-6 fw-bold text-navy mb-2">{{ page.title }}</h1>
+        <p class="lead text-muted mb-0">
+            <i class="fa-solid fa-location-dot text-danger me-1"></i> {{ page.address_city }} - Paraíba
+        </p>
+    </div>
+</section>
+
+<!-- CONTEÚDO PRINCIPAL DO QUARTEL -->
+<div class="py-5 bg-light">
+    <div class="container">
+        <div class="row g-4 g-lg-5">
+            
+            <!-- COLUNA PRINCIPAL (DETALHES, COBERTURA, HISTÓRICO, MAPA) -->
+            <div class="col-lg-8">
+                
+                <!-- FOTO DA FACHADA DO QUARTEL -->
+                {% if page.featured_image %}
+                <div class="rounded overflow-hidden shadow-sm mb-4">
+                    {% image page.featured_image width-1000 as f_img %}
+                    <img src="{{ f_img.url }}" alt="{{ page.title }}" class="img-fluid w-100" style="max-height: 440px; object-fit: cover;">
+                </div>
+                {% endif %}
+
+                <!-- CARD DO COMANDO DA UNIDADE -->
+                {% if page.commander_name %}
+                <div class="card border-0 shadow-sm p-4 mb-4" style="border-left: 5px solid var(--bm-red) !important;">
+                    <div class="d-flex align-items-center gap-3">
+                        {% if page.commander_photo %}
+                            {% image page.commander_photo fill-80x80 as c_img %}
+                            <img src="{{ c_img.url }}" alt="{{ page.commander_name }}" class="rounded-circle shadow-sm" style="width: 70px; height: 70px; object-fit: cover;">
+                        {% else %}
+                            <div class="brand-crest" style="width: 60px; height: 60px; font-size: 26px;">
+                                <i class="fa-solid fa-user-shield"></i>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <span class="d-block small text-muted text-uppercase fw-bold">Comando da Unidade</span>
+                            <h3 class="fs-5 fw-bold text-navy mb-1">{{ page.commander_name }}</h3>
+                            <span class="small text-secondary">Responsável pelo comando operacional e administrativo desta unidade</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- ÁREA DE COBERTURA / MUNICÍPIOS ATENDIDOS -->
+                {% if page.covered_cities %}
+                <div class="card border-0 shadow-sm p-4 mb-4">
+                    <h3 class="fs-5 fw-bold text-navy mb-3">
+                        <i class="fa-solid fa-map-marked-alt text-danger me-2"></i> Municípios Atendidos / Jurisdição
+                    </h3>
+                    <p class="text-muted small mb-3">
+                        Este batalhão é responsável pelo atendimento preventivo e de resposta a emergências nas seguintes cidades:
+                    </p>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for city in page.covered_cities_list %}
+                        <span class="badge bg-white text-dark border p-2 fw-semibold shadow-sm">
+                            <i class="fa-solid fa-city text-danger me-1"></i> {{ city }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- HISTÓRICO E ESTRUTURA OPERACIONAL -->
+                {% if page.history_and_info %}
+                <div class="card border-0 shadow-sm p-4 mb-4">
+                    <h3 class="fs-5 fw-bold text-navy mb-3">
+                        <i class="fa-solid fa-landmark text-danger me-2"></i> Estrutura e Atuação Operacional
+                    </h3>
+                    <div class="text-secondary lh-lg">
+                        {{ page.history_and_info|richtext }}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- MAPA INTERATIVO (IFRAME) -->
+                {% if page.google_maps_embed %}
+                <div class="card border-0 shadow-sm p-4 mb-4">
+                    <h3 class="fs-5 fw-bold text-navy mb-3">
+                        <i class="fa-solid fa-map text-danger me-2"></i> Localização no Mapa
+                    </h3>
+                    <div class="ratio ratio-16x9 rounded overflow-hidden">
+                        {{ page.google_maps_embed|safe }}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- VOLTAR PARA LISTA DE UNIDADES -->
+                <div class="pt-2">
+                    <a href="{% pageurl page.get_parent %}" class="btn btn-outline-secondary">
+                        <i class="fa-solid fa-arrow-left me-2"></i> Ver todos os quartéis do estado
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- COLUNA LATERAL (CONTATOS, PLANTÃO & EMERGÊNCIA) -->
+            <div class="col-lg-4">
+                
+                <!-- CARD DE INFORMAÇÕES DE CONTATO -->
+                <div class="card border-0 shadow-sm p-4 mb-4 sticky-lg-top" style="top: 90px; z-index: 10;">
+                    <h4 class="fs-5 fw-bold text-navy pb-3 mb-3 border-bottom">
+                        <i class="fa-solid fa-address-book text-danger me-2"></i> Informações do Quartel
+                    </h4>
+
+                    <div class="mb-3">
+                        <strong class="d-block small text-muted text-uppercase mb-1"><i class="fa-solid fa-location-dot text-danger me-1"></i> Endereço:</strong>
+                        <p class="text-dark mb-0 fw-medium">
+                            {{ page.address_street }}<br>
+                            {{ page.address_neighborhood }} - {{ page.address_city }}/PB<br>
+                            <span class="text-muted small">CEP: {{ page.address_cep }}</span>
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong class="d-block small text-muted text-uppercase mb-1"><i class="fa-solid fa-phone text-danger me-1"></i> Telefone Principal:</strong>
+                        <a href="tel:{{ page.phone_primary }}" class="text-danger fw-bold fs-5 text-decoration-none">
+                            {{ page.phone_primary }}
+                        </a>
+                    </div>
+
+                    {% if page.phone_secondary %}
+                    <div class="mb-3">
+                        <strong class="d-block small text-muted text-uppercase mb-1"><i class="fa-solid fa-phone-volume text-danger me-1"></i> Telefone Alternativo / DAT:</strong>
+                        <a href="tel:{{ page.phone_secondary }}" class="text-secondary fw-semibold text-decoration-none">
+                            {{ page.phone_secondary }}
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    {% if page.email %}
+                    <div class="mb-3">
+                        <strong class="d-block small text-muted text-uppercase mb-1"><i class="fa-solid fa-envelope text-danger me-1"></i> E-mail:</strong>
+                        <a href="mailto:{{ page.email }}" class="text-dark small text-decoration-none">
+                            {{ page.email }}
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    <div class="mb-4">
+                        <strong class="d-block small text-muted text-uppercase mb-1"><i class="fa-solid fa-clock text-danger me-1"></i> Horário de Atendimento:</strong>
+                        <span class="text-secondary small">{{ page.business_hours }}</span>
+                    </div>
+
+                    {% if page.google_maps_url %}
+                    <a href="{{ page.google_maps_url }}" target="_blank" rel="noopener" class="btn btn-outline-danger w-100 fw-bold py-2 mb-3">
+                        <i class="fa-solid fa-route me-1"></i> Abrir Rotas no Google Maps
+                    </a>
+                    {% endif %}
+
+                    <!-- CAIXA DE ALERTA 193 -->
+                    <div class="p-3 rounded text-center" style="background: linear-gradient(135deg, #960C12 0%, #C4121A 100%); color: #fff;">
+                        <span class="d-block text-warning small fw-bold text-uppercase mb-1">Socorro Imediato</span>
+                        <div class="fs-2 fw-bold mb-1">193</div>
+                        <p class="small text-light opacity-90 mb-2">Central de Operações dos Bombeiros (COBOM)</p>
+                        <a href="tel:193" class="btn btn-warning text-dark btn-sm fw-bold px-3 py-1 rounded-pill">
+                            <i class="fa-solid fa-phone me-1"></i> Ligar 193
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

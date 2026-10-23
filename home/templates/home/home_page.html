@@ -1,0 +1,517 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}cbmpb-homepage{% endblock %}
+
+{% block content %}
+
+<!-- 1. BARRA DE ALERTA DE URGÊNCIA / DEFESA CIVIL -->
+{% if page.show_alert_bar %}
+<div class="alert-urgent-bar">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div class="d-flex align-items-center flex-wrap gap-1">
+                <span class="alert-urgent-badge">
+                    <i class="fa-solid fa-triangle-exclamation"></i> {{ page.alert_badge }}
+                </span>
+                <span class="alert-urgent-text">{{ page.alert_message }}</span>
+            </div>
+            {% if page.alert_link and page.alert_link != '#' %}
+            <a href="{{ page.alert_link }}" class="text-white fw-bold small text-decoration-underline ms-auto">Saiba
+                mais <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- 2. HERO SLIDER COM SUPORTE A TOUCH / SWIPE NO MOBILE -->
+<section class="hero-slider-wrap" id="heroSlider">
+    {% if page.hero_slides %}
+    {% for block in page.hero_slides %}
+    <div class="hero-slide {% if forloop.first %}active{% endif %}"
+        style="background-image: url('{% if block.value.image %}{% image block.value.image original as img %}{{ img.url }}{% elif block.value.image_url_fallback %}{{ block.value.image_url_fallback }}{% else %}https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1920&q=80{% endif %}');">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-xl-7 hero-content">
+                    {% if block.value.tag %}
+                    <div class="hero-tag"><i class="fa-solid fa-shield-halved me-1"></i> {{ block.value.tag }}</div>
+                    {% endif %}
+                    <h1 class="hero-title">{{ block.value.title }}</h1>
+                    {% if block.value.subtitle %}
+                    <p class="hero-lead">{{ block.value.subtitle }}</p>
+                    {% endif %}
+                    <div class="hero-btns">
+                        {% if block.value.primary_btn_text %}
+                        <a href="{{ block.value.primary_btn_url }}" class="btn-primary-cbmpb">
+                            {{ block.value.primary_btn_text }} <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        {% endif %}
+                        {% if block.value.secondary_btn_text %}
+                        <a href="{{ block.value.secondary_btn_url }}" class="btn-outline-white">
+                            {{ block.value.secondary_btn_text }}
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    {# Fallback dinâmico com slides ricos do CBMPB #}
+    {% for slide in default_hero_slides %}
+    <div class="hero-slide {% if forloop.first %}active{% endif %}"
+        style="background-image: url('{{ slide.image_url }}');">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-xl-7 hero-content">
+                    <div class="hero-tag"><i class="fa-solid fa-shield-halved me-1"></i> {{ slide.tag }}</div>
+                    <h1 class="hero-title">{{ slide.title }}</h1>
+                    <p class="hero-lead">{{ slide.subtitle }}</p>
+                    <div class="hero-btns">
+                        <a href="{{ slide.primary_btn_url }}" class="btn-primary-cbmpb">
+                            {{ slide.primary_btn_text }} <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="{{ slide.secondary_btn_url }}" class="btn-outline-white">
+                            {{ slide.secondary_btn_text }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- Indicadores de Pontos (Dots) no Mobile & Desktop -->
+    <div class="slider-dots-container" id="sliderDots"></div>
+
+    <!-- Controles em Botão do Slider -->
+    <div class="slider-nav d-none d-md-flex">
+        <button type="button" class="slider-btn" id="slider-prev" aria-label="Slide anterior">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button type="button" class="slider-btn" id="slider-next" aria-label="Próximo slide">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+    </div>
+</section>
+
+<!-- 3. CARDS DE ACESSO RÁPIDO / SERVIÇOS (RESPONSIVOS & FLUIDOS) -->
+<section class="quick-services-section" id="servicos">
+    <div class="container">
+        <div class="row g-3 g-md-4">
+            {% if page.quick_services %}
+            {% for block in page.quick_services %}
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="quick-card">
+                    {% if block.value.badge %}
+                    <span class="quick-badge">{{ block.value.badge }}</span>
+                    {% endif %}
+                    <div class="quick-icon-box">
+                        <i class="{{ block.value.icon }}"></i>
+                    </div>
+                    <h4>{{ block.value.title }}</h4>
+                    <p>{{ block.value.description }}</p>
+                    <a href="{{ block.value.link_url }}" class="quick-link">
+                        {{ block.value.link_text }} <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            {% for s in default_quick_services %}
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="quick-card">
+                    <span class="quick-badge">{{ s.badge }}</span>
+                    <div class="quick-icon-box">
+                        <i class="{{ s.icon }}"></i>
+                    </div>
+                    <h4>{{ s.title }}</h4>
+                    <p>{{ s.description }}</p>
+                    <a href="{{ s.link_url }}" class="quick-link">
+                        {{ s.link_text }} <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- 4. SEÇÃO QUEM SOMOS / INSTITUCIONAL -->
+<section class="about-section py-4 py-md-5" id="institucional">
+    <div class="container">
+        <div class="row align-items-center g-4 g-lg-5">
+            <div class="col-lg-6 order-2 order-lg-1">
+                <div class="about-image-wrap">
+                    {% if page.about_image %}
+                    {% image page.about_image width-1000 as a_img %}
+                    <img src="{{ a_img.url }}" alt="{{ page.about_title }}" class="img-fluid rounded">
+                    {% else %}
+                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1000&q=80"
+                        alt="Militares do CBMPB em Atuação" class="img-fluid rounded">
+                    {% endif %}
+                    <div class="about-years-card">
+                        <div class="number">{{ page.about_years_badge }}</div>
+                        <div class="label">{{ page.about_years_text }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2">
+                <span class="section-tag">{{ page.about_tag }}</span>
+                <h2 class="section-title">{{ page.about_title }}</h2>
+                <p class="lead text-secondary fw-semibold mb-3">{{ page.about_lead }}</p>
+                <div class="text-secondary mb-3">
+                    {{ page.about_body|richtext }}
+                </div>
+
+                <ul class="about-check-list">
+                    <li><i class="fa-solid fa-circle-check"></i> <strong>Prontidão ininterrupta:</strong> Atendimento 24
+                        horas por dia em todo o estado.</li>
+                    <li><i class="fa-solid fa-circle-check"></i> <strong>Modernização técnica:</strong> Equipamentos de
+                        última geração para salvamento terrestre, aquático e combate ao fogo.</li>
+                    <li><i class="fa-solid fa-circle-check"></i> <strong>Prevenção atuante:</strong> Diretoria de
+                        Segurança e Prevenção Contra Incêndio (DSPCI) garantindo conformidade e segurança em edificações e eventos.</li>
+                    <li><i class="fa-solid fa-circle-check"></i> <strong>Compromisso social:</strong> Projetos
+                        comunitários para formação cidadã de jovens e crianças paraibanas.</li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3 flex-wrap mt-4 pt-2">
+                    <a href="#unidades" class="btn-primary-cbmpb w-100 w-sm-auto text-center justify-content-center">
+                        Conheça Nossas Unidades <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-award text-warning fs-3"></i>
+                        <div>
+                            <span class="d-block small text-muted text-uppercase fw-bold">Tradição & Bravura</span>
+                            <strong class="text-dark">Desde 1917 na Paraíba</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. ÁREAS DE ATUAÇÃO E ESPECIALIDADES -->
+<section class="areas-section py-4 py-md-5" id="areas">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-4 mb-md-5">
+            <span class="section-tag">NOSSAS MISSÕES</span>
+            <h2 class="section-title">{{ page.operational_areas_title }}</h2>
+            <p class="text-muted mb-0">{{ page.operational_areas_subtitle }}</p>
+        </div>
+
+        <div class="row g-3 g-md-4">
+            {% if page.operational_areas %}
+            {% for block in page.operational_areas %}
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="area-card">
+                    <div class="area-icon">
+                        <i class="{{ block.value.icon }}"></i>
+                    </div>
+                    {% if block.value.tag %}
+                    <span class="area-tag">{{ block.value.tag }}</span>
+                    {% endif %}
+                    <h4>{{ block.value.title }}</h4>
+                    <p>{{ block.value.description }}</p>
+                    {% if block.value.link_url %}
+                    <a href="{{ block.value.link_url }}" class="quick-link mt-auto pt-2">
+                        Saiba mais <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            {% for area in default_operational_areas %}
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="area-card">
+                    <div class="area-icon">
+                        <i class="{{ area.icon }}"></i>
+                    </div>
+                    <span class="area-tag">{{ area.tag }}</span>
+                    <h4>{{ area.title }}</h4>
+                    <p>{{ area.description }}</p>
+                    <a href="#" class="quick-link mt-auto pt-2">
+                        Saiba mais <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- 6. FAIXA DE EMERGÊNCIA 193 (DISCAGEM RÁPIDA NO MOBILE) -->
+<section class="emergency-strip py-4 py-md-5">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-7 text-center text-lg-start">
+                <span class="badge bg-warning text-dark px-3 py-2 fw-bold text-uppercase mb-2 mb-md-3">CANAL DE SOCORRO
+                    URGENTE</span>
+                <h2 class="text-white fw-bold mb-2 mb-md-3 fs-1">{{ page.emergency_title }}</h2>
+                <p class="lead text-light opacity-90 mb-0">{{ page.emergency_subtitle }}</p>
+            </div>
+            <div class="col-lg-5 text-center text-lg-end">
+                <a href="tel:193" class="emergency-phone-box text-decoration-none d-inline-flex justify-content-center"
+                    title="Tocar para ligar 193">
+                    <div class="emergency-phone-icon">
+                        <i class="fa-solid fa-phone-volume"></i>
+                    </div>
+                    <div class="emergency-phone-text text-start">
+                        <div class="number">193</div>
+                        <div class="desc">Toque Para Ligar Grátis</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 7. CONTADORES ESTATÍSTICOS -->
+<section class="stats-section py-4 py-md-5">
+    <div class="container">
+        <div class="row g-3 g-md-4">
+            {% if page.stats_counters %}
+            {% for block in page.stats_counters %}
+            <div class="col-lg-3 col-6">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="{{ block.value.icon }}"></i></div>
+                    <div class="stat-number">{{ block.value.number }}</div>
+                    <div class="stat-label">{{ block.value.label }}</div>
+                    {% if block.value.description %}
+                    <div class="stat-desc d-none d-sm-block">{{ block.value.description }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            {% for stat in default_stats %}
+            <div class="col-lg-3 col-6">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="{{ stat.icon }}"></i></div>
+                    <div class="stat-number">{{ stat.number }}</div>
+                    <div class="stat-label">{{ stat.label }}</div>
+                    <div class="stat-desc d-none d-sm-block">{{ stat.description }}</div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- 8. NOTÍCIAS E AÇÕES RECENTES -->
+<section class="news-section py-4 py-md-5" id="noticias">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4 mb-md-5">
+            <div>
+                <span class="section-tag">COMUNICAÇÃO SOCIAL</span>
+                <h2 class="section-title mb-0">{{ page.news_section_title }}</h2>
+                <p class="text-muted mb-0 mt-2">{{ page.news_section_subtitle }}</p>
+            </div>
+            <div>
+                <a href="{{ news_index_url|default:'#noticias' }}" class="btn-primary-cbmpb py-2 px-3 px-md-4 small">
+                    Ver Todas as Notícias <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="row g-3 g-md-4">
+            {% if page.news_items %}
+            {% for block in page.news_items %}
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="news-card">
+                    <div class="news-thumb">
+                        {% if block.value.image %}
+                        {% image block.value.image fill-800x450 as n_img %}
+                        <img src="{{ n_img.url }}" alt="{{ block.value.title }}">
+                        {% elif block.value.image_url_fallback %}
+                        <img src="{{ block.value.image_url_fallback }}" alt="{{ block.value.title }}">
+                        {% else %}
+                        <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80"
+                            alt="{{ block.value.title }}">
+                        {% endif %}
+                        <span class="news-badge">{{ block.value.badge }}</span>
+                    </div>
+                    <div class="news-body">
+                        <div class="news-date">
+                            <i class="fa-regular fa-calendar-days text-danger"></i> {{ block.value.date_text }}
+                        </div>
+                        <h3 class="news-title">
+                            <a href="{{ block.value.link_url }}">{{ block.value.title }}</a>
+                        </h3>
+                        <p class="news-excerpt">{{ block.value.excerpt }}</p>
+                        <a href="{{ block.value.link_url }}" class="news-link mt-auto">
+                            Ler matéria completa <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% elif live_news %}
+            {% for item in live_news %}
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="news-card">
+                    <div class="news-thumb">
+                        {% if item.feed_image %}
+                        {% image item.feed_image fill-800x450 as n_img %}
+                        <img src="{{ n_img.url }}" alt="{{ item.title }}">
+                        {% else %}
+                        <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80"
+                            alt="{{ item.title }}">
+                        {% endif %}
+                        {% if item.category %}
+                        <span class="news-badge bg-{{ item.category.badge_color }}">{{ item.category.name }}</span>
+                        {% else %}
+                        <span class="news-badge">CBMPB</span>
+                        {% endif %}
+                    </div>
+                    <div class="news-body">
+                        <div class="news-date">
+                            <i class="fa-regular fa-calendar-days text-danger"></i> {{ item.date|date:"d \d\e F \d\e Y" }}
+                        </div>
+                        <h3 class="news-title">
+                            <a href="{% pageurl item %}">{{ item.title }}</a>
+                        </h3>
+                        <p class="news-excerpt">{{ item.intro|default:item.subtitle|truncatewords:24 }}</p>
+                        <a href="{% pageurl item %}" class="news-link mt-auto">
+                            Ler matéria completa <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            {% for item in default_news %}
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="news-card">
+                    <div class="news-thumb">
+                        <img src="{{ item.image_url }}" alt="{{ item.title }}">
+                        <span class="news-badge">{{ item.badge }}</span>
+                    </div>
+                    <div class="news-body">
+                        <div class="news-date">
+                            <i class="fa-regular fa-calendar-days text-danger"></i> {{ item.date_text }}
+                        </div>
+                        <h3 class="news-title">
+                            <a href="{{ item.link_url }}">{{ item.title }}</a>
+                        </h3>
+                        <p class="news-excerpt">{{ item.excerpt }}</p>
+                        <a href="{{ item.link_url }}" class="news-link mt-auto">
+                            Ler matéria completa <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- 9. QUARTÉIS E BATALHÕES REGIONAIS -->
+<section class="about-section bg-white py-4 py-md-5" id="unidades">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-4 mb-md-5">
+            <span class="section-tag">PRESENÇA ESTADUAL</span>
+            <h2 class="section-title">Batalhões e Unidades Operacionais</h2>
+            <p class="text-muted mb-0">Encontre o quartel do Corpo de Bombeiros mais próximo da sua região na Paraíba.
+            </p>
+        </div>
+
+        <div class="row g-3 g-md-4">
+            {% if page.battalions %}
+            {% for block in page.battalions %}
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="battalion-card h-100 d-flex flex-column">
+                    <h4 class="battalion-name"><i class="fa-solid fa-building-shield text-danger me-2"></i>{{ block.value.unit_name }}</h4>
+                    <div class="battalion-info">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>{{ block.value.address }}</span>
+                    </div>
+                    <div class="battalion-info">
+                        <i class="fa-solid fa-phone"></i>
+                        <a href="tel:{{ block.value.phone }}" class="text-secondary text-decoration-none">{{ block.value.phone }}</a>
+                    </div>
+                    {% if block.value.jurisdiction %}
+                    <div class="battalion-info mt-2 pt-2 border-top">
+                        <i class="fa-solid fa-map"></i>
+                        <span class="small text-muted">{{ block.value.jurisdiction }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            {% elif live_units %}
+            {% for u in live_units %}
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="battalion-card h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-danger text-uppercase fw-bold">{{ u.unit_code }}</span>
+                        <span class="small text-muted fw-semibold">{{ u.address_city }}</span>
+                    </div>
+                    <h4 class="battalion-name fs-6 mb-2">
+                        <a href="{% pageurl u %}" class="text-navy text-decoration-none">{{ u.title }}</a>
+                    </h4>
+                    <div class="battalion-info">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>{{ u.address_street }}</span>
+                    </div>
+                    <div class="battalion-info">
+                        <i class="fa-solid fa-phone"></i>
+                        <a href="tel:{{ u.phone_primary }}" class="text-secondary text-decoration-none fw-bold">{{ u.phone_primary }}</a>
+                    </div>
+                    {% if u.covered_cities %}
+                    <div class="battalion-info mt-2 pt-2 border-top">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span class="small text-muted">{{ u.covered_cities|truncatewords:6 }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="mt-auto pt-3 border-top text-end">
+                        <a href="{% pageurl u %}" class="small text-danger fw-bold text-decoration-none">
+                            Ver quartel <i class="fa-solid fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            {% for b in default_battalions %}
+            <div class="col-lg-3 col-md-6 col-12">
+                <div class="battalion-card h-100 d-flex flex-column">
+                    <h4 class="battalion-name"><i class="fa-solid fa-building-shield text-danger me-2"></i>{{ b.unit_name }}</h4>
+                    <div class="battalion-info">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>{{ b.address }}</span>
+                    </div>
+                    <div class="battalion-info">
+                        <i class="fa-solid fa-phone"></i>
+                        <a href="tel:{{ b.phone }}" class="text-secondary text-decoration-none">{{ b.phone }}</a>
+                    </div>
+                    <div class="battalion-info mt-2 pt-2 border-top">
+                        <i class="fa-solid fa-map"></i>
+                        <span class="small text-muted">{{ b.jurisdiction }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="text-center mt-5 pt-2">
+            <a href="{{ unit_index_url|default:'/unidades/' }}" class="btn-primary-cbmpb py-2 px-4">
+                Ver Todos os Quartéis e Batalhões da Paraíba <i class="fa-solid fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

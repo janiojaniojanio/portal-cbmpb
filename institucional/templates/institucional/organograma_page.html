@@ -1,0 +1,350 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block body_class %}cbmpb-organograma-page{% endblock %}
+
+{% block content %}
+
+<!-- HEADER & HERO DO QUADRO ORGANIZACIONAL -->
+<section class="organograma-hero-strip py-4">
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house me-1"></i> Início</a></li>
+                <li class="breadcrumb-item"><a href="#">Institucional</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Quadro Organizacional</li>
+            </ol>
+        </nav>
+
+        <div class="row align-items-center g-4">
+            <div class="col-lg-10 col-xl-9">
+                <span class="badge bg-gold text-dark fw-bold px-3 py-1 mb-2 text-uppercase tracking-wider">
+                    <i class="fa-solid fa-sitemap me-1"></i> ESTRUTURA INSTITUCIONAL & GOVERNANÇA
+                </span>
+                <h1 class="display-6 fw-bold text-white mb-2">{{ page.title }}</h1>
+                <p class="lead mb-3" style="font-size: 1.15rem; color: #F8FAFC;">
+                    {{ page.intro_subtitle }}
+                </p>
+                {% if page.intro_description %}
+                <div class="intro-richtext mb-0" style="color: #E2E8F0; line-height: 1.6;">
+                    {{ page.intro_description|richtext }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAIXA DE FUNDAMENTAÇÃO LEGAL (LEI COMPLEMENTAR 191/2024) -->
+<section class="py-4 bg-light border-bottom">
+    <div class="container">
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden" style="border-left: 5px solid var(--bm-red) !important;">
+            <div class="card-body p-3 p-md-4">
+                <div class="row align-items-center g-3">
+                    <div class="col-auto">
+                        <div class="organograma-law-icon d-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-danger rounded-circle" style="width: 56px; height: 56px;">
+                            <i class="fa-solid fa-scale-balanced fs-3"></i>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
+                            <span class="badge bg-navy text-white fw-bold px-2 py-1">MARCO LEGAL DE MODERNIZAÇÃO</span>
+                            <span class="small fw-bold" style="color: #334155;">{{ page.law_number }}</span>
+                        </div>
+                        <h5 class="fw-bold text-navy mb-1" style="font-size: 1.15rem;">
+                            Lei de Organização Estrutural e Funcional do CBMPB
+                        </h5>
+                        <p class="small mb-0" style="color: #1E293B; line-height: 1.6;">
+                            {{ page.law_summary }}
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-auto text-md-end">
+                        {% if page.law_external_url %}
+                        <a href="{{ page.law_external_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger btn-sm px-3 py-2 fw-bold text-nowrap d-inline-flex align-items-center gap-2">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>Acessar Diário Oficial</span>
+                        </a>
+                        {% endif %}
+                        <a href="/dspci/?categoria=legislacao#repositorio" class="btn btn-navy-cbmpb btn-sm px-3 py-2 fw-bold text-nowrap d-inline-flex align-items-center gap-2 mt-2 mt-md-0">
+                            <i class="fa-solid fa-book-bookmark"></i>
+                            <span>Repositório Legislativo</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ORGANOGRAMA VISUAL / ESQUEMA HIERÁRQUICO INTERATIVO -->
+<section class="py-5 bg-white border-bottom" id="organograma-visual">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-4 mb-md-5">
+            <span class="section-tag mb-1"><i class="fa-solid fa-network-wired me-1"></i> ARQUITETURA DE COMANDO</span>
+            <h2 class="display-6 fw-bold text-navy mb-2">Cadeia de Comando & Níveis Funcionais</h2>
+            <p class="mb-0" style="color: #475569;">Visão sistêmica da distribuição de competências no Corpo de Bombeiros Militar da Paraíba.</p>
+        </div>
+
+        <!-- DIAGRAMA INTERATIVO (ÁRVORE VISUAL) -->
+        <div class="organograma-tree-wrapper p-3 p-md-4 rounded-3 shadow-sm mb-5">
+            
+            <!-- NÍVEL 0: GOVERNO & SECRETARIA -->
+            <div class="tree-tier text-center mb-4">
+                <div class="tree-node tree-node-gov mx-auto shadow-sm">
+                    <span class="tree-node-tag">VINCULAÇÃO ESTATAL</span>
+                    <strong class="d-block text-white mb-1">Governo do Estado da Paraíba</strong>
+                    <span class="small d-block tree-gov-sub">Secretaria de Estado da Segurança e da Defesa Social (SEDS)</span>
+                </div>
+                <div class="tree-connector-v"></div>
+            </div>
+
+            <!-- NÍVEL 1: COMANDO GERAL & SUBCOMANDO GERAL -->
+            <div class="tree-tier text-center mb-4">
+                <div class="row justify-content-center g-3">
+                    <div class="col-md-5 col-lg-4">
+                        <div class="tree-node tree-node-command shadow-sm h-100">
+                            <span class="badge bg-gold text-dark mb-1">COMANDO GERAL</span>
+                            <h5 class="fw-bold mb-1 text-white">Comandante-Geral (CG)</h5>
+                            <p class="small mb-0">Direção estratégica superior, representação e coordenação geral da corporação.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-lg-4">
+                        <div class="tree-node tree-node-subcommand shadow-sm h-100">
+                            <span class="badge bg-gold text-dark mb-1">SUBCOMANDO GERAL</span>
+                            <h5 class="fw-bold mb-1 text-white">Subcomandante-Geral (SCG)</h5>
+                            <p class="small mb-0">Coordenação administrativa, supervisão direta das Diretorias Setoriais e substituição legal.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tree-connector-v"></div>
+            </div>
+
+            <!-- NÍVEL 2: ESTADO-MAIOR GERAL & ASSESSORIAS -->
+            <div class="tree-tier text-center mb-4">
+                <div class="tree-node tree-node-emg mx-auto shadow-sm">
+                    <span class="badge bg-light text-navy fw-bold mb-1">ÓRGÃO DE PLANEJAMENTO ESTRATÉGICO</span>
+                    <h5 class="fw-bold mb-1 text-white">Estado-Maior Geral (EMG)</h5>
+                    <p class="small mb-0">Planejamento institucional, doutrina, inteligência, orçamento, projetos e estatística (1ª a 6ª Seções).</p>
+                </div>
+                <div class="tree-connector-v"></div>
+            </div>
+
+            <!-- NÍVEL 3: QUADRÍCULA DOS 4 GRANDES NÍVEIS -->
+            <div class="row g-3 text-center">
+                <!-- Direção Setorial -->
+                <div class="col-md-6 col-xl-3">
+                    <div class="tree-node-group p-3 rounded-3 shadow-sm h-100">
+                        <div class="tree-group-header mb-2 pb-2 border-bottom">
+                            <span class="badge bg-danger text-white mb-1">NÍVEL 2</span>
+                            <h6 class="fw-bold text-navy mb-0">Diretorias Setoriais</h6>
+                        </div>
+                        <ul class="list-unstyled text-start small d-flex flex-column gap-1 mb-0">
+                            <li><i class="fa-solid fa-angle-right text-danger me-1"></i> <strong>DSPCI:</strong> Segurança Contra Incêndio</li>
+                            <li><i class="fa-solid fa-angle-right text-danger me-1"></i> <strong>DOp:</strong> Operações e Resgate</li>
+                            <li><i class="fa-solid fa-angle-right text-danger me-1"></i> <strong>DGP:</strong> Gestão de Pessoas</li>
+                            <li><i class="fa-solid fa-angle-right text-danger me-1"></i> <strong>DAL:</strong> Apoio Logístico & Frota</li>
+                            <li><i class="fa-solid fa-angle-right text-danger me-1"></i> <strong>DEIP:</strong> Ensino, Instrução & Pesquisa</li>
+                            <li><i class="fa-solid fa-angle-right text-danger me-1"></i> <strong>DF:</strong> Finanças & Execução</li>
+                            <li><i class="fa-solid fa-angle-right text-danger me-1"></i> <strong>DGTI:</strong> Tecnologia da Informação</li>
+                            <li><i class="fa-solid fa-angle-right text-danger me-1"></i> <strong>DS:</strong> Saúde & Perícias</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Órgãos de Correição & Controle -->
+                <div class="col-md-6 col-xl-3">
+                    <div class="tree-node-group p-3 rounded-3 shadow-sm h-100">
+                        <div class="tree-group-header mb-2 pb-2 border-bottom">
+                            <span class="badge bg-navy text-white mb-1">CONTROLE & GESTÃO</span>
+                            <h6 class="fw-bold text-navy mb-0">Apoio ao Comando</h6>
+                        </div>
+                        <ul class="list-unstyled text-start small d-flex flex-column gap-1 mb-0">
+                            <li><i class="fa-solid fa-angle-right text-navy me-1"></i> <strong>GCG:</strong> Gabinete do Comando Geral</li>
+                            <li><i class="fa-solid fa-angle-right text-navy me-1"></i> <strong>Corregedoria:</strong> Disciplina e Correição</li>
+                            <li><i class="fa-solid fa-angle-right text-navy me-1"></i> <strong>Ouvidoria:</strong> Canal do Cidadão</li>
+                            <li><i class="fa-solid fa-angle-right text-navy me-1"></i> <strong>ARICS / ACS:</strong> Comunicação Social</li>
+                            <li><i class="fa-solid fa-angle-right text-navy me-1"></i> <strong>Assessoria Jurídica / Legislativa</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Órgãos de Apoio -->
+                <div class="col-md-6 col-xl-3">
+                    <div class="tree-node-group p-3 rounded-3 shadow-sm h-100">
+                        <div class="tree-group-header mb-2 pb-2 border-bottom">
+                            <span class="badge bg-primary text-white mb-1">NÍVEL 3</span>
+                            <h6 class="fw-bold text-navy mb-0">Órgãos de Apoio</h6>
+                        </div>
+                        <ul class="list-unstyled text-start small d-flex flex-column gap-1 mb-0">
+                            <li><i class="fa-solid fa-angle-right text-primary me-1"></i> <strong>CEBM:</strong> Centro de Ensino Bombeiro Militar</li>
+                            <li><i class="fa-solid fa-angle-right text-primary me-1"></i> <strong>CSM:</strong> Centro de Suprimento e Manutenção</li>
+                            <li><i class="fa-solid fa-angle-right text-primary me-1"></i> <strong>COBM:</strong> Centro Odontomédico / Policlínica</li>
+                            <li><i class="fa-solid fa-angle-right text-primary me-1"></i> <strong>CASP:</strong> Assistência Social e Psicológica</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Órgãos de Execução -->
+                <div class="col-md-6 col-xl-3">
+                    <div class="tree-node-group p-3 rounded-3 shadow-sm h-100">
+                        <div class="tree-group-header mb-2 pb-2 border-bottom">
+                            <span class="badge bg-success text-white mb-1">NÍVEL 4</span>
+                            <h6 class="fw-bold text-navy mb-0">Execução Operacional</h6>
+                        </div>
+                        <ul class="list-unstyled text-start small d-flex flex-column gap-1 mb-0">
+                            <li><i class="fa-solid fa-angle-right text-success me-1"></i> <strong>1º CRBM:</strong> Litoral & Metropolitana (1º BBM, BBS, BEM)</li>
+                            <li><i class="fa-solid fa-angle-right text-success me-1"></i> <strong>2º CRBM:</strong> Borborema & Agreste (2º, 3º, 7º BBM)</li>
+                            <li><i class="fa-solid fa-angle-right text-success me-1"></i> <strong>3º CRBM:</strong> Sertão & Alto Sertão (4º, 5º, 6º BBM)</li>
+                            <li><i class="fa-solid fa-angle-right text-success me-1"></i> <strong>Especializadas:</strong> Cães (DOC), Mergulho, GOA</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- GUIA DETALHADO DOS ÓRGÃOS (CATÁLOGO NORMATIVO) -->
+<section class="py-5 bg-light" id="orgaos-detalhes">
+    <div class="container">
+        
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+                <span class="section-tag mb-1"><i class="fa-solid fa-folder-open me-1"></i> LEI COMPLEMENTAR 191/2024</span>
+                <h3 class="display-6 fw-bold text-navy mb-1">Detalhamento dos Órgãos e Competências</h3>
+                <p class="mb-0" style="color: #475569;">Consulte as atribuições legais, posto de chefia e subunidades previstas em lei.</p>
+            </div>
+
+            <!-- Busca Rápida -->
+            <div class="organograma-search-wrapper" style="min-width: 300px;">
+                <form method="get" action="#orgaos-detalhes" class="d-flex gap-2">
+                    {% if current_level %}
+                    <input type="hidden" name="nivel" value="{{ current_level }}">
+                    {% endif %}
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0 text-muted"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" name="q" class="form-control border-start-0" placeholder="Buscar órgão, sigla ou atribuição..." value="{{ search_query|default:'' }}" aria-label="Buscar órgão">
+                        <button class="btn btn-primary-cbmpb px-3" type="submit">Buscar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- FILTROS POR NÍVEL ESTRUTURAL -->
+        <div class="organograma-filter-bar mb-4 p-2 rounded-3 bg-white border shadow-sm">
+            <div class="d-flex align-items-center gap-2 overflow-x-auto pb-1 pb-md-0 flex-nowrap">
+                <span class="small fw-bold text-nowrap px-2" style="color: #334155;"><i class="fa-solid fa-filter me-1 text-danger"></i> NÍVEL:</span>
+                
+                <a href="?{% if search_query %}q={{ search_query }}&{% endif %}#orgaos-detalhes" class="organograma-filter-pill {% if not current_level %}active{% endif %} text-nowrap">
+                    Todos os Órgãos ({{ total_units }})
+                </a>
+                <a href="?nivel=ESTRATEGICA{% if search_query %}&q={{ search_query }}{% endif %}#orgaos-detalhes" class="organograma-filter-pill {% if current_level == 'ESTRATEGICA' %}active{% endif %} text-nowrap">
+                    1. Direção Estratégica (Comando)
+                </a>
+                <a href="?nivel=SETORIAL{% if search_query %}&q={{ search_query }}{% endif %}#orgaos-detalhes" class="organograma-filter-pill {% if current_level == 'SETORIAL' %}active{% endif %} text-nowrap">
+                    2. Diretorias Setoriais (DSPCI, DOp, DGP...)
+                </a>
+                <a href="?nivel=APOIO{% if search_query %}&q={{ search_query }}{% endif %}#orgaos-detalhes" class="organograma-filter-pill {% if current_level == 'APOIO' %}active{% endif %} text-nowrap">
+                    3. Órgãos de Apoio (Ensino, Saúde)
+                </a>
+                <a href="?nivel=EXECUCAO{% if search_query %}&q={{ search_query }}{% endif %}#orgaos-detalhes" class="organograma-filter-pill {% if current_level == 'EXECUCAO' %}active{% endif %} text-nowrap">
+                    4. Execução (CRBMs & Batalhões)
+                </a>
+            </div>
+        </div>
+
+        <!-- CARDS DE DETALHAMENTO DOS ÓRGÃOS -->
+        {% if units %}
+        <div class="row g-4">
+            {% for u in units %}
+            <div class="col-lg-6">
+                <div class="organograma-unit-card card h-100 shadow-sm p-4 rounded-3">
+                    <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="organograma-unit-icon d-flex align-items-center justify-content-center rounded-3">
+                                <i class="{{ u.icon }} fs-4 text-danger"></i>
+                            </div>
+                            <div>
+                                <span class="badge {{ u.level_badge_class }} mb-1">{{ u.get_level_display }}</span>
+                                <h4 class="fw-bold text-navy mb-0" style="font-size: 1.25rem;">
+                                    <span class="text-danger font-monospace me-1">{{ u.acronym }}</span> - {{ u.name }}
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Metadados da Lei -->
+                    <div class="row g-2 mb-3 p-3 rounded-2 small organograma-meta-box">
+                        <div class="col-sm-6">
+                            <span class="organograma-meta-label">Previsão Legal:</span>
+                            <strong class="organograma-meta-val">{{ u.legal_basis }}</strong>
+                        </div>
+                        {% if u.commander_rank %}
+                        <div class="col-sm-6">
+                            <span class="organograma-meta-label">Posto / Chefia Prevista:</span>
+                            <strong class="organograma-meta-val">{{ u.commander_rank }}</strong>
+                        </div>
+                        {% endif %}
+                        {% if u.parent %}
+                        <div class="col-sm-6">
+                            <span class="organograma-meta-label">Subordinação Direta:</span>
+                            <span class="organograma-meta-val-sub">{{ u.parent.acronym }} - {{ u.parent.name }}</span>
+                        </div>
+                        {% endif %}
+                        {% if u.current_head %}
+                        <div class="col-sm-6">
+                            <span class="organograma-meta-label">Titular Designado:</span>
+                            <span class="organograma-meta-val">{{ u.current_head }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Competências -->
+                    <div class="mb-3">
+                        <h6 class="fw-bold text-navy small mb-1"><i class="fa-solid fa-list-check me-1 text-danger"></i> Competências Principais:</h6>
+                        <p class="organograma-competencies-text mb-0">
+                            {{ u.competencies }}
+                        </p>
+                    </div>
+
+                    <!-- Subunidades / Divisões -->
+                    {% if u.subunits_text %}
+                    <div class="mb-3 mt-auto pt-2 border-top">
+                        <span class="organograma-meta-label mb-2"><i class="fa-solid fa-diagram-project me-1 text-danger"></i> Divisões e Seções Subordinadas:</span>
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for sub in u.subunits_text.splitlines %}
+                            <span class="badge organograma-subunit-badge">{{ sub }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Link e Ações -->
+                    {% if u.internal_link %}
+                    <div class="pt-3 border-top mt-auto d-flex justify-content-end">
+                        <a href="{{ u.internal_link }}" class="btn btn-outline-danger btn-sm fw-bold d-inline-flex align-items-center gap-1">
+                            <span>Acessar Página do Órgão</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5 bg-white rounded-3 border">
+            <i class="fa-solid fa-folder-open text-muted fs-1 mb-3"></i>
+            <h5 class="fw-bold text-navy">Nenhum órgão encontrado</h5>
+            <p class="small mb-3" style="color: #475569;">Tente ajustar o termo da pesquisa ou selecionar outro nível da estrutura.</p>
+            <a href="{% pageurl page %}#orgaos-detalhes" class="btn btn-outline-danger btn-sm fw-bold">Ver todos os órgãos</a>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}
