@@ -294,8 +294,7 @@
                         {% if c.registration_start_date and c.registration_end_date %}
                         <div class="col-sm-6 col-md-3">
                             <span class="concurso-meta-label">Período de Inscrição:</span>
-                            <strong class="concurso-meta-val">{{ c.registration_start_date|date:"d/m/Y" }} a {{
-                                c.registration_end_date|date:"d/m/Y" }}</strong>
+                            <strong class="concurso-meta-val">{{ c.registration_start_date|date:"d/m/Y" }} a {{ c.registration_end_date|date:"d/m/Y" }}</strong>
                         </div>
                         {% endif %}
                         {% if c.registration_url %}
@@ -344,9 +343,7 @@
                             </h5>
                         </div>
                         <span class="small text-muted">
-                            Última atualização: <strong>{{
-                                c.latest_document.publication_date|date:"d/m/Y"|default:"Atualizado recentemente"
-                                }}</strong>
+                            Última atualização: <strong>{{ c.latest_document.publication_date|date:"d/m/Y"|default:"Atualizado recentemente" }}</strong>
                         </span>
                     </div>
 
@@ -370,9 +367,7 @@
                                         {% endif %}
                                     </div>
                                     <div class="d-flex align-items-center gap-3 text-muted small flex-wrap mt-1">
-                                        <span><i class="fa-regular fa-calendar me-1"></i> Publicado em: <strong
-                                                class="text-dark">{{ doc.publication_date|date:"d/m/Y"
-                                                }}</strong></span>
+                                        <span><i class="fa-regular fa-calendar me-1"></i> Publicado em: <strong class="text-dark">{{ doc.publication_date|date:"d/m/Y" }}</strong></span>
                                         {% if doc.description %}
                                         <span><i class="fa-solid fa-circle-info me-1"></i> {{ doc.description }}</span>
                                         {% endif %}
@@ -497,11 +492,8 @@
                         de recursos administrativos, entre em contato direto com a comissão examinadora:
                     </p>
                     <ul class="list-unstyled small d-flex flex-column gap-2 mb-3">
-                        <li><i class="fa-solid fa-envelope text-gold me-2"></i> <strong>E-mail:</strong> <a
-                                href="mailto:{{ page.contact_email }}" class="text-white text-decoration-underline">{{
-                                page.contact_email }}</a></li>
-                        <li><i class="fa-solid fa-phone text-gold me-2"></i> <strong>Telefone:</strong> {{
-                            page.contact_phone }}</li>
+                        <li><i class="fa-solid fa-envelope text-gold me-2"></i> <strong>E-mail:</strong> <a href="mailto:{{ page.contact_email }}" class="text-white text-decoration-underline">{{ page.contact_email }}</a></li>
+                        <li><i class="fa-solid fa-phone text-gold me-2"></i> <strong>Telefone:</strong> {{ page.contact_phone }}</li>
                         <li><i class="fa-solid fa-location-dot text-gold me-2"></i> <strong>Sede DEIP:</strong> Centro
                             de Ensino Bombeiro Militar (CEBM), Rodovia BR-230, Km 23, João Pessoa - PB</li>
                     </ul>
