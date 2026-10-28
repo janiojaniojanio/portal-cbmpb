@@ -385,6 +385,51 @@ body.font-xl {
   background-color: var(--bm-red-light);
 }
 
+/* Dropdowns de Navegação CBMPB */
+.navbar-nav .dropdown-menu {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  padding: 8px 0;
+  min-width: 250px;
+}
+
+.navbar-nav .dropdown-item {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--bm-navy);
+  padding: 8px 18px;
+  display: flex;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+
+.navbar-nav .dropdown-item:hover,
+.navbar-nav .dropdown-item:focus {
+  background-color: var(--bm-red-light);
+  color: var(--bm-red);
+  padding-left: 22px;
+}
+
+@media (min-width: 992px) {
+  .navbar-nav .dropdown:hover > .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    animation: fadeInDropdown 0.2s ease forwards;
+  }
+}
+
+@keyframes fadeInDropdown {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (min-width: 992px) and (max-width: 1250px) {
   .nav-link-cbmpb {
     padding: 6px 7px !important;
@@ -516,6 +561,86 @@ body.font-xl {
 .mobile-nav-list .nav-link:active {
   background: rgba(196, 18, 26, 0.2);
   color: #FFFFFF;
+}
+
+/* Acordeão e Submenus no Mobile Offcanvas */
+.mobile-nav-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobile-nav-link,
+.mobile-nav-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 11px 14px;
+  color: #E2E8F0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  text-align: left;
+  transition: var(--bm-transition);
+}
+
+.mobile-nav-link i,
+.mobile-nav-toggle i {
+  color: var(--bm-gold);
+  width: 22px;
+  font-size: 1.05rem;
+}
+
+.mobile-nav-toggle .toggle-icon {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  transition: transform 0.25s ease;
+  width: auto;
+}
+
+.mobile-nav-toggle:not(.collapsed) .toggle-icon {
+  transform: rotate(180deg);
+  color: var(--bm-gold);
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-toggle:hover,
+.mobile-nav-toggle:not(.collapsed) {
+  background: rgba(196, 18, 26, 0.2);
+  color: #FFFFFF;
+}
+
+.mobile-subnav {
+  padding: 4px 0 4px 14px;
+  border-left: 2px solid rgba(196, 18, 26, 0.5);
+  margin-left: 22px;
+  margin-top: 4px;
+  margin-bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.mobile-subnav a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #CBD5E1;
+  text-decoration: none;
+  padding: 8px 10px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: var(--bm-transition);
+}
+
+.mobile-subnav a:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .mobile-accessibility-box {
