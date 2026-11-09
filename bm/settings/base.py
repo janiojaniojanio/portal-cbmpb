@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.postgres",
 ]
 
 MIDDLEWARE = [
@@ -129,6 +130,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
 LANGUAGE_CODE = "pt-br"
+
+LANGUAGES = [
+    ("pt-br", "Português Brasileiro"),
+]
 
 TIME_ZONE = "America/Fortaleza"
 
