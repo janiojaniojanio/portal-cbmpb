@@ -30,77 +30,127 @@
     </div>
 </section>
 
-<!-- SUBNAVEGAÇÃO -->
+<!-- SUBNAVEGAÇÃO RÁPIDA ENTRE SEÇÕES -->
 {% include "institucional/includes/institucional_subnav.html" with active_tab="comando" %}
 
-<!-- SEÇÃO COMANDANTE GERAL -->
-<section class="py-5 bg-white border-bottom" id="comandante-geral">
+<!-- BARRA DE ATALHOS INTERNOS RÁPIDOS -->
+<div class="bg-white border-bottom py-3 shadow-xs">
+    <div class="container d-flex align-items-center justify-content-center gap-2 flex-wrap">
+        <span class="small fw-bold text-muted me-2"><i class="fa-solid fa-compass text-danger"></i> Navegação rápida:</span>
+        <a href="#comandante-geral" class="btn btn-sm btn-outline-secondary fw-semibold px-3 rounded-pill text-navy">
+            <i class="fa-solid fa-star text-warning me-1"></i> Comandante Geral
+        </a>
+        <a href="#subcomandante-geral" class="btn btn-sm btn-outline-secondary fw-semibold px-3 rounded-pill text-navy">
+            <i class="fa-solid fa-shield-halved text-danger me-1"></i> Subcomandante Geral & EMG
+        </a>
+        {% if page.emg_competencies %}
+        <a href="#competencias-legais" class="btn btn-sm btn-outline-secondary fw-semibold px-3 rounded-pill text-navy">
+            <i class="fa-solid fa-scale-balanced text-primary me-1"></i> Competências Institucionais
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- CONTAINER PRINCIPAL UNIFICADO -->
+<section class="py-5 bg-light" id="comando-direcao">
     <div class="container">
-        <div class="commander-card">
-            <div class="commander-header-strip d-flex align-items-center justify-content-between flex-wrap gap-3">
+
+        <!-- ============================================================== -->
+        <!-- 1. BLOCO DO COMANDANTE GERAL                                   -->
+        <!-- ============================================================== -->
+        <div class="commander-card mb-5" id="comandante-geral">
+            <!-- Header Strip (Estilo militar com gradiente e borda dourada) -->
+            <div class="commander-header-strip d-flex align-items-center justify-content-between flex-wrap gap-3"
+                 style="background: linear-gradient(135deg, #061025 0%, #0B1B3D 50%, #152C5B 100%) !important; color: #FFFFFF !important; border-bottom: 3px solid #D4AF37 !important;">
                 <div class="d-flex align-items-center gap-3">
-                    <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center shadow" style="width: 58px; height: 58px; font-size: 26px;">
-                        <i class="fa-solid fa-user-shield"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center shadow" 
+                         style="width: 58px; height: 58px; font-size: 26px; background: #C4121A; color: #FFFFFF; border: 2px solid #D4AF37;">
+                        <i class="fa-solid fa-star"></i>
                     </div>
                     <div>
-                        <span class="badge bg-gold text-dark fw-bold px-2 py-1 mb-1">COMANDANTE GERAL</span>
-                        <h3 class="fw-bold text-white mb-0">{{ page.cg_name }}</h3>
-                        <span class="small text-light opacity-90">{{ page.cg_rank }}</span>
+                        <span class="badge bg-gold text-dark fw-bold px-2 py-1 mb-1 text-uppercase" style="background-color: #D4AF37 !important; color: #061025 !important;">
+                            <i class="fa-solid fa-star me-1"></i> COMANDO GERAL
+                        </span>
+                        <h3 class="fw-bold mb-0 text-white" style="color: #FFFFFF !important;">{{ page.cg_name }}</h3>
+                        <span class="small fw-semibold" style="color: #F1F5F9; opacity: 0.95;">{{ page.cg_rank }}</span>
                     </div>
                 </div>
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 flex-wrap">
                     {% if page.cg_email %}
-                    <a href="mailto:{{ page.cg_email }}" class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-1">
-                        <i class="fa-solid fa-envelope"></i> {{ page.cg_email }}
+                    <a href="mailto:{{ page.cg_email }}" class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-1 shadow-xs" style="border-color: rgba(255,255,255,0.4);">
+                        <i class="fa-solid fa-envelope text-gold"></i> {{ page.cg_email }}
                     </a>
                     {% endif %}
                     {% if page.cg_phone %}
-                    <a href="tel:{{ page.cg_phone }}" class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-1">
-                        <i class="fa-solid fa-phone"></i> {{ page.cg_phone }}
+                    <a href="tel:{{ page.cg_phone }}" class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-1 shadow-xs" style="border-color: rgba(255,255,255,0.4);">
+                        <i class="fa-solid fa-phone text-gold"></i> {{ page.cg_phone }}
                     </a>
                     {% endif %}
                 </div>
             </div>
 
-            <div class="card-body p-4 p-lg-5">
+            <!-- Corpo do Bloco do Comandante Geral -->
+            <div class="card-body p-4 p-lg-5 bg-white">
                 <div class="row g-4 g-lg-5 align-items-start">
+                    <!-- Coluna da Foto / Insígnia -->
                     <div class="col-lg-4 text-center">
-                        <div class="rounded-4 overflow-hidden shadow-sm border border-2 border-danger mx-auto" style="max-width: 300px; aspect-ratio: 3/4; background: #F1F5F9;">
+                        <div class="commander-portrait-box commander-cg">
                             {% if page.cg_photo %}
                                 {% image page.cg_photo fill-600x800 as cg_img %}
                                 <img src="{{ cg_img.url }}" alt="{{ page.cg_name }}" class="w-100 h-100 object-fit-cover">
                             {% else %}
-                                <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center text-secondary p-3">
-                                    <i class="fa-solid fa-user-tie fa-5x mb-3 text-secondary opacity-50"></i>
-                                    <span class="fw-bold small">{{ page.cg_name }}</span>
-                                    <span class="small text-muted">{{ page.cg_rank }}</span>
+                                <div class="commander-placeholder">
+                                    <div class="d-flex gap-1 text-gold mb-2" style="color: #D4AF37;">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star fs-5"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                    <div class="rounded-circle bg-danger bg-opacity-25 text-white d-flex align-items-center justify-content-center mb-3" style="width: 72px; height: 72px; font-size: 32px; border: 2px solid #D4AF37;">
+                                        <i class="fa-solid fa-user-shield"></i>
+                                    </div>
+                                    <h5 class="fw-bold text-white mb-1" style="font-size: 1.05rem;">{{ page.cg_name }}</h5>
+                                    <span class="small text-light opacity-75 mb-3">{{ page.cg_rank }}</span>
+                                    <span class="badge bg-white bg-opacity-15 text-white small px-2 py-1" style="border: 1px solid rgba(255,255,255,0.25);">
+                                        <i class="fa-solid fa-shield me-1"></i> Gabinete do Comando Geral
+                                    </span>
                                 </div>
                             {% endif %}
                         </div>
-                        <div class="mt-3 p-3 bg-light rounded-3 text-start small">
-                            <strong class="d-block text-navy mb-1"><i class="fa-solid fa-location-dot text-danger me-1"></i> Gabinete do Comando Geral (QCG)</strong>
-                            <span class="text-secondary d-block">Rodovia BR-230, Km 23, s/n - Cristo Redentor, João Pessoa - PB</span>
+
+                        <!-- Caixa de Localização Institucional -->
+                        <div class="mt-3 p-3 bg-light rounded-3 text-start border shadow-2xs">
+                            <strong class="d-block text-navy mb-1 small">
+                                <i class="fa-solid fa-location-dot text-danger me-1"></i> Gabinete do Comando Geral (QCG)
+                            </strong>
+                            <span class="text-secondary d-block" style="font-size: 0.84rem; line-height: 1.5;">
+                                Rodovia BR-230, Km 23, s/n - Cristo Redentor, João Pessoa - PB, CEP 58071-680
+                            </span>
+                            <span class="d-block text-muted mt-2 pt-2 border-top" style="font-size: 0.78rem;">
+                                <i class="fa-solid fa-scale-balanced me-1 text-danger"></i> Órgão Superior (Art. 6º da Lei Compl. nº 191/2024)
+                            </span>
                         </div>
                     </div>
 
+                    <!-- Coluna do Conteúdo Biográfico -->
                     <div class="col-lg-8">
+                        <!-- Mensagem Institucional -->
                         {% if page.cg_message %}
-                        <div class="p-4 rounded-3 bg-danger bg-opacity-10 border border-danger border-opacity-25 mb-4">
-                            <h5 class="fw-bold text-danger mb-2 d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-quote-left"></i> Mensagem do Comandante Geral
-                            </h5>
-                            <div class="fst-italic text-navy mb-0" style="line-height: 1.65;">
+                        <div class="commander-quote-box">
+                            <h6 class="fw-bold text-danger mb-2 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-quote-left"></i> Palavra do Comandante Geral
+                            </h6>
+                            <div class="fst-italic text-navy mb-0" style="line-height: 1.7; font-size: 0.98rem;">
                                 {{ page.cg_message|richtext }}
                             </div>
                         </div>
                         {% endif %}
 
-                        <!-- Currículo -->
+                        <!-- Formação Acadêmica & Militar -->
                         <div class="mb-4">
                             <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-graduation-cap text-danger"></i> Formação Acadêmica & Militar
+                                <i class="fa-solid fa-graduation-cap text-danger"></i> Formação Acadêmica & Qualificação Militar
                             </h5>
-                            <div class="text-secondary" style="line-height: 1.7; font-size: 0.95rem;">
+                            <div class="text-secondary" style="line-height: 1.75; font-size: 0.95rem;">
                                 {% if page.cg_curriculum %}
                                     {{ page.cg_curriculum|richtext }}
                                 {% else %}
@@ -109,12 +159,12 @@
                             </div>
                         </div>
 
-                        <!-- Biografia / Trajetória -->
+                        <!-- Trajetória Militar & Principais Funções -->
                         <div>
                             <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-medal text-danger"></i> Trajetória Militar & Principais Funções
+                                <i class="fa-solid fa-medal text-danger"></i> Trajetória Militar & Principais Comandos
                             </h5>
-                            <div class="text-secondary" style="line-height: 1.7; font-size: 0.95rem;">
+                            <div class="text-secondary" style="line-height: 1.75; font-size: 0.95rem;">
                                 {% if page.cg_biography %}
                                     {{ page.cg_biography|richtext }}
                                 {% else %}
@@ -126,77 +176,103 @@
                 </div>
             </div>
         </div>
-    </div>
-</section>
 
-<!-- SEÇÃO SUBCOMANDANTE GERAL -->
-<section class="py-5 bg-light border-bottom" id="subcomandante-geral">
-    <div class="container">
-        <div class="commander-card">
-            <div class="commander-header-strip d-flex align-items-center justify-content-between flex-wrap gap-3" style="background: linear-gradient(135deg, #1E293B 0%, #334155 100%) !important;">
+        <!-- ============================================================== -->
+        <!-- 2. BLOCO DO SUBCOMANDANTE GERAL & CHEFE DO ESTADO-MAIOR GERAL  -->
+        <!-- ============================================================== -->
+        <div class="commander-card mb-5" id="subcomandante-geral">
+            <!-- Header Strip (Estilo militar harmônico com gradiente e borda dourada) -->
+            <div class="commander-header-strip d-flex align-items-center justify-content-between flex-wrap gap-3"
+                 style="background: linear-gradient(135deg, #061025 0%, #0B1B3D 50%, #152C5B 100%) !important; color: #FFFFFF !important; border-bottom: 3px solid #D4AF37 !important;">
                 <div class="d-flex align-items-center gap-3">
-                    <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center shadow" style="width: 58px; height: 58px; font-size: 26px;">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center shadow" 
+                         style="width: 58px; height: 58px; font-size: 26px; background: #1B365D; color: #FFFFFF; border: 2px solid #D4AF37;">
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
                     <div>
-                        <span class="badge bg-warning text-dark fw-bold px-2 py-1 mb-1">SUBCOMANDANTE GERAL & CHEFE DO EMG</span>
-                        <h3 class="fw-bold text-white mb-0">{{ page.scg_name }}</h3>
-                        <span class="small text-light opacity-90">{{ page.scg_rank }}</span>
+                        <span class="badge bg-gold text-dark fw-bold px-2 py-1 mb-1 text-uppercase" style="background-color: #D4AF37 !important; color: #061025 !important;">
+                            <i class="fa-solid fa-shield-halved me-1"></i> SUBCOMANDO GERAL & CHEFE DO EMG
+                        </span>
+                        <h3 class="fw-bold mb-0 text-white" style="color: #FFFFFF !important;">{{ page.scg_name }}</h3>
+                        <span class="small fw-semibold" style="color: #F1F5F9; opacity: 0.95;">{{ page.scg_rank }}</span>
                     </div>
                 </div>
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 flex-wrap">
                     {% if page.scg_email %}
-                    <a href="mailto:{{ page.scg_email }}" class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-1">
-                        <i class="fa-solid fa-envelope"></i> {{ page.scg_email }}
+                    <a href="mailto:{{ page.scg_email }}" class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-1 shadow-xs" style="border-color: rgba(255,255,255,0.4);">
+                        <i class="fa-solid fa-envelope text-gold"></i> {{ page.scg_email }}
                     </a>
                     {% endif %}
                     {% if page.scg_phone %}
-                    <a href="tel:{{ page.scg_phone }}" class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-1">
-                        <i class="fa-solid fa-phone"></i> {{ page.scg_phone }}
+                    <a href="tel:{{ page.scg_phone }}" class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-1 shadow-xs" style="border-color: rgba(255,255,255,0.4);">
+                        <i class="fa-solid fa-phone text-gold"></i> {{ page.scg_phone }}
                     </a>
                     {% endif %}
                 </div>
             </div>
 
-            <div class="card-body p-4 p-lg-5">
+            <!-- Corpo do Bloco do Subcomandante Geral -->
+            <div class="card-body p-4 p-lg-5 bg-white">
                 <div class="row g-4 g-lg-5 align-items-start">
+                    <!-- Coluna da Foto / Insígnia -->
                     <div class="col-lg-4 text-center">
-                        <div class="rounded-4 overflow-hidden shadow-sm border border-2 border-warning mx-auto" style="max-width: 300px; aspect-ratio: 3/4; background: #F1F5F9;">
+                        <div class="commander-portrait-box commander-scg">
                             {% if page.scg_photo %}
                                 {% image page.scg_photo fill-600x800 as scg_img %}
                                 <img src="{{ scg_img.url }}" alt="{{ page.scg_name }}" class="w-100 h-100 object-fit-cover">
                             {% else %}
-                                <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center text-secondary p-3">
-                                    <i class="fa-solid fa-user-tie fa-5x mb-3 text-secondary opacity-50"></i>
-                                    <span class="fw-bold small">{{ page.scg_name }}</span>
-                                    <span class="small text-muted">{{ page.scg_rank }}</span>
+                                <div class="commander-placeholder">
+                                    <div class="d-flex gap-1 text-gold mb-2" style="color: #D4AF37;">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star fs-5"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                    <div class="rounded-circle bg-navy bg-opacity-50 text-white d-flex align-items-center justify-content-center mb-3" style="width: 72px; height: 72px; font-size: 32px; border: 2px solid #D4AF37;">
+                                        <i class="fa-solid fa-shield-halved"></i>
+                                    </div>
+                                    <h5 class="fw-bold text-white mb-1" style="font-size: 1.05rem;">{{ page.scg_name }}</h5>
+                                    <span class="small text-light opacity-75 mb-3">{{ page.scg_rank }}</span>
+                                    <span class="badge bg-white bg-opacity-15 text-white small px-2 py-1" style="border: 1px solid rgba(255,255,255,0.25);">
+                                        <i class="fa-solid fa-building-shield me-1"></i> Estado-Maior Geral (EMG)
+                                    </span>
                                 </div>
                             {% endif %}
                         </div>
-                        <div class="mt-3 p-3 bg-light rounded-3 text-start small">
-                            <strong class="d-block text-navy mb-1"><i class="fa-solid fa-location-dot text-danger me-1"></i> Estado-Maior Geral (EMG)</strong>
-                            <span class="text-secondary d-block">Quartel do Comando Geral - João Pessoa - PB</span>
+
+                        <!-- Caixa de Localização Institucional -->
+                        <div class="mt-3 p-3 bg-light rounded-3 text-start border shadow-2xs">
+                            <strong class="d-block text-navy mb-1 small">
+                                <i class="fa-solid fa-location-dot text-danger me-1"></i> Estado-Maior Geral (EMG)
+                            </strong>
+                            <span class="text-secondary d-block" style="font-size: 0.84rem; line-height: 1.5;">
+                                Quartel do Comando Geral, BR-230, Km 23, s/n - Cristo Redentor, João Pessoa - PB
+                            </span>
+                            <span class="d-block text-muted mt-2 pt-2 border-top" style="font-size: 0.78rem;">
+                                <i class="fa-solid fa-scale-balanced me-1 text-danger"></i> Coordenação Executiva (Art. 7º da Lei Compl. nº 191/2024)
+                            </span>
                         </div>
                     </div>
 
+                    <!-- Coluna do Conteúdo Biográfico -->
                     <div class="col-lg-8">
+                        <!-- Mensagem Institucional -->
                         {% if page.scg_message %}
-                        <div class="p-4 rounded-3 bg-warning bg-opacity-10 border border-warning border-opacity-25 mb-4">
-                            <h5 class="fw-bold text-dark mb-2 d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-quote-left"></i> Mensagem do Subcomandante Geral
-                            </h5>
-                            <div class="fst-italic text-navy mb-0" style="line-height: 1.65;">
+                        <div class="commander-quote-box scg-quote">
+                            <h6 class="fw-bold text-navy mb-2 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-quote-left text-warning"></i> Palavra do Subcomandante Geral
+                            </h6>
+                            <div class="fst-italic text-navy mb-0" style="line-height: 1.7; font-size: 0.98rem;">
                                 {{ page.scg_message|richtext }}
                             </div>
                         </div>
                         {% endif %}
 
-                        <!-- Currículo -->
+                        <!-- Formação Acadêmica & Militar -->
                         <div class="mb-4">
                             <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-graduation-cap text-warning"></i> Formação Acadêmica & Militar
+                                <i class="fa-solid fa-graduation-cap text-danger"></i> Formação Acadêmica & Especialização
                             </h5>
-                            <div class="text-secondary" style="line-height: 1.7; font-size: 0.95rem;">
+                            <div class="text-secondary" style="line-height: 1.75; font-size: 0.95rem;">
                                 {% if page.scg_curriculum %}
                                     {{ page.scg_curriculum|richtext }}
                                 {% else %}
@@ -205,12 +281,12 @@
                             </div>
                         </div>
 
-                        <!-- Biografia -->
+                        <!-- Atuação e Competências no Estado-Maior -->
                         <div>
                             <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-medal text-warning"></i> Atuação e Competências no Estado-Maior
+                                <i class="fa-solid fa-medal text-danger"></i> Atuação Institucional & Competências no EMG
                             </h5>
-                            <div class="text-secondary" style="line-height: 1.7; font-size: 0.95rem;">
+                            <div class="text-secondary" style="line-height: 1.75; font-size: 0.95rem;">
                                 {% if page.scg_biography %}
                                     {{ page.scg_biography|richtext }}
                                 {% else %}
@@ -222,22 +298,27 @@
                 </div>
             </div>
         </div>
-    </div>
-</section>
 
-<!-- SEÇÃO ATRIBUIÇÕES E COMPETÊNCIAS LEGAIS -->
-{% if page.emg_competencies %}
-<section class="py-5 bg-white">
-    <div class="container">
-        <div class="card border-0 shadow-sm p-4 p-lg-5 rounded-3 bg-light">
-            <h4 class="fw-bold text-navy mb-3 d-flex align-items-center gap-2">
-                <i class="fa-solid fa-scale-balanced text-danger"></i> Competências Institucionais do Comando e do Estado-Maior
-            </h4>
-            <div class="text-secondary" style="line-height: 1.7; font-size: 0.95rem;">
+        <!-- ============================================================== -->
+        <!-- 3. SEÇÃO ATRIBUIÇÕES E COMPETÊNCIAS LEGAIS                     -->
+        <!-- ============================================================== -->
+        {% if page.emg_competencies %}
+        <div class="card border-0 shadow-sm p-4 p-lg-5 rounded-3 bg-white" id="competencias-legais" style="border-top: 4px solid var(--bm-navy) !important;">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="rounded-circle bg-navy text-white d-flex align-items-center justify-content-center" style="width: 52px; height: 52px; font-size: 24px;">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <div>
+                    <span class="badge bg-danger text-white small fw-bold">LEI COMPLEMENTAR Nº 191/2024</span>
+                    <h4 class="fw-bold text-navy mb-0">Competências Institucionais do Comando e do Estado-Maior</h4>
+                </div>
+            </div>
+            <div class="text-secondary" style="line-height: 1.75; font-size: 0.95rem;">
                 {{ page.emg_competencies|richtext }}
             </div>
         </div>
+        {% endif %}
+
     </div>
 </section>
-{% endif %}
 {% endblock %}

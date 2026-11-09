@@ -2638,19 +2638,73 @@ body.font-xl {
   transform: scale(1.15);
 }
 
+/* ----------------- CARDS DO COMANDO E SUBCOMANDO GERAL ----------------- */
 .commander-card {
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
-  border: 1px solid var(--bm-border);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   background: #FFFFFF;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 20px rgba(11, 27, 61, 0.07);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .commander-header-strip {
-  background: linear-gradient(135deg, var(--bm-navy-dark) 0%, var(--bm-navy) 100%);
-  color: #FFFFFF;
-  padding: 24px;
+  background: linear-gradient(135deg, #061025 0%, #0B1B3D 50%, #152C5B 100%) !important;
+  color: #FFFFFF !important;
+  padding: 22px 28px;
   position: relative;
+  border-bottom: 3px solid var(--bm-gold);
+}
+
+.commander-header-strip h3 {
+  color: #FFFFFF !important;
+  font-size: 1.45rem;
+  letter-spacing: -0.2px;
+}
+
+.commander-portrait-box {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  background: #F1F5F9;
+  border: 3px solid #E2E8F0;
+  aspect-ratio: 3/4;
+  max-width: 290px;
+  margin: 0 auto;
+}
+
+.commander-portrait-box.commander-cg {
+  border-color: rgba(196, 18, 26, 0.35);
+}
+
+.commander-portrait-box.commander-scg {
+  border-color: rgba(212, 175, 55, 0.45);
+}
+
+.commander-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, #0B1B3D 0%, #152C5B 50%, #08142C 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  color: #FFFFFF;
+  text-align: center;
+}
+
+.commander-quote-box {
+  background: #F8FAFC;
+  border-radius: 10px;
+  border: 1px solid #E2E8F0;
+  border-left: 5px solid var(--bm-red);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.commander-quote-box.scg-quote {
+  border-left-color: var(--bm-gold);
 }
 
 .ex-commander-card {
