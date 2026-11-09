@@ -1,0 +1,52 @@
+<!-- Subnavegação Rápida entre Seções Institucionais -->
+<div class="institucional-subnav-strip bg-white border-bottom shadow-sm sticky-top" style="top: 70px; z-index: 1010;">
+    <div class="container">
+        <ul class="nav nav-pills py-2 gap-1 flex-nowrap overflow-x-auto text-nowrap institucional-pills">
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 'visao_geral' %}active{% endif %}" href="/institucional/">
+                    <i class="fa-solid fa-landmark me-1"></i> Quem Somos & Histórico
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 'comando' %}active{% endif %}" href="/institucional/comando/">
+                    <i class="fa-solid fa-user-shield me-1"></i> Comando Geral
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 'organograma' %}active{% endif %}" href="/quadro-organizacional/">
+                    <i class="fa-solid fa-sitemap me-1"></i> Quadro Organizacional
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 'ex_comandantes' %}active{% endif %}" href="/institucional/ex-comandantes/">
+                    <i class="fa-solid fa-users me-1"></i> Ex-Comandantes
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 'como_ingressar' %}active{% endif %}" href="/institucional/como-ingressar/">
+                    <i class="fa-solid fa-graduation-cap me-1"></i> Como Ingressar
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 'escola' %}active{% endif %}" href="/institucional/escola/">
+                    <i class="fa-solid fa-school me-1"></i> Escola do CBMPB
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 'projetos' %}active{% endif %}" href="/institucional/projetos-sociais/">
+                    <i class="fa-solid fa-hands-holding-child me-1"></i> Projetos Sociais
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 'legislacao' %}active{% endif %}" href="/institucional/legislacao/">
+                    <i class="fa-solid fa-book-bookmark me-1"></i> Repositório de Legislação
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 'governanca' %}active{% endif %}" href="/institucional/governanca/">
+                    <i class="fa-solid fa-chart-line me-1"></i> Governança (PCA/CNCG)
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

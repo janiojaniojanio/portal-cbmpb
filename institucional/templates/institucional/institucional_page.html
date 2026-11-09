@@ -1,0 +1,449 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}cbmpb-institucional-page{% endblock %}
+
+{% block content %}
+<!-- 1. HERO INSTITUCIONAL -->
+<section class="organograma-hero-strip py-4">
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house me-1"></i> Início</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Institucional</li>
+            </ol>
+        </nav>
+
+        <div class="row align-items-center g-4">
+            <div class="col-lg-10 col-xl-9">
+                <span class="badge bg-gold text-dark fw-bold px-3 py-1 mb-2 text-uppercase tracking-wider">
+                    <i class="fa-solid fa-landmark me-1"></i> IDENTIDADE & HISTÓRIA SECULAR
+                </span>
+                <h1 class="display-6 fw-bold text-white mb-2">{{ page.title }}</h1>
+                <p class="lead mb-3" style="font-size: 1.15rem; color: #F8FAFC;">
+                    {{ page.intro_subtitle }}
+                </p>
+                {% if page.intro_lead %}
+                <div class="intro-richtext mb-0" style="color: #E2E8F0; line-height: 1.6;">
+                    {{ page.intro_lead|richtext }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. SUBNAVEGAÇÃO RÁPIDA -->
+{% include "institucional/includes/institucional_subnav.html" with active_tab="visao_geral" %}
+
+<!-- 3. MISSÃO, VISÃO E VALORES -->
+<section class="py-5 bg-white border-bottom" id="missao-visao-valores">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-4 mb-md-5">
+            <span class="section-tag mb-1"><i class="fa-solid fa-compass me-1"></i> PILARES ESTRATÉGICOS</span>
+            <h2 class="display-6 fw-bold text-navy mb-2">Missão, Visão e Valores</h2>
+            <p class="text-muted mb-0">Princípios fundamentais que orientam a atuação diária do Corpo de Bombeiros Militar da Paraíba.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Missão -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card mission-vision-card p-4 shadow-sm border-0" style="border-top: 4px solid var(--bm-red) !important;">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-danger" style="width: 54px; height: 54px; font-size: 24px;">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-danger text-white small fw-bold text-uppercase">Finalidade</span>
+                            <h4 class="fw-bold text-navy mb-0">Missão</h4>
+                        </div>
+                    </div>
+                    <p class="text-secondary" style="font-size: 0.95rem; line-height: 1.65;">
+                        {{ page.mission_text }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Visão -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card mission-vision-card p-4 shadow-sm border-0" style="border-top: 4px solid var(--bm-gold) !important;">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center bg-warning bg-opacity-10 text-warning" style="width: 54px; height: 54px; font-size: 24px;">
+                            <i class="fa-solid fa-eye"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-warning text-dark small fw-bold text-uppercase">Destino</span>
+                            <h4 class="fw-bold text-navy mb-0">Visão</h4>
+                        </div>
+                    </div>
+                    <p class="text-secondary" style="font-size: 0.95rem; line-height: 1.65;">
+                        {{ page.vision_text }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Valores -->
+            <div class="col-lg-4 col-md-12">
+                <div class="card mission-vision-card p-4 shadow-sm border-0" style="border-top: 4px solid var(--bm-navy) !important;">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary" style="width: 54px; height: 54px; font-size: 24px;">
+                            <i class="fa-solid fa-medal"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-navy text-white small fw-bold text-uppercase">Princípios</span>
+                            <h4 class="fw-bold text-navy mb-0">Valores</h4>
+                        </div>
+                    </div>
+                    {% if page.values_items %}
+                    <ul class="list-unstyled mb-0 d-flex flex-column gap-2">
+                        {% for block in page.values_items %}
+                        <li class="d-flex align-items-start gap-2">
+                            <i class="{{ block.value.icon|default:'fa-solid fa-check' }} text-danger mt-1"></i>
+                            <div>
+                                <strong class="text-navy small d-block">{{ block.value.title }}</strong>
+                                <span class="small text-secondary">{{ block.value.description }}</span>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small text-secondary">
+                        <li><i class="fa-solid fa-check text-danger me-1"></i> <strong>Bravura e Honra:</strong> Dedicação incondicional à proteção do cidadão.</li>
+                        <li><i class="fa-solid fa-check text-danger me-1"></i> <strong>Hierarquia e Disciplina:</strong> Pilares basilares da instituição militar.</li>
+                        <li><i class="fa-solid fa-check text-danger me-1"></i> <strong>Ética e Probidade:</strong> Integridade nas relações humanas e na gestão pública.</li>
+                        <li><i class="fa-solid fa-check text-danger me-1"></i> <strong>Espírito de Corpo:</strong> União, cooperação e camaradagem fraterna.</li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 4. HISTÓRICO OFICIAL DO CBMPB -->
+<section class="py-5 bg-light border-bottom" id="historico">
+    <div class="container">
+        <div class="row g-4 g-lg-5 align-items-start">
+            <div class="col-lg-6">
+                <span class="section-tag mb-1"><i class="fa-solid fa-monument me-1"></i> TRAJETÓRIA CENTENÁRIA</span>
+                <h2 class="display-6 fw-bold text-navy mb-3">{{ page.history_title }}</h2>
+                <div class="lead text-navy fw-semibold mb-3" style="font-size: 1.05rem; line-height: 1.6;">
+                    {{ page.history_lead }}
+                </div>
+                <div class="text-secondary mb-4" style="line-height: 1.7; font-size: 0.95rem;">
+                    {% if page.history_body %}
+                        {{ page.history_body|richtext }}
+                    {% else %}
+                        <p>A história do Corpo de Bombeiros Militar da Paraíba teve início oficial em <strong>9 de junho de 1917</strong>, através da Lei Estadual nº 446, sancionada pelo então Presidente do Estado, Dr. Francisco Camilo de Holanda. Inicialmente vinculada à Força Pública estadual como Seção de Bombeiros, a unidade realizava combates com equipamentos rudimentares de tração animal e bombas manuais.</p>
+                        <p>Ao longo das décadas, o corpo de bombeiros expandiu suas atribuições para busca e salvamento aquático e em altura, salvamento veicular, atendimento pré-hospitalar e perícia de incêndios, até sua desvinculação constitucional e emancipação plena como corporação militar independente, sendo hoje uma das corporações mais respeitadas do Brasil.</p>
+                    {% endif %}
+                </div>
+                <div class="p-3 rounded-3 bg-white border shadow-sm d-flex align-items-center gap-3">
+                    <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; font-size: 20px;">
+                        <i class="fa-solid fa-quote-left"></i>
+                    </div>
+                    <div>
+                        <strong class="d-block text-navy fs-6">"Vidas alheias e riquezas salvar!"</strong>
+                        <span class="small text-muted">Lema secular do Corpo de Bombeiros Militar da Paraíba</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm p-4 rounded-3 bg-white">
+                    <h5 class="fw-bold text-navy mb-4 border-bottom pb-2">
+                        <i class="fa-solid fa-clock-rotate-left me-2 text-danger"></i> Linha do Tempo Histórica
+                    </h5>
+                    
+                    <div class="history-timeline-list">
+                        {% if page.history_timeline %}
+                            {% for block in page.history_timeline %}
+                            <div class="history-timeline-item">
+                                <div class="history-timeline-dot">
+                                    <i class="{{ block.value.icon|default:'fa-solid fa-flag' }}"></i>
+                                </div>
+                                <span class="badge bg-danger bg-opacity-10 text-danger fw-bold small mb-1">{{ block.value.year }}</span>
+                                <h6 class="fw-bold text-navy mb-1">{{ block.value.title }}</h6>
+                                <p class="small text-secondary mb-0">{{ block.value.description }}</p>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="history-timeline-item">
+                                <div class="history-timeline-dot"><i class="fa-solid fa-flag"></i></div>
+                                <span class="badge bg-danger bg-opacity-10 text-danger fw-bold small mb-1">1917</span>
+                                <h6 class="fw-bold text-navy mb-1">Criação da Seção de Bombeiros</h6>
+                                <p class="small text-secondary mb-0">Promulgação da Lei Estadual nº 446 criando a corporação na Força Pública da Paraíba.</p>
+                            </div>
+                            <div class="history-timeline-item">
+                                <div class="history-timeline-dot"><i class="fa-solid fa-building"></i></div>
+                                <span class="badge bg-danger bg-opacity-10 text-danger fw-bold small mb-1">1974</span>
+                                <h6 class="fw-bold text-navy mb-1">Inauguração do Quartel do Comando Geral</h6>
+                                <p class="small text-secondary mb-0">Instalação da sede e primeiras viaturas operacionais modernas em João Pessoa.</p>
+                            </div>
+                            <div class="history-timeline-item">
+                                <div class="history-timeline-dot"><i class="fa-solid fa-scale-balanced"></i></div>
+                                <span class="badge bg-danger bg-opacity-10 text-danger fw-bold small mb-1">2007</span>
+                                <h6 class="fw-bold text-navy mb-1">Emancipação Constitucional Plena</h6>
+                                <p class="small text-secondary mb-0">Consolidação do CBMPB como força militar autônoma no Estado da Paraíba.</p>
+                            </div>
+                            <div class="history-timeline-item">
+                                <div class="history-timeline-dot"><i class="fa-solid fa-award"></i></div>
+                                <span class="badge bg-danger bg-opacity-10 text-danger fw-bold small mb-1">2017</span>
+                                <h6 class="fw-bold text-navy mb-1">Centenário de Bravura (100 Anos)</h6>
+                                <p class="small text-secondary mb-0">Comemoração secular de fundação com homenagens, medalhas e expansão regional.</p>
+                            </div>
+                            <div class="history-timeline-item">
+                                <div class="history-timeline-dot"><i class="fa-solid fa-sitemap"></i></div>
+                                <span class="badge bg-danger bg-opacity-10 text-danger fw-bold small mb-1">2024 - 2026</span>
+                                <h6 class="fw-bold text-navy mb-1">Lei Complementar nº 191 & 109 Anos</h6>
+                                <p class="small text-secondary mb-0">Atualização do Quadro Organizacional e comemoração de 109 anos de dedicação ininterrupta.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. VÍDEOS INSTITUCIONAIS (98, 99... 109 ANOS) -->
+<section class="py-5 bg-white border-bottom" id="videos">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4 mb-md-5">
+            <div>
+                <span class="section-tag mb-1"><i class="fa-solid fa-film me-1"></i> ACERVO AUDIOVISUAL</span>
+                <h2 class="display-6 fw-bold text-navy mb-1">{{ page.videos_title }}</h2>
+                <p class="text-muted mb-0">{{ page.videos_subtitle }}</p>
+            </div>
+            <a href="https://www.youtube.com/@cbmpb" target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger btn-sm px-3 py-2 fw-bold d-inline-flex align-items-center gap-2">
+                <i class="fa-brands fa-youtube"></i>
+                <span>Canal Oficial no YouTube</span>
+            </a>
+        </div>
+
+        <div class="row g-4">
+            {% if page.videos %}
+                {% for block in page.videos %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
+                        <div class="video-thumb-card" style="aspect-ratio: 16/9;">
+                            {% if block.value.thumbnail %}
+                                {% image block.value.thumbnail fill-640x360 as v_thumb %}
+                                <img src="{{ v_thumb.url }}" alt="{{ block.value.title }}" class="w-100 h-100 object-fit-cover">
+                            {% else %}
+                                <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-navy text-white">
+                                    <i class="fa-solid fa-fire-flame-curved fa-3x text-danger opacity-50"></i>
+                                </div>
+                            {% endif %}
+                            <a href="{{ block.value.video_url }}" target="_blank" rel="noopener noreferrer" class="play-btn-overlay" title="Assistir {{ block.value.title }}">
+                                <div class="video-play-icon">
+                                    <i class="fa-solid fa-play"></i>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="badge bg-danger small fw-bold">{{ block.value.year }}</span>
+                                {% if block.value.duration %}
+                                <span class="small text-muted"><i class="fa-regular fa-clock me-1"></i>{{ block.value.duration }}</span>
+                                {% endif %}
+                            </div>
+                            <h6 class="fw-bold text-navy mb-1">{{ block.value.title }}</h6>
+                            {% if block.value.description %}
+                            <p class="small text-muted mb-0">{{ block.value.description|truncatewords:18 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <!-- Vídeos padrão das comemorações -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
+                        <div class="video-thumb-card" style="aspect-ratio: 16/9; background: #0B1B3D;">
+                            <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center text-center p-3 text-white">
+                                <span class="badge bg-gold text-dark fw-bold mb-2">109 ANOS</span>
+                                <h6 class="fw-bold text-white mb-0">CBMPB: 109 Anos Salvando Vidas</h6>
+                            </div>
+                            <a href="https://www.youtube.com/@cbmpb" target="_blank" rel="noopener noreferrer" class="play-btn-overlay">
+                                <div class="video-play-icon"><i class="fa-solid fa-play"></i></div>
+                            </a>
+                        </div>
+                        <div class="card-body p-3">
+                            <span class="badge bg-danger small fw-bold mb-1">109 Anos (2026)</span>
+                            <h6 class="fw-bold text-navy mb-1">Comemoração Oficial de 109 Anos</h6>
+                            <p class="small text-muted mb-0">Documentário comemorativo destacando a modernização tecnológica, os avanços operacionais e as novas viaturas do CBMPB.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
+                        <div class="video-thumb-card" style="aspect-ratio: 16/9; background: #0B1B3D;">
+                            <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center text-center p-3 text-white">
+                                <span class="badge bg-gold text-dark fw-bold mb-2">107 ANOS</span>
+                                <h6 class="fw-bold text-white mb-0">Solenidade de 107 Anos de História</h6>
+                            </div>
+                            <a href="https://www.youtube.com/@cbmpb" target="_blank" rel="noopener noreferrer" class="play-btn-overlay">
+                                <div class="video-play-icon"><i class="fa-solid fa-play"></i></div>
+                            </a>
+                        </div>
+                        <div class="card-body p-3">
+                            <span class="badge bg-danger small fw-bold mb-1">107 Anos (2024)</span>
+                            <h6 class="fw-bold text-navy mb-1">Solenidade de Aniversário e Medalhas</h6>
+                            <p class="small text-muted mb-0">Entrega de condecorações da Ordem do Mérito Bombeiro Militar aos bravos que honraram a corporação.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
+                        <div class="video-thumb-card" style="aspect-ratio: 16/9; background: #0B1B3D;">
+                            <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center text-center p-3 text-white">
+                                <span class="badge bg-gold text-dark fw-bold mb-2">100 ANOS</span>
+                                <h6 class="fw-bold text-white mb-0">Centenário Histórico do CBMPB</h6>
+                            </div>
+                            <a href="https://www.youtube.com/@cbmpb" target="_blank" rel="noopener noreferrer" class="play-btn-overlay">
+                                <div class="video-play-icon"><i class="fa-solid fa-play"></i></div>
+                            </a>
+                        </div>
+                        <div class="card-body p-3">
+                            <span class="badge bg-danger small fw-bold mb-1">Centenário (1917 - 2017)</span>
+                            <h6 class="fw-bold text-navy mb-1">Especial do Centenário da Corporação</h6>
+                            <p class="small text-muted mb-0">Resgate histórico dos 100 primeiros anos de fundação e memórias de pioneiros bombeiros militares paraibanos.</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- 6. GRID DE NAVEGAÇÃO ENTRE AS PÁGINAS INSTITUCIONAIS -->
+<section class="py-5 bg-light" id="secoes-institucionais">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-4 mb-md-5">
+            <span class="section-tag mb-1"><i class="fa-solid fa-compass me-1"></i> GUIA INSTITUCIONAL</span>
+            <h2 class="display-6 fw-bold text-navy mb-2">Explore a Estrutura do CBMPB</h2>
+            <p class="text-muted mb-0">Acesse detalhadamente as lideranças, memória histórica, normas e iniciativas comunitárias da corporação.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Comando Geral -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm p-4 rounded-3 h-100 bg-white">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="rounded-circle bg-danger bg-opacity-10 text-danger d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: 22px;">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-navy mb-0">Comando Geral</h5>
+                            <span class="small text-muted">Liderança e EMG</span>
+                        </div>
+                    </div>
+                    <p class="small text-secondary mb-3">Conheça o Comandante Geral, Subcomandante Geral, seus currículos, trajetórias militares e atribuições legais.</p>
+                    <a href="/institucional/comando/" class="btn btn-outline-danger btn-sm fw-bold mt-auto align-self-start">
+                        Ver Comando Geral <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Galeria de Ex-Comandantes -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm p-4 rounded-3 h-100 bg-white">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="rounded-circle bg-warning bg-opacity-10 text-warning d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: 22px;">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-navy mb-0">Ex-Comandantes</h5>
+                            <span class="small text-muted">Memorial Histórico</span>
+                        </div>
+                    </div>
+                    <p class="small text-secondary mb-3">Galeria virtual de honra com os retratos oficiais, períodos de gestão e principais realizações dos ex-comandantes.</p>
+                    <a href="/institucional/ex-comandantes/" class="btn btn-outline-danger btn-sm fw-bold mt-auto align-self-start">
+                        Acessar Galeria <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quadro Organizacional -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm p-4 rounded-3 h-100 bg-white">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="rounded-circle bg-navy bg-opacity-10 text-navy d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: 22px;">
+                            <i class="fa-solid fa-sitemap"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-navy mb-0">Quadro Organizacional</h5>
+                            <span class="small text-muted">Lei nº 191/2024</span>
+                        </div>
+                    </div>
+                    <p class="small text-secondary mb-3">Estrutura organizacional completa, órgãos de direção, diretorias setoriais, comandos regionais e batalhões.</p>
+                    <a href="/quadro-organizacional/" class="btn btn-outline-danger btn-sm fw-bold mt-auto align-self-start">
+                        Ver Organograma <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Projetos Sociais -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm p-4 rounded-3 h-100 bg-white">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: 22px;">
+                            <i class="fa-solid fa-hands-holding-child"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-navy mb-0">Projetos Sociais</h5>
+                            <span class="small text-muted">Cidadania & Inclusão</span>
+                        </div>
+                    </div>
+                    <p class="small text-secondary mb-3">Bombeiro Mirim, Gol 10, Idoso Sim, Bombeiro na Escola, Surf Salva: cronogramas, polos e inscrições.</p>
+                    <a href="/institucional/projetos-sociais/" class="btn btn-outline-danger btn-sm fw-bold mt-auto align-self-start">
+                        Conhecer Projetos <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Repositório de Legislação -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm p-4 rounded-3 h-100 bg-white">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="rounded-circle bg-danger bg-opacity-10 text-danger d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: 22px;">
+                            <i class="fa-solid fa-book-bookmark"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-navy mb-0">Legislação e Normas</h5>
+                            <span class="small text-muted">Atos Oficiais e POPs</span>
+                        </div>
+                    </div>
+                    <p class="small text-secondary mb-3">Leis, Regulamentos, Portarias, Resoluções do CG, Normas Técnicas, POPs e Manuais com download oficial em PDF.</p>
+                    <a href="/institucional/legislacao/" class="btn btn-outline-danger btn-sm fw-bold mt-auto align-self-start">
+                        Acessar Repositório <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Governança e Transparência -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm p-4 rounded-3 h-100 bg-white">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="rounded-circle bg-info bg-opacity-10 text-info d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: 22px;">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-navy mb-0">Governança & CNCG</h5>
+                            <span class="small text-muted">PCA, Ética e Planejamento</span>
+                        </div>
+                    </div>
+                    <p class="small text-secondary mb-3">Planejamento Estratégico, Comissão de Ética, Plano de Contratações Anual (PCA) e atuação junto ao CNCG/LIGABOM.</p>
+                    <a href="/institucional/governanca/" class="btn btn-outline-danger btn-sm fw-bold mt-auto align-self-start">
+                        Ver Governança <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

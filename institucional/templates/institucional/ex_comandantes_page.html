@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}cbmpb-ex-comandantes-page{% endblock %}
+
+{% block content %}
+<!-- HERO DA GALERIA DE EX-COMANDANTES -->
+<section class="organograma-hero-strip py-4">
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house me-1"></i> Início</a></li>
+                <li class="breadcrumb-item"><a href="/institucional/">Institucional</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Galeria de Ex-Comandantes</li>
+            </ol>
+        </nav>
+
+        <div class="row align-items-center g-4">
+            <div class="col-lg-10 col-xl-9">
+                <span class="badge bg-gold text-dark fw-bold px-3 py-1 mb-2 text-uppercase tracking-wider">
+                    <i class="fa-solid fa-medal me-1"></i> MEMORIAL DE HONRA & MEMÓRIA HISTÓRICA
+                </span>
+                <h1 class="display-6 fw-bold text-white mb-2">{{ page.title }}</h1>
+                <p class="lead mb-0" style="font-size: 1.15rem; color: #F8FAFC;">
+                    {{ page.intro_subtitle }}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SUBNAVEGAÇÃO -->
+{% include "institucional/includes/institucional_subnav.html" with active_tab="ex_comandantes" %}
+
+<!-- APRESENTAÇÃO DO MEMORIAL -->
+<section class="py-4 bg-light border-bottom">
+    <div class="container">
+        <div class="card border-0 shadow-sm p-3 p-md-4 rounded-3" style="border-left: 5px solid var(--bm-gold) !important;">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle bg-warning bg-opacity-10 text-warning d-flex align-items-center justify-content-center" style="width: 52px; height: 52px; font-size: 24px;">
+                    <i class="fa-solid fa-monument"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold text-navy mb-1">{{ page.quote_text }}</h5>
+                    {% if page.intro_description %}
+                    <div class="text-secondary small mb-0">
+                        {{ page.intro_description|richtext }}
+                    </div>
+                    {% else %}
+                    <p class="text-secondary small mb-0">
+                        A Galeria Virtual de Ex-Comandantes homenageia os oficiais superiores que, com dedicação incansável, espírito cívico e sabedoria militar, conduziram o Corpo de Bombeiros Militar da Paraíba ao patamar de modernidade e respeito institucional que desfruta hoje perante a nação.
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GALERIA VIRTUAL DE QUADROS -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-4 mb-md-5">
+            <span class="section-tag mb-1"><i class="fa-solid fa-images me-1"></i> QUADROS DE HONRA</span>
+            <h2 class="display-6 fw-bold text-navy mb-2">Comandantes Gerais do CBMPB</h2>
+            <p class="text-muted mb-0">Ordem cronológica das gestões que moldaram a corporação secular.</p>
+        </div>
+
+        <div class="row g-4">
+            {% if ex_comandantes %}
+                {% for ex in ex_comandantes %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card ex-commander-card h-100 shadow-sm border-0">
+                        <div class="p-3 text-center bg-light border-bottom">
+                            <div class="rounded-circle overflow-hidden shadow border border-3 border-danger mx-auto" style="width: 140px; height: 140px; background: #E2E8F0;">
+                                {% if ex.photo %}
+                                    {% image ex.photo fill-300x300 as photo_img %}
+                                    <img src="{{ photo_img.url }}" alt="{{ ex.name }}" class="w-100 h-100 object-fit-cover">
+                                {% else %}
+                                    <div class="w-100 h-100 d-flex align-items-center justify-content-center text-secondary">
+                                        <i class="fa-solid fa-user-tie fa-4x opacity-50"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="card-body p-4 text-center d-flex flex-column">
+                            <span class="badge bg-danger bg-opacity-10 text-danger fw-bold small align-self-center px-3 py-1 mb-2">
+                                <i class="fa-solid fa-calendar me-1"></i> {{ ex.period_display }}
+                            </span>
+                            <h5 class="fw-bold text-navy mb-1">{{ ex.name }}</h5>
+                            <span class="text-secondary small fw-semibold mb-3">{{ ex.rank }}</span>
+
+                            {% if ex.biography %}
+                            <p class="text-muted small text-start mb-3" style="line-height: 1.6;">
+                                {{ ex.biography|truncatewords:28 }}
+                            </p>
+                            <button type="button" class="btn btn-outline-danger btn-sm fw-bold mt-auto align-self-center px-3" data-bs-toggle="modal" data-bs-target="#modalEx{{ ex.id }}">
+                                <i class="fa-solid fa-circle-info me-1"></i> Ver Biografia Completa
+                            </button>
+
+                            <!-- Modal de Biografia Completa -->
+                            <div class="modal fade" id="modalEx{{ ex.id }}" tabindex="-1" aria-labelledby="modalLabel{{ ex.id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content border-0 shadow">
+                                        <div class="modal-header bg-navy text-white">
+                                            <h5 class="modal-title fw-bold" id="modalLabel{{ ex.id }}">
+                                                <i class="fa-solid fa-medal me-2 text-warning"></i> {{ ex.rank }} {{ ex.name }}
+                                            </h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                                        </div>
+                                        <div class="modal-body p-4">
+                                            <div class="row g-4 align-items-center mb-4">
+                                                <div class="col-sm-4 text-center">
+                                                    <div class="rounded-circle overflow-hidden shadow border border-3 border-danger mx-auto" style="width: 150px; height: 150px;">
+                                                        {% if ex.photo %}
+                                                            <img src="{{ photo_img.url }}" alt="{{ ex.name }}" class="w-100 h-100 object-fit-cover">
+                                                        {% else %}
+                                                            <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-secondary">
+                                                                <i class="fa-solid fa-user fa-4x opacity-50"></i>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-8 text-sm-start text-center">
+                                                    <span class="badge bg-gold text-dark fw-bold px-3 py-1 mb-2">GESTOR DO CBMPB</span>
+                                                    <h4 class="fw-bold text-navy mb-1">{{ ex.name }}</h4>
+                                                    <span class="d-block text-danger fw-semibold mb-1">{{ ex.rank }}</span>
+                                                    <strong class="d-block text-secondary small"><i class="fa-solid fa-calendar me-1"></i> Período de Comando: {{ ex.period_display }}</strong>
+                                                </div>
+                                            </div>
+
+                                            <div class="p-3 bg-light rounded-3">
+                                                <h6 class="fw-bold text-navy mb-2"><i class="fa-solid fa-award text-danger me-1"></i> Principais Ações & Fatos Marcantes</h6>
+                                                <p class="text-secondary small mb-0" style="line-height: 1.7; white-space: pre-line;">
+                                                    {{ ex.biography }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center py-5">
+                    <div class="p-5 rounded-3 bg-light border max-w-600 mx-auto">
+                        <i class="fa-solid fa-users fa-3x text-muted mb-3"></i>
+                        <h5 class="fw-bold text-navy mb-2">Galeria em fase de catalogação documental</h5>
+                        <p class="text-muted small mb-0">Os registros biográficos e fotográficos dos ex-comandantes do CBMPB estão sendo organizados pelo Centro de Memória e Comunicação Social.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

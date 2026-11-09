@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}cbmpb-escola-page{% endblock %}
+
+{% block content %}
+<!-- HERO DA ESCOLA DO CBMPB -->
+<section class="organograma-hero-strip py-4">
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house me-1"></i> Início</a></li>
+                <li class="breadcrumb-item"><a href="/institucional/">Institucional</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Escola do CBMPB</li>
+            </ol>
+        </nav>
+
+        <div class="row align-items-center g-4">
+            <div class="col-lg-10 col-xl-9">
+                <span class="badge bg-gold text-dark fw-bold px-3 py-1 mb-2 text-uppercase tracking-wider">
+                    <i class="fa-solid fa-school me-1"></i> ENSINO, INSTRUÇÃO & DOUTRINA MILITAR
+                </span>
+                <h1 class="display-6 fw-bold text-white mb-2">{{ page.school_name }}</h1>
+                <p class="lead mb-0" style="font-size: 1.15rem; color: #F8FAFC;">
+                    {{ page.intro_subtitle }}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SUBNAVEGAÇÃO -->
+{% include "institucional/includes/institucional_subnav.html" with active_tab="escola" %}
+
+<!-- APRESENTAÇÃO E HISTÓRICO DA ESCOLA -->
+<section class="py-5 bg-white border-bottom">
+    <div class="container">
+        <div class="row g-4 g-lg-5 align-items-center mb-5">
+            <div class="col-lg-6">
+                <span class="section-tag mb-1"><i class="fa-solid fa-building-columns me-1"></i> CENTRO DE EDUCAÇÃO</span>
+                <h2 class="display-6 fw-bold text-navy mb-3">Berço de Formação de Bravos Bombeiros</h2>
+                <div class="text-secondary" style="line-height: 1.7; font-size: 0.95rem;">
+                    {% if page.history_text %}
+                        {{ page.history_text|richtext }}
+                    {% else %}
+                        <p>O <strong>Centro de Educação do CBMPB (CEBM)</strong> e a <strong>Academia de Bombeiro Militar Aristarco Pessoa (ABMAP)</strong> constituem o complexo educacional responsável por planejar, coordenar e executar as atividades de ensino, instrução e aperfeiçoamento profissional em âmbito estadual.</p>
+                        <p>Subordinado à Diretoria de Ensino, Instrução e Pesquisa (DEIP), o Centro de Educação alia o rigor doutrinário militar à vanguarda técnico-científica das operações de salvamento e proteção contra incêndios.</p>
+                    {% endif %}
+                </div>
+                {% if page.mission_text %}
+                <div class="p-3 bg-light rounded-3 border-start border-4 border-danger mt-4">
+                    <h6 class="fw-bold text-navy mb-1"><i class="fa-solid fa-compass text-danger me-1"></i> Filosofia Pedagógica</h6>
+                    <div class="text-secondary small mb-0">
+                        {{ page.mission_text|richtext }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-lg-6">
+                <div class="rounded-4 overflow-hidden shadow-sm border border-2 border-danger" style="aspect-ratio: 16/10; background: #0B1B3D;">
+                    {% if page.cover_image %}
+                        {% image page.cover_image fill-800x500 as esc_img %}
+                        <img src="{{ esc_img.url }}" alt="{{ page.school_name }}" class="w-100 h-100 object-fit-cover">
+                    {% else %}
+                        <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center text-white p-4 text-center">
+                            <i class="fa-solid fa-graduation-cap fa-4x text-warning mb-3"></i>
+                            <h5 class="fw-bold text-white mb-1">Academia de Bombeiro Militar Aristarco Pessoa</h5>
+                            <span class="small text-light opacity-75">Centro de Educação - Mangabeira VII, João Pessoa - PB</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CURSOS MINISTRADOS (FORMAÇÃO, APERFEIÇOAMENTO, ESPECIALIZAÇÃO) -->
+<section class="py-5 bg-light border-bottom" id="cursos">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="section-tag mb-1"><i class="fa-solid fa-book-open-reader me-1"></i> MATRIZ CURRICULAR</span>
+            <h2 class="display-6 fw-bold text-navy mb-2">Cursos e Especializações</h2>
+            <p class="text-muted mb-0">Formação contínua desde o ingresso até os postos e graduações mais elevados.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Formação Inicial -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 rounded-3 bg-white" style="border-top: 4px solid var(--bm-red) !important;">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="fa-solid fa-id-badge text-danger fs-4"></i>
+                        <h5 class="fw-bold text-navy mb-0">Cursos de Formação</h5>
+                    </div>
+                    <ul class="list-unstyled small text-secondary d-flex flex-column gap-2 mb-0">
+                        <li><strong>CFO BM:</strong> Curso de Formação de Oficiais (3 anos) - forma os futuros comandantes da corporação.</li>
+                        <li><strong>CFSd BM:</strong> Curso de Formação de Soldados - prepara os praças para o combate na linha de frente operacional.</li>
+                        <li><strong>Instruções Práticas:</strong> Estágios supervisionados em unidades de prontidão.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Aperfeiçoamento e Carreira -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 rounded-3 bg-white" style="border-top: 4px solid var(--bm-gold) !important;">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="fa-solid fa-angles-up text-warning fs-4"></i>
+                        <h5 class="fw-bold text-navy mb-0">Aperfeiçoamento de Carreira</h5>
+                    </div>
+                    <ul class="list-unstyled small text-secondary d-flex flex-column gap-2 mb-0">
+                        <li><strong>CAS BM:</strong> Curso de Aperfeiçoamento de Sargentos.</li>
+                        <li><strong>CFS BM:</strong> Curso de Formação de Sargentos.</li>
+                        <li><strong>CFC BM:</strong> Curso de Formação de Cabos.</li>
+                        <li><strong>CHOA BM:</strong> Curso de Habilitação de Oficiais da Administração.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Especializações Táticas -->
+            <div class="col-lg-4 col-md-12">
+                <div class="card h-100 border-0 shadow-sm p-4 rounded-3 bg-white" style="border-top: 4px solid var(--bm-navy) !important;">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <i class="fa-solid fa-certificate text-navy fs-4"></i>
+                        <h5 class="fw-bold text-navy mb-0">Especializações Operacionais</h5>
+                    </div>
+                    <ul class="list-unstyled small text-secondary d-flex flex-column gap-2 mb-0">
+                        <li><strong>CSAlt:</strong> Curso de Salvamento em Altura.</li>
+                        <li><strong>CSAqu / Mergulho:</strong> Curso de Salvamento Aquático e Mergulho Autônomo.</li>
+                        <li><strong>CCIF:</strong> Curso de Combate a Incêndio Florestal.</li>
+                        <li><strong>CRV:</strong> Curso de Resgate Veicular e Desencarceramento.</li>
+                        <li><strong>APH Tático:</strong> Atendimento Pré-Hospitalar Tático Militar.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {% if page.courses_text %}
+        <div class="card border-0 shadow-sm p-4 rounded-3 bg-white mt-4 text-secondary small">
+            {{ page.courses_text|richtext }}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- INFRAESTRUTURA E COMANDO DA ESCOLA -->
+<section class="py-5 bg-white border-bottom">
+    <div class="container">
+        <div class="row g-4 g-lg-5">
+            <div class="col-lg-6">
+                <h4 class="fw-bold text-navy mb-3 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-industry text-danger"></i> Infraestrutura e Simuladores
+                </h4>
+                <div class="text-secondary small" style="line-height: 1.7;">
+                    {% if page.facilities_text %}
+                        {{ page.facilities_text|richtext }}
+                    {% else %}
+                        <p>O Centro de Educação possui ampla estrutura de treinamento composta por:</p>
+                        <ul>
+                            <li>Torre de treinamento para salvamento em altura e rapel tático.</li>
+                            <li>Casa de fumaça e simuladores de desenvolvimento de fogo e fenômenos térmicos (flashover/backdraft).</li>
+                            <li>Pista de resgate veicular com carcaças e ferramentas hidráulicas de desencarceramento.</li>
+                            <li>Piscina semiolímpica para instrução de salvamento aquático e apneia.</li>
+                            <li>Salas de aula climatizadas com recursos audiovisuais e biblioteca militar.</li>
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <h4 class="fw-bold text-navy mb-3 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-user-group text-danger"></i> Comando da Escola e Contato
+                </h4>
+                <div class="card border-0 shadow-sm p-4 rounded-3 bg-light">
+                    {% if page.command_text %}
+                    <div class="text-secondary small mb-3">
+                        {{ page.command_text|richtext }}
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex flex-column gap-2 small">
+                        <div>
+                            <strong class="text-navy d-block"><i class="fa-solid fa-location-dot text-danger me-1"></i> Endereço:</strong>
+                            <span class="text-secondary">{{ page.address }}</span>
+                        </div>
+                        <div>
+                            <strong class="text-navy d-block"><i class="fa-solid fa-phone text-danger me-1"></i> Telefone de Contato:</strong>
+                            <a href="tel:{{ page.contact_phone }}" class="text-secondary text-decoration-none">{{ page.contact_phone }}</a>
+                        </div>
+                        <div>
+                            <strong class="text-navy d-block"><i class="fa-solid fa-envelope text-danger me-1"></i> E-mail Institucional:</strong>
+                            <a href="mailto:{{ page.contact_email }}" class="text-secondary text-decoration-none">{{ page.contact_email }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -2495,3 +2495,165 @@ body.font-xl {
 
 
 
+
+/* ----------------- SUBNAVEGAÇÃO E PÁGINAS INSTITUCIONAIS ----------------- */
+.institucional-subnav-strip {
+  background: #FFFFFF;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.institucional-pills {
+  scrollbar-width: thin;
+}
+
+.institucional-pills .nav-link {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #1E293B;
+  border-radius: 24px;
+  padding: 6px 14px;
+  border: 1px solid transparent;
+  transition: var(--bm-transition);
+}
+
+.institucional-pills .nav-link:hover {
+  background: rgba(196, 18, 26, 0.08);
+  color: var(--bm-red);
+}
+
+.institucional-pills .nav-link.active {
+  background: var(--bm-navy) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 8px rgba(11, 27, 61, 0.25);
+}
+
+.mission-vision-card {
+  border-radius: 12px;
+  border: 1px solid var(--bm-border);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  height: 100%;
+}
+
+.mission-vision-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.history-timeline-item {
+  position: relative;
+  padding-left: 36px;
+  margin-bottom: 28px;
+}
+
+.history-timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 8px;
+  bottom: -28px;
+  width: 2px;
+  background: rgba(196, 18, 26, 0.2);
+}
+
+.history-timeline-item:last-child::before {
+  display: none;
+}
+
+.history-timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--bm-red);
+  color: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.video-thumb-card {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bm-navy-dark);
+}
+
+.video-thumb-card .play-btn-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s ease;
+}
+
+.video-thumb-card:hover .play-btn-overlay {
+  background: rgba(196, 18, 26, 0.6);
+}
+
+.video-play-icon {
+  width: 52px;
+  height: 52px;
+  background: #FFF;
+  color: var(--bm-red);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  padding-left: 4px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.25s ease;
+}
+
+.video-thumb-card:hover .video-play-icon {
+  transform: scale(1.15);
+}
+
+.commander-card {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--bm-border);
+  background: #FFFFFF;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.commander-header-strip {
+  background: linear-gradient(135deg, var(--bm-navy-dark) 0%, var(--bm-navy) 100%);
+  color: #FFFFFF;
+  padding: 24px;
+  position: relative;
+}
+
+.ex-commander-card {
+  border-radius: 10px;
+  border: 1px solid var(--bm-border);
+  background: #FFF;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ex-commander-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.social-project-card {
+  border-radius: 12px;
+  border: 1px solid var(--bm-border);
+  background: #FFF;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.social-project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.09);
+}

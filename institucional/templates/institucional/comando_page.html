@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}cbmpb-comando-page{% endblock %}
+
+{% block content %}
+<!-- HERO COMANDO GERAL -->
+<section class="organograma-hero-strip py-4">
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house me-1"></i> Início</a></li>
+                <li class="breadcrumb-item"><a href="/institucional/">Institucional</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Comando Geral</li>
+            </ol>
+        </nav>
+
+        <div class="row align-items-center g-4">
+            <div class="col-lg-10 col-xl-9">
+                <span class="badge bg-gold text-dark fw-bold px-3 py-1 mb-2 text-uppercase tracking-wider">
+                    <i class="fa-solid fa-user-shield me-1"></i> DIREÇÃO ESTRATÉGICA SUPERIOR
+                </span>
+                <h1 class="display-6 fw-bold text-white mb-2">{{ page.title }}</h1>
+                <p class="lead mb-0" style="font-size: 1.15rem; color: #F8FAFC;">
+                    {{ page.intro_subtitle }}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SUBNAVEGAÇÃO -->
+{% include "institucional/includes/institucional_subnav.html" with active_tab="comando" %}
+
+<!-- SEÇÃO COMANDANTE GERAL -->
+<section class="py-5 bg-white border-bottom" id="comandante-geral">
+    <div class="container">
+        <div class="commander-card">
+            <div class="commander-header-strip d-flex align-items-center justify-content-between flex-wrap gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center shadow" style="width: 58px; height: 58px; font-size: 26px;">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div>
+                        <span class="badge bg-gold text-dark fw-bold px-2 py-1 mb-1">COMANDANTE GERAL</span>
+                        <h3 class="fw-bold text-white mb-0">{{ page.cg_name }}</h3>
+                        <span class="small text-light opacity-90">{{ page.cg_rank }}</span>
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    {% if page.cg_email %}
+                    <a href="mailto:{{ page.cg_email }}" class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-1">
+                        <i class="fa-solid fa-envelope"></i> {{ page.cg_email }}
+                    </a>
+                    {% endif %}
+                    {% if page.cg_phone %}
+                    <a href="tel:{{ page.cg_phone }}" class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-1">
+                        <i class="fa-solid fa-phone"></i> {{ page.cg_phone }}
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card-body p-4 p-lg-5">
+                <div class="row g-4 g-lg-5 align-items-start">
+                    <div class="col-lg-4 text-center">
+                        <div class="rounded-4 overflow-hidden shadow-sm border border-2 border-danger mx-auto" style="max-width: 300px; aspect-ratio: 3/4; background: #F1F5F9;">
+                            {% if page.cg_photo %}
+                                {% image page.cg_photo fill-600x800 as cg_img %}
+                                <img src="{{ cg_img.url }}" alt="{{ page.cg_name }}" class="w-100 h-100 object-fit-cover">
+                            {% else %}
+                                <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center text-secondary p-3">
+                                    <i class="fa-solid fa-user-tie fa-5x mb-3 text-secondary opacity-50"></i>
+                                    <span class="fw-bold small">{{ page.cg_name }}</span>
+                                    <span class="small text-muted">{{ page.cg_rank }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mt-3 p-3 bg-light rounded-3 text-start small">
+                            <strong class="d-block text-navy mb-1"><i class="fa-solid fa-location-dot text-danger me-1"></i> Gabinete do Comando Geral (QCG)</strong>
+                            <span class="text-secondary d-block">Rodovia BR-230, Km 23, s/n - Cristo Redentor, João Pessoa - PB</span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8">
+                        {% if page.cg_message %}
+                        <div class="p-4 rounded-3 bg-danger bg-opacity-10 border border-danger border-opacity-25 mb-4">
+                            <h5 class="fw-bold text-danger mb-2 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-quote-left"></i> Mensagem do Comandante Geral
+                            </h5>
+                            <div class="fst-italic text-navy mb-0" style="line-height: 1.65;">
+                                {{ page.cg_message|richtext }}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Currículo -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-graduation-cap text-danger"></i> Formação Acadêmica & Militar
+                            </h5>
+                            <div class="text-secondary" style="line-height: 1.7; font-size: 0.95rem;">
+                                {% if page.cg_curriculum %}
+                                    {{ page.cg_curriculum|richtext }}
+                                {% else %}
+                                    <p>Oficial superior de carreira do Corpo de Bombeiros Militar da Paraíba. Bacharel em Segurança Pública pelo Curso de Formação de Oficiais (CFO BM). Especialista em Gestão Estratégica em Segurança Pública, Comando e Estado-Maior, além de cursos avançados de Combate a Incêndios Urbanos, Salvamento em Altura e Atendimento a Emergências com Produtos Perigosos.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Biografia / Trajetória -->
+                        <div>
+                            <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-medal text-danger"></i> Trajetória Militar & Principais Funções
+                            </h5>
+                            <div class="text-secondary" style="line-height: 1.7; font-size: 0.95rem;">
+                                {% if page.cg_biography %}
+                                    {{ page.cg_biography|richtext }}
+                                {% else %}
+                                    <p>Ao longo de sua honrada trajetória na corporação militar, exerceu o comando de unidades operacionais da capital e do interior, atuou na direção de planejamento estratégico, coordenação de grandes operações integradas e representou o CBMPB em conselhos nacionais de segurança pública e defesa civil.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SEÇÃO SUBCOMANDANTE GERAL -->
+<section class="py-5 bg-light border-bottom" id="subcomandante-geral">
+    <div class="container">
+        <div class="commander-card">
+            <div class="commander-header-strip d-flex align-items-center justify-content-between flex-wrap gap-3" style="background: linear-gradient(135deg, #1E293B 0%, #334155 100%) !important;">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center shadow" style="width: 58px; height: 58px; font-size: 26px;">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <span class="badge bg-warning text-dark fw-bold px-2 py-1 mb-1">SUBCOMANDANTE GERAL & CHEFE DO EMG</span>
+                        <h3 class="fw-bold text-white mb-0">{{ page.scg_name }}</h3>
+                        <span class="small text-light opacity-90">{{ page.scg_rank }}</span>
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    {% if page.scg_email %}
+                    <a href="mailto:{{ page.scg_email }}" class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-1">
+                        <i class="fa-solid fa-envelope"></i> {{ page.scg_email }}
+                    </a>
+                    {% endif %}
+                    {% if page.scg_phone %}
+                    <a href="tel:{{ page.scg_phone }}" class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-1">
+                        <i class="fa-solid fa-phone"></i> {{ page.scg_phone }}
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card-body p-4 p-lg-5">
+                <div class="row g-4 g-lg-5 align-items-start">
+                    <div class="col-lg-4 text-center">
+                        <div class="rounded-4 overflow-hidden shadow-sm border border-2 border-warning mx-auto" style="max-width: 300px; aspect-ratio: 3/4; background: #F1F5F9;">
+                            {% if page.scg_photo %}
+                                {% image page.scg_photo fill-600x800 as scg_img %}
+                                <img src="{{ scg_img.url }}" alt="{{ page.scg_name }}" class="w-100 h-100 object-fit-cover">
+                            {% else %}
+                                <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center text-secondary p-3">
+                                    <i class="fa-solid fa-user-tie fa-5x mb-3 text-secondary opacity-50"></i>
+                                    <span class="fw-bold small">{{ page.scg_name }}</span>
+                                    <span class="small text-muted">{{ page.scg_rank }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="mt-3 p-3 bg-light rounded-3 text-start small">
+                            <strong class="d-block text-navy mb-1"><i class="fa-solid fa-location-dot text-danger me-1"></i> Estado-Maior Geral (EMG)</strong>
+                            <span class="text-secondary d-block">Quartel do Comando Geral - João Pessoa - PB</span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8">
+                        {% if page.scg_message %}
+                        <div class="p-4 rounded-3 bg-warning bg-opacity-10 border border-warning border-opacity-25 mb-4">
+                            <h5 class="fw-bold text-dark mb-2 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-quote-left"></i> Mensagem do Subcomandante Geral
+                            </h5>
+                            <div class="fst-italic text-navy mb-0" style="line-height: 1.65;">
+                                {{ page.scg_message|richtext }}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Currículo -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-graduation-cap text-warning"></i> Formação Acadêmica & Militar
+                            </h5>
+                            <div class="text-secondary" style="line-height: 1.7; font-size: 0.95rem;">
+                                {% if page.scg_curriculum %}
+                                    {{ page.scg_curriculum|richtext }}
+                                {% else %}
+                                    <p>Bacharel em Segurança Pública e Defesa Social, pós-graduado em Gestão Operacional e Logística Militar. Possui sólida formação técnica em planejamento de defesa civil, coordenação de operações de resgate e gestão de riscos e desastres.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Biografia -->
+                        <div>
+                            <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-medal text-warning"></i> Atuação e Competências no Estado-Maior
+                            </h5>
+                            <div class="text-secondary" style="line-height: 1.7; font-size: 0.95rem;">
+                                {% if page.scg_biography %}
+                                    {{ page.scg_biography|richtext }}
+                                {% else %}
+                                    <p>Como Subcomandante Geral e Chefe do Estado-Maior Geral, compete-lhe a coordenação dos órgãos de apoio, a gestão do planejamento administrativo-operacional e a fiscalização da disciplina e da doutrina militar em todas as unidades do CBMPB.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SEÇÃO ATRIBUIÇÕES E COMPETÊNCIAS LEGAIS -->
+{% if page.emg_competencies %}
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="card border-0 shadow-sm p-4 p-lg-5 rounded-3 bg-light">
+            <h4 class="fw-bold text-navy mb-3 d-flex align-items-center gap-2">
+                <i class="fa-solid fa-scale-balanced text-danger"></i> Competências Institucionais do Comando e do Estado-Maior
+            </h4>
+            <div class="text-secondary" style="line-height: 1.7; font-size: 0.95rem;">
+                {{ page.emg_competencies|richtext }}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

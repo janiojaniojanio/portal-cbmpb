@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block body_class %}cbmpb-governanca-page{% endblock %}
+
+{% block content %}
+<!-- HERO GOVERNANÇA INSTITUCIONAL -->
+<section class="organograma-hero-strip py-4">
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house me-1"></i> Início</a></li>
+                <li class="breadcrumb-item"><a href="/institucional/">Institucional</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Governança Institucional</li>
+            </ol>
+        </nav>
+
+        <div class="row align-items-center g-4">
+            <div class="col-lg-10 col-xl-9">
+                <span class="badge bg-gold text-dark fw-bold px-3 py-1 mb-2 text-uppercase tracking-wider">
+                    <i class="fa-solid fa-chart-line me-1"></i> GESTÃO, ÉTICA & INTEGRIDADE PÚBLICA
+                </span>
+                <h1 class="display-6 fw-bold text-white mb-2">{{ page.title }}</h1>
+                <p class="lead mb-0" style="font-size: 1.15rem; color: #F8FAFC;">
+                    {{ page.intro_subtitle }}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SUBNAVEGAÇÃO -->
+{% include "institucional/includes/institucional_subnav.html" with active_tab="governanca" %}
+
+<!-- NAVEGAÇÃO INTERNA ENTRE PILARES DE GOVERNANÇA -->
+<section class="py-3 bg-light border-bottom">
+    <div class="container">
+        <ul class="nav nav-tabs border-0 gap-2 fw-semibold" id="governancaTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active text-navy" id="pe-tab" data-bs-toggle="tab" data-bs-target="#tab-pe" type="button" role="tab">
+                    <i class="fa-solid fa-compass me-1 text-danger"></i> Planejamento Estratégico
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link text-navy" id="etica-tab" data-bs-toggle="tab" data-bs-target="#tab-etica" type="button" role="tab">
+                    <i class="fa-solid fa-scale-balanced me-1 text-danger"></i> Comissão de Ética
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link text-navy" id="pca-tab" data-bs-toggle="tab" data-bs-target="#tab-pca" type="button" role="tab">
+                    <i class="fa-solid fa-cart-shopping me-1 text-danger"></i> Plano de Contratações Anual (PCA)
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link text-navy" id="cncg-tab" data-bs-toggle="tab" data-bs-target="#tab-cncg" type="button" role="tab">
+                    <i class="fa-solid fa-landmark-flag me-1 text-danger"></i> CNCG & LIGABOM
+                </button>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- CONTEÚDO DAS ABAS DE GOVERNANÇA -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="tab-content" id="governancaTabsContent">
+            
+            <!-- 1. ABA: PLANEJAMENTO ESTRATÉGICO -->
+            <div class="tab-pane fade show active" id="tab-pe" role="tabpanel" aria-labelledby="pe-tab">
+                <div class="row g-4 g-lg-5 align-items-start">
+                    <div class="col-lg-8">
+                        <span class="badge bg-danger text-white small fw-bold mb-2">{{ page.pe_cycle }}</span>
+                        <h3 class="display-6 fw-bold text-navy mb-3">{{ page.pe_title }}</h3>
+                        
+                        <div class="text-secondary mb-4" style="line-height: 1.7; font-size: 0.95rem;">
+                            {% if page.pe_summary %}
+                                {{ page.pe_summary|richtext }}
+                            {% else %}
+                                <p>O <strong>Planejamento Estratégico do CBMPB</strong> estabelece as diretrizes de modernização, expansão de cobertura operacional e investimento continuado em tecnologia e capacitação profissional, garantindo eficiência máxima nos atendimentos de urgência à população paraibana.</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="card border-0 shadow-sm p-4 rounded-3 bg-light mb-4">
+                            <h5 class="fw-bold text-navy mb-3 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-bullseye text-danger"></i> Objetivos Institucionais e Mapa Estratégico
+                            </h5>
+                            <div class="text-secondary small" style="line-height: 1.7;">
+                                {% if page.pe_objectives %}
+                                    {{ page.pe_objectives|richtext }}
+                                {% else %}
+                                    <ul>
+                                        <li><strong>Redução do tempo-resposta:</strong> Otimização da triagem pelo COBOM 193 e descentralização de bases avançadas.</li>
+                                        <li><strong>Modernização do parque de viaturas:</strong> Aquisição de viaturas operacionais modernas (ABT, ABS, UR, AR) e equipamentos importados de combate a incêndio.</li>
+                                        <li><strong>Transformação digital da segurança contra incêndio:</strong> Automação total de processos de vistoria e emissão do AVCB através do Sistema Bravo.</li>
+                                        <li><strong>Valorização e Saúde do Bombeiro:</strong> Programas de prevenção à saúde mental, condicionamento físico e plano de carreira.</li>
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if page.pe_document_url %}
+                        <a href="{{ page.pe_document_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger btn-sm fw-bold">
+                            <i class="fa-solid fa-file-pdf me-1"></i> Acessar Documento Oficial do Planejamento Estratégico
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm p-4 rounded-3 bg-navy text-white">
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <i class="fa-solid fa-chart-pie text-warning fs-3"></i>
+                                <h5 class="fw-bold text-white mb-0">Monitoramento de Metas</h5>
+                            </div>
+                            <p class="small text-light opacity-90 mb-3" style="line-height: 1.6;">
+                                As iniciativas estratégicas são monitoradas periodicamente pelo Estado-Maior Geral e apresentadas em reuniões de prestação de contas governamentais.
+                            </p>
+                            <div class="p-3 bg-white bg-opacity-10 rounded-2 small text-light mb-3">
+                                <strong class="d-block text-warning mb-1">Setor Responsável:</strong>
+                                <span>Assessoria de Planejamento e Gestão Estratégica (APGE / EMG)</span>
+                            </div>
+                            <a href="/institucional/comando/" class="btn btn-outline-light btn-sm fw-bold w-100">
+                                Conhecer a Liderança Estratégica
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. ABA: COMISSÃO DE ÉTICA -->
+            <div class="tab-pane fade" id="tab-etica" role="tabpanel" aria-labelledby="etica-tab">
+                <div class="row g-4 g-lg-5 align-items-start">
+                    <div class="col-lg-8">
+                        <span class="badge bg-warning text-dark small fw-bold mb-2">INTEGRIDADE PÚBLICA</span>
+                        <h3 class="display-6 fw-bold text-navy mb-3">{{ page.etica_title }}</h3>
+
+                        <div class="text-secondary mb-4" style="line-height: 1.7; font-size: 0.95rem;">
+                            {% if page.etica_summary %}
+                                {{ page.etica_summary|richtext }}
+                            {% else %}
+                                <p>A <strong>Comissão de Ética do Corpo de Bombeiros Militar da Paraíba</strong> atua como instância consultiva, orientadora e deliberativa sobre a conduta ética e moral de seus integrantes, em perfeita sintonia com o Estatuto dos Militares Estaduais e os princípios constitucionais da administração pública (legalidade, impessoalidade, moralidade, publicidade e eficiência).</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="card border-0 shadow-sm p-4 rounded-3 bg-light mb-4">
+                            <h5 class="fw-bold text-navy mb-3 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-users-gear text-danger"></i> Composição e Funcionamento
+                            </h5>
+                            <div class="text-secondary small" style="line-height: 1.7;">
+                                {% if page.etica_members %}
+                                    {{ page.etica_members|richtext }}
+                                {% else %}
+                                    <p>A comissão é constituída por oficiais e praças de reconhecida retidão moral e conduta exemplar, designados por ato oficial do Comandante Geral para mandato regular, assegurando imparcialidade e transparência em seus pareceres.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-3 bg-danger bg-opacity-10 border border-danger border-opacity-25">
+                            <h5 class="fw-bold text-danger mb-2 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-headset"></i> Canais de Consulta e Denúncia Ética
+                            </h5>
+                            <div class="text-navy small mb-0" style="line-height: 1.65;">
+                                {% if page.etica_contact_channel %}
+                                    {{ page.etica_contact_channel|richtext }}
+                                {% else %}
+                                    <p class="mb-2">Qualquer cidadão ou militar pode encaminhar consultas sobre conformidade ética ou representações sobre desvios de conduta:</p>
+                                    <ul class="mb-0">
+                                        <li><strong>E-mail Institucional da Comissão:</strong> etica@bombeiros.pb.gov.br</li>
+                                        <li><strong>Ouvidoria Geral do Estado da Paraíba:</strong> <a href="https://ouvidoria.pb.gov.br/" target="_blank" class="fw-bold text-danger">ouvidoria.pb.gov.br</a></li>
+                                        <li><strong>Atendimento Presencial:</strong> Quartel do Comando Geral - Rodovia BR-230, Km 23, s/n - Cristo Redentor, João Pessoa.</li>
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm p-4 rounded-3 bg-white border">
+                            <h5 class="fw-bold text-navy mb-3">Normas Relacionadas</h5>
+                            <ul class="list-unstyled small text-secondary d-flex flex-column gap-2 mb-0">
+                                <li><a href="/institucional/legislacao/?tipo=REGULAMENTO" class="text-decoration-none text-navy fw-semibold"><i class="fa-solid fa-angle-right text-danger me-1"></i> Regulamento Disciplinar Militar</a></li>
+                                <li><a href="/institucional/legislacao/?tipo=LEI" class="text-decoration-none text-navy fw-semibold"><i class="fa-solid fa-angle-right text-danger me-1"></i> Estatuto dos Militares da PB</a></li>
+                                <li><a href="/institucional/legislacao/?tipo=PORTARIA" class="text-decoration-none text-navy fw-semibold"><i class="fa-solid fa-angle-right text-danger me-1"></i> Código de Conduta e Integridade</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. ABA: PLANO DE CONTRATAÇÕES ANUAL (PCA) -->
+            <div class="tab-pane fade" id="tab-pca" role="tabpanel" aria-labelledby="pca-tab">
+                <div class="row g-4 g-lg-5 align-items-start">
+                    <div class="col-lg-8">
+                        <span class="badge bg-success text-white small fw-bold mb-2">LEI Nº 14.133/2021</span>
+                        <h3 class="display-6 fw-bold text-navy mb-2">{{ page.pca_title }}</h3>
+                        <p class="text-muted small fw-semibold mb-3">{{ page.pca_legal_basis }}</p>
+
+                        <div class="text-secondary mb-4" style="line-height: 1.7; font-size: 0.95rem;">
+                            {% if page.pca_summary %}
+                                {{ page.pca_summary|richtext }}
+                            {% else %}
+                                <p>O <strong>Plano de Contratações Anual (PCA)</strong> do CBMPB é o instrumento de planejamento e transparência que consolida todas as demandas de compras e serviços pretendidos pela corporação para o exercício orçamentário subsequente. O PCA promove previsibilidade nas contratações públicas, evita compras fragmentadas e assegura o princípio da vantajosa competitividade nos processos licitatórios.</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Itens do PCA -->
+                        <h5 class="fw-bold text-navy mb-3"><i class="fa-solid fa-folder-open text-danger me-2"></i> Documentos e Exercícios do PCA</h5>
+                        
+                        <div class="d-flex flex-column gap-3 mb-4">
+                            {% if page.pca_items %}
+                                {% for item in page.pca_items %}
+                                <div class="card border rounded-3 p-3 shadow-sm bg-light">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                        <div>
+                                            <span class="badge bg-danger small fw-bold mb-1">Exercício {{ item.value.year }}</span>
+                                            <h6 class="fw-bold text-navy mb-0">{{ item.value.title }}</h6>
+                                            {% if item.value.summary %}
+                                            <span class="small text-muted">{{ item.value.summary }}</span>
+                                            {% endif %}
+                                        </div>
+                                        {% if item.value.document_url %}
+                                        <a href="{{ item.value.document_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger btn-sm fw-bold">
+                                            <i class="fa-solid fa-file-pdf me-1"></i> Baixar Planilha Oficial
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="card border rounded-3 p-3 shadow-sm bg-light">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                        <div>
+                                            <span class="badge bg-danger small fw-bold mb-1">Exercício 2026</span>
+                                            <h6 class="fw-bold text-navy mb-0">Plano de Contratações Anual - PCA 2026</h6>
+                                            <span class="small text-muted">Planejamento das compras de materiais de combate a incêndio, viaturas e insumos hospitalares.</span>
+                                        </div>
+                                        <a href="https://transparencia.pb.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger btn-sm fw-bold">
+                                            <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Portal Transparência PB
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="card border rounded-3 p-3 shadow-sm bg-light">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                        <div>
+                                            <span class="badge bg-secondary small fw-bold mb-1">Exercício 2025</span>
+                                            <h6 class="fw-bold text-navy mb-0">Plano de Contratações Anual - PCA 2025</h6>
+                                            <span class="small text-muted">Relatório consolidado de contratações do exercício anterior.</span>
+                                        </div>
+                                        <a href="https://transparencia.pb.gov.br/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-secondary btn-sm fw-bold">
+                                            <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Acessar Histórico
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm p-4 rounded-3 bg-light border">
+                            <h5 class="fw-bold text-navy mb-3"><i class="fa-solid fa-magnifying-glass-dollar text-danger me-1"></i> Transparência Governamental</h5>
+                            <p class="small text-secondary mb-3">
+                                Todas as contratações, termos de referência e atas de registro de preços do CBMPB são públicas e integradas ao Portal da Transparência do Governo da Paraíba.
+                            </p>
+                            <a href="https://transparencia.pb.gov.br/" target="_blank" class="btn btn-navy-cbmpb btn-sm fw-bold w-100">
+                                <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Ir para Portal da Transparência
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. ABA: CNCG & LIGABOM -->
+            <div class="tab-pane fade" id="tab-cncg" role="tabpanel" aria-labelledby="cncg-tab">
+                <div class="row g-4 g-lg-5 align-items-start">
+                    <div class="col-lg-8">
+                        <span class="badge bg-navy text-white small fw-bold mb-2">ARTICULAÇÃO NACIONAL</span>
+                        <h3 class="display-6 fw-bold text-navy mb-3">{{ page.cncg_title }}</h3>
+
+                        <div class="text-secondary mb-4" style="line-height: 1.7; font-size: 0.95rem;">
+                            {% if page.cncg_summary %}
+                                {{ page.cncg_summary|richtext }}
+                            {% else %}
+                                <p>O Corpo de Bombeiros Militar da Paraíba integra ativamente o <strong>Conselho Nacional dos Comandantes-Gerais (CNCG)</strong> e a <strong>LIGABOM (Liga Nacional dos Corpos de Bombeiros Militares do Brasil)</strong>, instâncias máximas de representação dos Corpos de Bombeiros Militares perante os Poderes Executivo, Legislativo e Judiciário da União.</p>
+                                <p>A LIGABOM coordena a padronização técnica de doutrinas operacionais, intercâmbios de instrução, homologação de normas nacionais de segurança contra incêndio e a mobilização de forças-tarefas interestaduais em ocorrências de grandes proporções e desastres ecológicos (como incêndios no Pantanal e na Amazônia ou inundações).</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="card border-0 shadow-sm p-4 rounded-3 bg-light mb-4">
+                            <h5 class="fw-bold text-navy mb-3 d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-sitemap text-danger"></i> Participação em Comitês Técnicos Nacionais
+                            </h5>
+                            <div class="text-secondary small" style="line-height: 1.7;">
+                                {% if page.cncg_participation %}
+                                    {{ page.cncg_participation|richtext }}
+                                {% else %}
+                                    <p>Oficiais especialistas do CBMPB compõem comitês temáticos permanentes da LIGABOM, tais como:</p>
+                                    <ul>
+                                        <li>Comitê Nacional de Incêndio Florestal (CONIF).</li>
+                                        <li>Comitê Nacional de Salvamento Aquático e Resgate.</li>
+                                        <li>Comitê de Atividades Técnicas e Normas Contra Incêndio.</li>
+                                        <li>Comitê de Atendimento Pré-Hospitalar (APH) Tático.</li>
+                                        <li>Comitê de Perícia de Incêndio e Explosão.</li>
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if page.cncg_external_url %}
+                        <a href="{{ page.cncg_external_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger btn-sm fw-bold">
+                            <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Acessar Portal Oficial da LIGABOM
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm p-4 rounded-3 bg-white border text-center">
+                            <div class="rounded-circle bg-danger bg-opacity-10 text-danger d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 60px; height: 60px; font-size: 26px;">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <h6 class="fw-bold text-navy mb-1">Força Nacional & LIGABOM</h6>
+                            <p class="small text-secondary mb-3">
+                                Bombeiros Militares da Paraíba atuam frequentemente convocados em missões de ajuda humanitária e socorro emergencial em outros estados da federação.
+                            </p>
+                            <span class="badge bg-gold text-dark fw-bold px-3 py-1">INTEGRAÇÃO INTERESTADUAL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block body_class %}cbmpb-como-ingressar-page{% endblock %}
+
+{% block content %}
+<!-- HERO COMO INGRESSAR -->
+<section class="organograma-hero-strip py-4">
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house me-1"></i> Início</a></li>
+                <li class="breadcrumb-item"><a href="/institucional/">Institucional</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Como Ingressar no CBMPB</li>
+            </ol>
+        </nav>
+
+        <div class="row align-items-center g-4">
+            <div class="col-lg-10 col-xl-9">
+                <span class="badge bg-gold text-dark fw-bold px-3 py-1 mb-2 text-uppercase tracking-wider">
+                    <i class="fa-solid fa-graduation-cap me-1"></i> CARREIRA MILITAR ESTADUAL
+                </span>
+                <h1 class="display-6 fw-bold text-white mb-2">{{ page.title }}</h1>
+                <p class="lead mb-0" style="font-size: 1.15rem; color: #F8FAFC;">
+                    {{ page.intro_subtitle }}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SUBNAVEGAÇÃO -->
+{% include "institucional/includes/institucional_subnav.html" with active_tab="como_ingressar" %}
+
+<!-- INTRODUÇÃO -->
+<section class="py-5 bg-white border-bottom">
+    <div class="container">
+        <div class="max-w-800 mx-auto text-center mb-5">
+            <span class="section-tag mb-1"><i class="fa-solid fa-door-open me-1"></i> PORTA DE ENTRADA</span>
+            <h2 class="display-6 fw-bold text-navy mb-3">Ingresso Exclusivo por Concurso Público</h2>
+            <div class="text-secondary lead" style="font-size: 1.05rem; line-height: 1.7;">
+                {% if page.intro_text %}
+                    {{ page.intro_text|richtext }}
+                {% else %}
+                    <p>O ingresso no Corpo de Bombeiros Militar da Paraíba (CBMPB) ocorre exclusivamente mediante aprovação prévia em <strong>concurso público de provas e títulos</strong>, nos termos da Constituição Federal e da legislação militar estadual paraibana. A corporação oferece duas carreiras distintas de ingresso: o <strong>Quadro de Oficiais Combatentes (QOBM)</strong> e o <strong>Quadro de Praças Combatentes (QPBM)</strong>.</p>
+                {% endif %}
+            </div>
+            <div class="mt-4">
+                <a href="/concursos/?categoria=PUBLICO" class="btn btn-emergency-193 btn-lg px-4 py-2 fs-6 shadow">
+                    <i class="fa-solid fa-award me-1"></i> Ver Editais e Concursos Abertos
+                </a>
+            </div>
+        </div>
+
+        <!-- CARDS COMPARATIVOS: CFO vs CFSD -->
+        <div class="row g-4 mb-5">
+            <!-- CFO -->
+            <div class="col-lg-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden" style="border-top: 5px solid var(--bm-red) !important;">
+                    <div class="p-4 bg-light border-bottom">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center" style="width: 52px; height: 52px; font-size: 22px;">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <div>
+                                <span class="badge bg-danger text-white small fw-bold">CARREIRA DE OFICIAL</span>
+                                <h4 class="fw-bold text-navy mb-0">{{ page.cfo_title }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <h6 class="fw-bold text-navy mb-2"><i class="fa-solid fa-list-check text-danger me-1"></i> Requisitos Básicos:</h6>
+                        <div class="text-secondary small mb-3" style="line-height: 1.65;">
+                            {% if page.cfo_requirements %}
+                                {{ page.cfo_requirements|richtext }}
+                            {% else %}
+                                <ul>
+                                    <li>Nacionalidade brasileira nata.</li>
+                                    <li>Curso de nível superior completo ou nota do ENEM (conforme edital).</li>
+                                    <li>Idade entre 18 e 32 anos no ano da inscrição.</li>
+                                    <li>Altura mínima: 1,65m (homens) e 1,60m (mulheres).</li>
+                                    <li>Estar em dia com as obrigações militares e eleitorais.</li>
+                                    <li>Não possuir antecedentes criminais desabonadores.</li>
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <h6 class="fw-bold text-navy mb-2"><i class="fa-solid fa-compass text-danger me-1"></i> Formação e Atuação:</h6>
+                        <div class="text-secondary small mb-0" style="line-height: 1.65;">
+                            {% if page.cfo_details %}
+                                {{ page.cfo_details|richtext }}
+                            {% else %}
+                                <p>Curso de formação com duração de 3 anos letivos na Academia de Bombeiro Militar Aristarco Pessoa (ABMAP). O aluno ingressa como Cadete BM e, ao término, é promovido a Aspirante a Oficial BM, exercendo funções de comando, coordenação tática e gestão superior.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CFSD -->
+            <div class="col-lg-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden" style="border-top: 5px solid var(--bm-navy) !important;">
+                    <div class="p-4 bg-light border-bottom">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-circle bg-navy text-white d-flex align-items-center justify-content-center" style="width: 52px; height: 52px; font-size: 22px;">
+                                <i class="fa-solid fa-person-military-pointing"></i>
+                            </div>
+                            <div>
+                                <span class="badge bg-navy text-white small fw-bold">CARREIRA DE PRAÇA</span>
+                                <h4 class="fw-bold text-navy mb-0">{{ page.cfsd_title }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <h6 class="fw-bold text-navy mb-2"><i class="fa-solid fa-list-check text-navy me-1"></i> Requisitos Básicos:</h6>
+                        <div class="text-secondary small mb-3" style="line-height: 1.65;">
+                            {% if page.cfsd_requirements %}
+                                {{ page.cfsd_requirements|richtext }}
+                            {% else %}
+                                <ul>
+                                    <li>Nacionalidade brasileira.</li>
+                                    <li>Nível médio de escolaridade completo (ou equivalente).</li>
+                                    <li>Carteira Nacional de Habilitação (CNH), no mínimo categoria B.</li>
+                                    <li>Idade entre 18 e 32 anos no ano da inscrição.</li>
+                                    <li>Altura mínima: 1,65m (homens) e 1,60m (mulheres).</li>
+                                    <li>Aptidão física, mental e idoneidade moral comprovada.</li>
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <h6 class="fw-bold text-navy mb-2"><i class="fa-solid fa-compass text-navy me-1"></i> Formação e Atuação:</h6>
+                        <div class="text-secondary small mb-0" style="line-height: 1.65;">
+                            {% if page.cfsd_details %}
+                                {{ page.cfsd_details|richtext }}
+                            {% else %}
+                                <p>Curso de formação intensivo teórico e prático no Centro de Educação (CEBM). O aluno ingressa como Soldado Aluno e, após a formatura, é promovido a Soldado BM, atuando na linha de frente operacional das viaturas de combate a incêndio, resgate e salvamento.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ETAPAS DO CONCURSO PÚBLICO -->
+<section class="py-5 bg-light border-bottom" id="etapas">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="section-tag mb-1"><i class="fa-solid fa-bars-progress me-1"></i> FASES SELETIVAS</span>
+            <h2 class="display-6 fw-bold text-navy mb-2">Etapas do Processo de Seleção</h2>
+            <p class="text-muted mb-0">Cada fase possui caráter eliminatório e/ou classificatório rigoroso.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <div class="card border-0 shadow-sm p-4 p-md-5 rounded-3 bg-white">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <span class="badge bg-danger rounded-circle p-3 fs-5" style="width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;">1</span>
+                                <div>
+                                    <h6 class="fw-bold text-navy mb-1">Exame Intelectual</h6>
+                                    <p class="small text-secondary mb-0">Prova objetiva de conhecimentos gerais, língua portuguesa, noções de direito e redação discursiva.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <span class="badge bg-danger rounded-circle p-3 fs-5" style="width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;">2</span>
+                                <div>
+                                    <h6 class="fw-bold text-navy mb-1">Exame Psicológico</h6>
+                                    <p class="small text-secondary mb-0">Avaliação do perfil comportamental, inteligência e controle emocional para atuação sob pressão extrema.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <span class="badge bg-danger rounded-circle p-3 fs-5" style="width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;">3</span>
+                                <div>
+                                    <h6 class="fw-bold text-navy mb-1">Exame de Saúde</h6>
+                                    <p class="small text-secondary mb-0">Bateria de exames laboratoriais, clínicos, cardiológicos, radiológicos, oftalmológicos e odontológicos.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <span class="badge bg-danger rounded-circle p-3 fs-5" style="width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;">4</span>
+                                <div>
+                                    <h6 class="fw-bold text-navy mb-1">Aptidão Física (TAF)</h6>
+                                    <p class="small text-secondary mb-0">Testes de alta intensidade: corrida de 12 minutos, natação de 50 metros, barra fixa e abdominais.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <span class="badge bg-danger rounded-circle p-3 fs-5" style="width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;">5</span>
+                                <div>
+                                    <h6 class="fw-bold text-navy mb-1">Avaliação Social</h6>
+                                    <p class="small text-secondary mb-0">Investigação da idoneidade moral, antecedentes criminais e conduta social irrepreensível.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <span class="badge bg-danger rounded-circle p-3 fs-5" style="width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;">6</span>
+                                <div>
+                                    <h6 class="fw-bold text-navy mb-1">Curso de Formação</h6>
+                                    <p class="small text-secondary mb-0">Matrícula no Centro de Educação para dedicação integral, recebendo remuneração de aluno desde o primeiro dia.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if page.stages_text %}
+                    <div class="mt-4 pt-4 border-top text-secondary small">
+                        {{ page.stages_text|richtext }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GUIA DO TAF -->
+<section class="py-5 bg-white border-bottom" id="taf">
+    <div class="container">
+        <div class="row align-items-center g-4 g-lg-5">
+            <div class="col-lg-5">
+                <span class="section-tag mb-1"><i class="fa-solid fa-heart-pulse me-1"></i> RESISTÊNCIA E FORÇA</span>
+                <h3 class="fw-bold text-navy mb-3">Guia do Teste de Aptidão Física (TAF)</h3>
+                <p class="text-secondary small mb-3" style="line-height: 1.7;">
+                    A profissão de bombeiro militar exige capacidade física e cardiorrespiratória acima da média para enfrentar situações adversas em incêndios, desabamentos, mergulhos e resgates em matas e montanhas.
+                </p>
+                <div class="p-3 bg-light rounded-3 border-start border-4 border-danger small mb-3">
+                    <strong class="d-block text-navy mb-1">Dica de Preparação:</strong>
+                    <span class="text-secondary">Inicie os treinos físicos com meses de antecedência, com acompanhamento profissional de educação física e exames cardiológicos prévios.</span>
+                </div>
+                <a href="/concursos/" class="btn btn-navy-cbmpb btn-sm fw-bold">
+                    <i class="fa-solid fa-file-lines me-1"></i> Consultar Tabelas nos Editais
+                </a>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped mb-0 small">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Exercício</th>
+                                    <th>Padrão Masculino</th>
+                                    <th>Padrão Feminino</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Corrida de 12 minutos</strong></td>
+                                    <td>Mínimo 2.400 metros</td>
+                                    <td>Mínimo 2.000 metros</td>
+                                    <td>Pista de atletismo oficial</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Flexão em Barra Fixa</strong></td>
+                                    <td>Mínimo 5 repetições</td>
+                                    <td>Isometria (mínimo 15s)</td>
+                                    <td>Pegada pronada</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Abdominal Remador</strong></td>
+                                    <td>Mínimo 35 repetições</td>
+                                    <td>Mínimo 30 repetições</td>
+                                    <td>Tempo de 1 minuto</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Natação (50 metros)</strong></td>
+                                    <td>Até 50 segundos</td>
+                                    <td>Até 55 segundos</td>
+                                    <td>Nado livre em piscina</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Salto em Altura / Distância</strong></td>
+                                    <td>Conforme índice do edital</td>
+                                    <td>Conforme índice do edital</td>
+                                    <td>Colchão de queda oficial</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ / DÚVIDAS FREQUENTES -->
+{% if page.faq_text %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="card border-0 shadow-sm p-4 p-md-5 rounded-3 bg-white">
+            <h4 class="fw-bold text-navy mb-3 d-flex align-items-center gap-2">
+                <i class="fa-solid fa-circle-question text-danger"></i> Perguntas Frequentes sobre Ingresso
+            </h4>
+            <div class="text-secondary small" style="line-height: 1.7;">
+                {{ page.faq_text|richtext }}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

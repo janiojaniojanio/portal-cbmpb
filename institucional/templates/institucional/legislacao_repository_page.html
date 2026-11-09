@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block body_class %}cbmpb-legislacao-page{% endblock %}
+
+{% block content %}
+<!-- HERO DO REPOSITÓRIO DE LEGISLAÇÃO -->
+<section class="organograma-hero-strip py-4">
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house me-1"></i> Início</a></li>
+                <li class="breadcrumb-item"><a href="/institucional/">Institucional</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Repositório de Legislação</li>
+            </ol>
+        </nav>
+
+        <div class="row align-items-center g-4">
+            <div class="col-lg-10 col-xl-9">
+                <span class="badge bg-gold text-dark fw-bold px-3 py-1 mb-2 text-uppercase tracking-wider">
+                    <i class="fa-solid fa-book-bookmark me-1"></i> ATOS NORMATIVOS & SEGURANÇA JURÍDICA
+                </span>
+                <h1 class="display-6 fw-bold text-white mb-2">{{ page.title }}</h1>
+                <p class="lead mb-0" style="font-size: 1.15rem; color: #F8FAFC;">
+                    {{ page.intro_subtitle }}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SUBNAVEGAÇÃO -->
+{% include "institucional/includes/institucional_subnav.html" with active_tab="legislacao" %}
+
+<!-- PAINEL DE FILTROS E PESQUISA -->
+<section class="py-4 bg-light border-bottom">
+    <div class="container">
+        <form method="get" action="#resultados" class="card border-0 shadow-sm p-3 p-md-4 rounded-3 bg-white">
+            <div class="row g-3 align-items-end">
+                <!-- Tipo de Ato Normativo -->
+                <div class="col-lg-3 col-md-6">
+                    <label class="form-label small fw-bold text-navy mb-1">
+                        <i class="fa-solid fa-layer-group text-danger me-1"></i> Categoria / Tipo:
+                    </label>
+                    <select name="tipo" class="form-select form-select-sm">
+                        <option value="">Todas as Categorias</option>
+                        {% for code, label in doc_types %}
+                        <option value="{{ code }}" {% if current_tipo == code %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Ano -->
+                <div class="col-lg-2 col-md-3 col-6">
+                    <label class="form-label small fw-bold text-navy mb-1">
+                        <i class="fa-solid fa-calendar text-danger me-1"></i> Ano:
+                    </label>
+                    <select name="ano" class="form-select form-select-sm">
+                        <option value="">Todos</option>
+                        {% for y in available_years %}
+                        <option value="{{ y }}" {% if current_ano == y %}selected{% endif %}>{{ y }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Status -->
+                <div class="col-lg-2 col-md-3 col-6">
+                    <label class="form-label small fw-bold text-navy mb-1">
+                        <i class="fa-solid fa-circle-check text-danger me-1"></i> Situação:
+                    </label>
+                    <select name="status" class="form-select form-select-sm">
+                        <option value="">Todas</option>
+                        <option value="EM_VIGOR" {% if current_status == "EM_VIGOR" %}selected{% endif %}>Em Vigor</option>
+                        <option value="REVOGADA" {% if current_status == "REVOGADA" %}selected{% endif %}>Revogada</option>
+                        <option value="ALTERADA" {% if current_status == "ALTERADA" %}selected{% endif %}>Alterada</option>
+                    </select>
+                </div>
+
+                <!-- Busca por Texto / Ementa -->
+                <div class="col-lg-3 col-md-8">
+                    <label class="form-label small fw-bold text-navy mb-1">
+                        <i class="fa-solid fa-magnifying-glass text-danger me-1"></i> Pesquisar por Ementa ou Número:
+                    </label>
+                    <input type="text" name="q" class="form-control form-select-sm" placeholder="Ex: Lei 191, POP combate, NT 01..." value="{{ search_query }}">
+                </div>
+
+                <!-- Botões -->
+                <div class="col-lg-2 col-md-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-danger btn-sm fw-bold flex-grow-1">
+                        <i class="fa-solid fa-filter me-1"></i> Filtrar
+                    </button>
+                    {% if current_tipo or current_ano or current_status or search_query %}
+                    <a href="?" class="btn btn-outline-secondary btn-sm" title="Limpar Filtros">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- RESULTADOS DA LEGISLAÇÃO -->
+<section class="py-5 bg-white" id="resultados">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4 pb-2 border-bottom">
+            <div>
+                <h4 class="fw-bold text-navy mb-0">Atos Normativos Encontrados</h4>
+                <span class="small text-muted">Exibindo {{ documents.paginator.count }} documento(s) cadastrado(s)</span>
+            </div>
+
+            <!-- Atalhos de Categorias Frequentes -->
+            <div class="d-flex gap-1 flex-wrap">
+                <a href="?tipo=LEI#resultados" class="btn btn-sm {% if current_tipo == 'LEI' %}btn-danger{% else %}btn-outline-secondary{% endif %}">Leis</a>
+                <a href="?tipo=PORTARIA#resultados" class="btn btn-sm {% if current_tipo == 'PORTARIA' %}btn-danger{% else %}btn-outline-secondary{% endif %}">Portarias</a>
+                <a href="?tipo=RESOLUCAO_CG#resultados" class="btn btn-sm {% if current_tipo == 'RESOLUCAO_CG' %}btn-danger{% else %}btn-outline-secondary{% endif %}">Resoluções CG</a>
+                <a href="?tipo=NT_DSPCI#resultados" class="btn btn-sm {% if current_tipo == 'NT_DSPCI' %}btn-danger{% else %}btn-outline-secondary{% endif %}">Normas Técnicas</a>
+                <a href="?tipo=POP#resultados" class="btn btn-sm {% if current_tipo == 'POP' %}btn-danger{% else %}btn-outline-secondary{% endif %}">POPs</a>
+                <a href="?tipo=MANUAL#resultados" class="btn btn-sm {% if current_tipo == 'MANUAL' %}btn-danger{% else %}btn-outline-secondary{% endif %}">Manuais</a>
+            </div>
+        </div>
+
+        {% if documents %}
+        <div class="row g-3">
+            {% for doc in documents %}
+            <div class="col-12">
+                <div class="card border rounded-3 shadow-sm hover-shadow p-3 p-md-4 bg-white {% if doc.is_featured %}border-danger border-opacity-50{% endif %}">
+                    <div class="row align-items-center g-3">
+                        <div class="col-auto">
+                            <div class="rounded-3 bg-danger bg-opacity-10 text-danger d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: 20px;">
+                                {% if doc.doc_type == "LEI" %}
+                                    <i class="fa-solid fa-scale-balanced"></i>
+                                {% elif doc.doc_type == "POP" %}
+                                    <i class="fa-solid fa-clipboard-check"></i>
+                                {% elif doc.doc_type == "MANUAL" %}
+                                    <i class="fa-solid fa-book"></i>
+                                {% elif "DSPCI" in doc.doc_type %}
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-file-lines"></i>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
+                                <span class="badge bg-navy text-white small fw-bold">{{ doc.type_badge_label }}</span>
+                                <span class="badge bg-light text-dark border small fw-bold">{{ doc.code_number }}</span>
+                                {% if doc.status == "EM_VIGOR" %}
+                                <span class="badge bg-success bg-opacity-10 text-success small fw-semibold">Em Vigor</span>
+                                {% elif doc.status == "REVOGADA" %}
+                                <span class="badge bg-secondary small fw-semibold">Revogada</span>
+                                {% else %}
+                                <span class="badge bg-warning bg-opacity-10 text-dark small fw-semibold">{{ doc.get_status_display }}</span>
+                                {% endif %}
+                                {% if doc.publication_date %}
+                                <span class="small text-muted"><i class="fa-regular fa-calendar me-1"></i>{{ doc.publication_date|date:"d/m/Y" }}</span>
+                                {% else %}
+                                <span class="small text-muted"><i class="fa-regular fa-calendar me-1"></i>Ano {{ doc.year }}</span>
+                                {% endif %}
+                            </div>
+
+                            <h5 class="fw-bold text-navy mb-1" style="font-size: 1.05rem;">
+                                {{ doc.title }}
+                            </h5>
+                            <p class="small text-secondary mb-0" style="line-height: 1.6;">
+                                {{ doc.summary }}
+                            </p>
+                        </div>
+
+                        <div class="col-12 col-md-auto text-md-end d-flex d-md-flex flex-row flex-md-column gap-2 justify-content-end">
+                            {% if doc.document_file %}
+                            <a href="{{ doc.document_file.url }}" target="_blank" class="btn btn-danger btn-sm fw-bold d-inline-flex align-items-center gap-1 text-nowrap">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Baixar PDF</span>
+                                {% if doc.file_size_display %}<span class="small opacity-75">({{ doc.file_size_display }})</span>{% endif %}
+                            </a>
+                            {% endif %}
+
+                            {% if doc.external_url %}
+                            <a href="{{ doc.external_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-secondary btn-sm fw-bold d-inline-flex align-items-center gap-1 text-nowrap">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                <span>Diário Oficial</span>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Paginação -->
+        {% if documents.has_other_pages %}
+        <nav aria-label="Navegação da Legislação" class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if documents.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ documents.previous_page_number }}&tipo={{ current_tipo }}&ano={{ current_ano }}&status={{ current_status }}&q={{ search_query }}#resultados">
+                        <i class="fa-solid fa-chevron-left"></i> Anterior
+                    </a>
+                </li>
+                {% endif %}
+
+                {% for p in documents.paginator.page_range %}
+                    {% if p == documents.number %}
+                    <li class="page-item active"><span class="page-link">{{ p }}</span></li>
+                    {% elif p > documents.number|add:'-3' and p < documents.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ p }}&tipo={{ current_tipo }}&ano={{ current_ano }}&status={{ current_status }}&q={{ search_query }}#resultados">{{ p }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if documents.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ documents.next_page_number }}&tipo={{ current_tipo }}&ano={{ current_ano }}&status={{ current_status }}&q={{ search_query }}#resultados">
+                        Próxima <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+
+        {% else %}
+        <div class="text-center py-5">
+            <div class="p-5 rounded-3 bg-light border max-w-600 mx-auto">
+                <i class="fa-solid fa-file-circle-xmark fa-3x text-muted mb-3"></i>
+                <h5 class="fw-bold text-navy mb-2">Nenhum ato normativo encontrado</h5>
+                <p class="text-muted small mb-3">Tente alterar os filtros de busca ou limpar a pesquisa para exibir todos os documentos da corporação.</p>
+                <a href="?" class="btn btn-outline-danger btn-sm fw-bold">Limpar Filtros</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

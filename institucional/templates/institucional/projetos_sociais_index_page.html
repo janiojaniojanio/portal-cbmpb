@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}cbmpb-projetos-sociais-page{% endblock %}
+
+{% block content %}
+<!-- HERO PROJETOS SOCIAIS -->
+<section class="organograma-hero-strip py-4">
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house me-1"></i> Início</a></li>
+                <li class="breadcrumb-item"><a href="/institucional/">Institucional</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Projetos Sociais</li>
+            </ol>
+        </nav>
+
+        <div class="row align-items-center g-4">
+            <div class="col-lg-10 col-xl-9">
+                <span class="badge bg-gold text-dark fw-bold px-3 py-1 mb-2 text-uppercase tracking-wider">
+                    <i class="fa-solid fa-hands-holding-child me-1"></i> CIDADANIA & RESPONSABILIDADE SOCIAL
+                </span>
+                <h1 class="display-6 fw-bold text-white mb-2">{{ page.title }}</h1>
+                <p class="lead mb-0" style="font-size: 1.15rem; color: #F8FAFC;">
+                    {{ page.intro_subtitle }}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SUBNAVEGAÇÃO -->
+{% include "institucional/includes/institucional_subnav.html" with active_tab="projetos" %}
+
+<!-- FAIXA DE APRESENTAÇÃO SOCIAL -->
+<section class="py-4 bg-light border-bottom">
+    <div class="container">
+        <div class="card border-0 shadow-sm p-3 p-md-4 rounded-3" style="border-left: 5px solid var(--bm-red) !important;">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle bg-danger bg-opacity-10 text-danger d-flex align-items-center justify-content-center" style="width: 52px; height: 52px; font-size: 24px;">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold text-navy mb-1">{{ page.quote_text }}</h5>
+                    {% if page.intro_description %}
+                    <div class="text-secondary small mb-0">
+                        {{ page.intro_description|richtext }}
+                    </div>
+                    {% else %}
+                    <p class="text-secondary small mb-0">
+                        O Corpo de Bombeiros Militar da Paraíba desenvolve ações e projetos sociais contínuos em diversos municípios do estado, atendendo desde crianças em situação de vulnerabilidade até a terceira idade, promovendo civismo, esportes, saúde e prevenção de acidentes.
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LISTAGEM COMPLETA DOS PROJETOS SOCIAIS -->
+<section class="py-5 bg-white" id="projetos-lista">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-4 mb-md-5">
+            <span class="section-tag mb-1"><i class="fa-solid fa-handshake-angle me-1"></i> INICIATIVAS COMUNITÁRIAS</span>
+            <h2 class="display-6 fw-bold text-navy mb-2">Projetos em Execução no CBMPB</h2>
+            <p class="text-muted mb-0">Confira o funcionamento, polos de atendimento, dias de atividades e como participar.</p>
+        </div>
+
+        <div class="row g-4">
+            {% if projects %}
+                {% for proj in projects %}
+                <div class="col-lg-6">
+                    <div class="card social-project-card shadow-sm border-0">
+                        <!-- Header do Card do Projeto -->
+                        <div class="p-4 bg-light border-bottom d-flex align-items-start justify-content-between gap-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center shadow-sm" style="width: 52px; height: 52px; font-size: 22px;">
+                                    <i class="{{ proj.icon|default:'fa-solid fa-hands-holding-child' }}"></i>
+                                </div>
+                                <div>
+                                    <span class="badge bg-navy text-white small fw-bold">{{ proj.category_badge }}</span>
+                                    <h4 class="fw-bold text-navy mb-0">{{ proj.name }}</h4>
+                                    {% if proj.slogan %}
+                                    <span class="small text-danger fw-semibold fst-italic">{{ proj.slogan }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {% if proj.is_enrollment_open %}
+                            <span class="badge bg-success text-white small fw-bold px-2 py-1">
+                                <i class="fa-solid fa-bell me-1"></i> Inscrições Abertas
+                            </span>
+                            {% else %}
+                            <span class="badge bg-secondary text-white small fw-bold px-2 py-1">
+                                Atividades Regulares
+                            </span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Corpo com Detalhes -->
+                        <div class="card-body p-4 d-flex flex-column gap-3">
+                            <!-- Público-Alvo -->
+                            <div class="p-2 px-3 bg-light rounded-2 d-flex align-items-center gap-2 small">
+                                <strong class="text-navy"><i class="fa-solid fa-users text-danger me-1"></i> Público-Alvo:</strong>
+                                <span class="text-secondary">{{ proj.target_audience }}</span>
+                            </div>
+
+                            <!-- Histórico e Objetivos -->
+                            <div>
+                                <h6 class="fw-bold text-navy mb-1"><i class="fa-solid fa-bullseye text-danger me-1"></i> Histórico & Objetivos:</h6>
+                                <div class="text-secondary small" style="line-height: 1.65;">
+                                    {{ proj.history_and_objectives|richtext }}
+                                </div>
+                            </div>
+
+                            <!-- Como Ingressar / Formas de Ingresso -->
+                            <div class="p-3 bg-danger bg-opacity-10 rounded-3 border border-danger border-opacity-25">
+                                <h6 class="fw-bold text-danger mb-1"><i class="fa-solid fa-id-card me-1"></i> Como Ingressar / Inscrições:</h6>
+                                <div class="text-navy small mb-0" style="line-height: 1.65;">
+                                    {{ proj.how_to_join|richtext }}
+                                </div>
+                            </div>
+
+                            <!-- Dias e Horários + Locais -->
+                            <div class="row g-2 small">
+                                <div class="col-sm-6">
+                                    <div class="p-2 border rounded-2 bg-white h-100">
+                                        <strong class="d-block text-navy mb-1"><i class="fa-regular fa-calendar-check text-danger me-1"></i> Dias e Horários:</strong>
+                                        <span class="text-secondary">{{ proj.schedule_and_days|linebreaksbr }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="p-2 border rounded-2 bg-white h-100">
+                                        <strong class="d-block text-navy mb-1"><i class="fa-solid fa-map-location-dot text-danger me-1"></i> Onde Ocorre (Polos):</strong>
+                                        <span class="text-secondary">{{ proj.locations|linebreaksbr }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Coordenação e Contato -->
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 pt-2 border-top mt-auto small">
+                                <div class="text-muted">
+                                    {% if proj.coordinator_name %}
+                                    <span><strong>Coordenação:</strong> {{ proj.coordinator_name }}</span>
+                                    {% endif %}
+                                    {% if proj.contact_email %}
+                                    <span class="d-block"><i class="fa-solid fa-envelope me-1"></i>{{ proj.contact_email }}</span>
+                                    {% endif %}
+                                </div>
+
+                                {% if proj.enrollment_link %}
+                                <a href="{{ proj.enrollment_link }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger btn-sm fw-bold">
+                                    <i class="fa-solid fa-pen-to-square me-1"></i> Realizar Inscrição
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center py-5">
+                    <div class="p-5 rounded-3 bg-light border max-w-600 mx-auto">
+                        <i class="fa-solid fa-hands-holding-child fa-3x text-muted mb-3"></i>
+                        <h5 class="fw-bold text-navy mb-2">Nenhum projeto social cadastrado no momento</h5>
+                        <p class="text-muted small mb-0">Cadastre projetos sociais através do painel de administração do Wagtail.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
