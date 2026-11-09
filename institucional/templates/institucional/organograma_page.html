@@ -36,6 +36,9 @@
     </div>
 </section>
 
+<!-- SUBNAVEGAÇÃO RÁPIDA INSTITUCIONAL -->
+{% include "institucional/includes/institucional_subnav.html" with active_tab="organograma" %}
+
 <!-- FAIXA DE FUNDAMENTAÇÃO LEGAL (LEI COMPLEMENTAR 191/2024) -->
 <section class="py-4 bg-light border-bottom">
     <div class="container">
@@ -235,8 +238,8 @@
 
         <!-- FILTROS POR NÍVEL ESTRUTURAL -->
         <div class="organograma-filter-bar mb-4 p-2 rounded-3 bg-white border shadow-sm">
-            <div class="d-flex align-items-center gap-2 overflow-x-auto pb-1 pb-md-0 flex-nowrap">
-                <span class="small fw-bold text-nowrap px-2" style="color: #334155;"><i class="fa-solid fa-filter me-1 text-danger"></i> NÍVEL:</span>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="small fw-bold px-2" style="color: #334155;"><i class="fa-solid fa-filter me-1 text-danger"></i> NÍVEL:</span>
                 
                 <a href="?{% if search_query %}q={{ search_query }}&{% endif %}#orgaos-detalhes" class="organograma-filter-pill {% if not current_level %}active{% endif %} text-nowrap">
                     Todos os Órgãos ({{ total_units }})

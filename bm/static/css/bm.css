@@ -2500,31 +2500,55 @@ body.font-xl {
 .institucional-subnav-strip {
   background: #FFFFFF;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: visible;
 }
 
 .institucional-pills {
-  scrollbar-width: thin;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
 }
 
 .institucional-pills .nav-link {
-  font-size: 0.84rem;
+  font-size: 0.81rem;
   font-weight: 600;
-  color: #1E293B;
-  border-radius: 24px;
-  padding: 6px 14px;
-  border: 1px solid transparent;
-  transition: var(--bm-transition);
+  color: #334155;
+  border-radius: 20px;
+  padding: 5px 12px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #F8FAFC;
+  transition: all 0.15s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.institucional-pills .nav-link i {
+  font-size: 0.78rem;
+  color: #64748B;
+  transition: color 0.15s ease;
 }
 
 .institucional-pills .nav-link:hover {
   background: rgba(196, 18, 26, 0.08);
+  color: var(--bm-red);
+  border-color: rgba(196, 18, 26, 0.3);
+}
+
+.institucional-pills .nav-link:hover i {
   color: var(--bm-red);
 }
 
 .institucional-pills .nav-link.active {
   background: var(--bm-navy) !important;
   color: #FFFFFF !important;
-  box-shadow: 0 2px 8px rgba(11, 27, 61, 0.25);
+  border-color: var(--bm-navy) !important;
+  box-shadow: 0 2px 6px rgba(11, 27, 61, 0.22);
+}
+
+.institucional-pills .nav-link.active i {
+  color: var(--bm-gold) !important;
 }
 
 .mission-vision-card {

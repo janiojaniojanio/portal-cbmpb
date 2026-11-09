@@ -1,52 +1,90 @@
 <!-- Subnavegação Rápida entre Seções Institucionais -->
 <div class="institucional-subnav-strip bg-white border-bottom shadow-sm sticky-top" style="top: 70px; z-index: 1010;">
     <div class="container">
-        <ul class="nav nav-pills py-2 gap-1 flex-nowrap overflow-x-auto text-nowrap institucional-pills">
+        <!-- Visualização Desktop (>= 992px): Abas elegantes, compactas e centralizadas (sem qualquer rolagem) -->
+        <ul class="nav nav-pills py-2 gap-1 flex-wrap justify-content-center institucional-pills d-none d-lg-flex">
             <li class="nav-item">
                 <a class="nav-link {% if active_tab == 'visao_geral' %}active{% endif %}" href="/institucional/">
-                    <i class="fa-solid fa-landmark me-1"></i> Quem Somos & Histórico
+                    <i class="fa-solid fa-landmark"></i> Visão Geral
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if active_tab == 'comando' %}active{% endif %}" href="/institucional/comando/">
-                    <i class="fa-solid fa-user-shield me-1"></i> Comando Geral
+                    <i class="fa-solid fa-user-shield"></i> Comando Geral
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if active_tab == 'organograma' %}active{% endif %}" href="/quadro-organizacional/">
-                    <i class="fa-solid fa-sitemap me-1"></i> Quadro Organizacional
+                    <i class="fa-solid fa-sitemap"></i> Estrutura
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if active_tab == 'ex_comandantes' %}active{% endif %}" href="/institucional/ex-comandantes/">
-                    <i class="fa-solid fa-users me-1"></i> Ex-Comandantes
+                    <i class="fa-solid fa-users"></i> Ex-Comandantes
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if active_tab == 'como_ingressar' %}active{% endif %}" href="/institucional/como-ingressar/">
-                    <i class="fa-solid fa-graduation-cap me-1"></i> Como Ingressar
+                    <i class="fa-solid fa-graduation-cap"></i> Como Ingressar
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if active_tab == 'escola' %}active{% endif %}" href="/institucional/escola/">
-                    <i class="fa-solid fa-school me-1"></i> Escola do CBMPB
+                    <i class="fa-solid fa-school"></i> Escola (CEBM)
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if active_tab == 'projetos' %}active{% endif %}" href="/institucional/projetos-sociais/">
-                    <i class="fa-solid fa-hands-holding-child me-1"></i> Projetos Sociais
+                    <i class="fa-solid fa-hands-holding-child"></i> Projetos Sociais
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if active_tab == 'legislacao' %}active{% endif %}" href="/institucional/legislacao/">
-                    <i class="fa-solid fa-book-bookmark me-1"></i> Repositório de Legislação
+                    <i class="fa-solid fa-book-bookmark"></i> Legislação
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if active_tab == 'governanca' %}active{% endif %}" href="/institucional/governanca/">
-                    <i class="fa-solid fa-chart-line me-1"></i> Governança (PCA/CNCG)
+                    <i class="fa-solid fa-chart-line"></i> Governança & PCA
                 </a>
             </li>
         </ul>
+
+        <!-- Visualização Mobile & Tablet (< 992px): Seletor compacto em dropdown sem rolagem horizontal -->
+        <div class="d-lg-none py-2">
+            <div class="dropdown">
+                <button class="btn btn-light w-100 d-flex justify-content-between align-items-center py-2 px-3 border rounded-3 text-navy fw-semibold shadow-xs" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="d-inline-flex align-items-center gap-2 text-truncate">
+                        <span class="badge bg-danger text-white px-2 py-1 small"><i class="fa-solid fa-compass"></i></span>
+                        <span class="small text-muted">Institucional:</span>
+                        <span class="fw-bold text-navy">
+                            {% if active_tab == 'visao_geral' %}Visão Geral & Histórico
+                            {% elif active_tab == 'comando' %}Comando Geral
+                            {% elif active_tab == 'organograma' %}Quadro Organizacional
+                            {% elif active_tab == 'ex_comandantes' %}Galeria de Ex-Comandantes
+                            {% elif active_tab == 'como_ingressar' %}Como Ingressar (CFO / CFSd)
+                            {% elif active_tab == 'escola' %}Escola do CBMPB (CEBM)
+                            {% elif active_tab == 'projetos' %}Projetos Sociais
+                            {% elif active_tab == 'legislacao' %}Repositório de Legislação
+                            {% elif active_tab == 'governanca' %}Governança & PCA
+                            {% else %}Selecione a Seção{% endif %}
+                        </span>
+                    </span>
+                    <i class="fa-solid fa-chevron-down text-muted small ms-2"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end w-100 shadow border-0 p-2 mt-1 rounded-3">
+                    <li><h6 class="dropdown-header text-uppercase small fw-bold text-muted px-2 py-1">Páginas Institucionais</h6></li>
+                    <li><a class="dropdown-item rounded-2 py-2 {% if active_tab == 'visao_geral' %}active bg-danger text-white{% endif %}" href="/institucional/"><i class="fa-solid fa-landmark me-2"></i> Visão Geral & Histórico</a></li>
+                    <li><a class="dropdown-item rounded-2 py-2 {% if active_tab == 'comando' %}active bg-danger text-white{% endif %}" href="/institucional/comando/"><i class="fa-solid fa-user-shield me-2"></i> Comando Geral</a></li>
+                    <li><a class="dropdown-item rounded-2 py-2 {% if active_tab == 'organograma' %}active bg-danger text-white{% endif %}" href="/quadro-organizacional/"><i class="fa-solid fa-sitemap me-2"></i> Quadro Organizacional</a></li>
+                    <li><a class="dropdown-item rounded-2 py-2 {% if active_tab == 'ex_comandantes' %}active bg-danger text-white{% endif %}" href="/institucional/ex-comandantes/"><i class="fa-solid fa-users me-2"></i> Galeria de Ex-Comandantes</a></li>
+                    <li><a class="dropdown-item rounded-2 py-2 {% if active_tab == 'como_ingressar' %}active bg-danger text-white{% endif %}" href="/institucional/como-ingressar/"><i class="fa-solid fa-graduation-cap me-2"></i> Como Ingressar (CFO / CFSd)</a></li>
+                    <li><a class="dropdown-item rounded-2 py-2 {% if active_tab == 'escola' %}active bg-danger text-white{% endif %}" href="/institucional/escola/"><i class="fa-solid fa-school me-2"></i> Escola do CBMPB (CEBM)</a></li>
+                    <li><a class="dropdown-item rounded-2 py-2 {% if active_tab == 'projetos' %}active bg-danger text-white{% endif %}" href="/institucional/projetos-sociais/"><i class="fa-solid fa-hands-holding-child me-2"></i> Projetos Sociais</a></li>
+                    <li><a class="dropdown-item rounded-2 py-2 {% if active_tab == 'legislacao' %}active bg-danger text-white{% endif %}" href="/institucional/legislacao/"><i class="fa-solid fa-book-bookmark me-2"></i> Repositório de Legislação</a></li>
+                    <li><a class="dropdown-item rounded-2 py-2 {% if active_tab == 'governanca' %}active bg-danger text-white{% endif %}" href="/institucional/governanca/"><i class="fa-solid fa-chart-line me-2"></i> Governança, PCA & CNCG</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
