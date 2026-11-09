@@ -1259,3 +1259,175 @@ class GovernancaPage(Page):
     ]
 
     subpage_types = []
+
+
+# ==============================================================================
+# PORTAL DO BOMBEIRO (ACESSO INTERNO / INTRANET CORPORATIVA)
+# ==============================================================================
+
+class PortalBombeiroPage(Page):
+    """
+    Página do Portal do Bombeiro - Hub de Acesso Interno Corporativo.
+    Rota: /portal-do-bombeiro/
+    """
+    intro_subtitle = models.CharField(
+        max_length=255,
+        default="Acesso unificado aos sistemas operacionais, boletins, contracheque e intranet exclusiva para bombeiros militares.",
+        verbose_name="Subtítulo do Header"
+    )
+    security_notice = RichTextField(
+        blank=True,
+        default=(
+            "<p><strong>Atenção Militar:</strong> Esta área contém sistemas governamentais e serviços de acesso restrito "
+            "aos Bombeiros Militares do CBMPB. Suas credenciais de login e senhas são de uso pessoal e intransferível. "
+            "Evite acessar sistemas institucionais em redes públicas ou dispositivos não protegidos.</p>"
+        ),
+        verbose_name="Aviso de Segurança e Acesso Restrito"
+    )
+
+    # 1. Boletim Interno
+    boletim_url = models.URLField(
+        default="https://boletins.bombeiros.pb.gov.br",
+        verbose_name="Link do Boletim Interno (BG)"
+    )
+    boletim_desc = models.CharField(
+        max_length=255,
+        default="Publicações oficiais diárias de boletins ostensivos, administrativos e reservados do CBMPB.",
+        verbose_name="Descrição do Boletim Interno"
+    )
+
+    # 2. Portal Bravo
+    bravo_url = models.URLField(
+        default="https://bravo.bombeiros.pb.gov.br",
+        verbose_name="Link do Portal Bravo"
+    )
+    bravo_desc = models.CharField(
+        max_length=255,
+        default="Sistema Operacional Integrado: controle de ocorrências, vistorias técnicas e emissão de AVCB.",
+        verbose_name="Descrição do Portal Bravo"
+    )
+
+    # 3. Cursos e Especializações (EaD)
+    ead_url = models.URLField(
+        default="https://ead.bombeiros.pb.gov.br",
+        verbose_name="Link dos Cursos e Especializações (EaD)"
+    )
+    ead_desc = models.CharField(
+        max_length=255,
+        default="Ambiente Virtual de Aprendizagem (AVA Moodle) da DEIP para capacitação e formação continuada.",
+        verbose_name="Descrição do EaD"
+    )
+
+    # 4. Processos Seletivos Internos
+    seletivos_url = models.CharField(
+        max_length=255,
+        default="/concursos/?categoria=INTERNO",
+        verbose_name="Link dos Processos Seletivos Internos"
+    )
+    seletivos_desc = models.CharField(
+        max_length=255,
+        default="Editais, convocações e homologações para cursos de formação e promoções internas (CFC, CFS, CHOA, CAS).",
+        verbose_name="Descrição das Seleções Internas"
+    )
+
+    # 5. CCFM (Centro de Capacitação Física Militar)
+    ccfm_title = models.CharField(
+        max_length=200,
+        default="CCFM - Centro de Capacitação Física Militar",
+        verbose_name="Título da Seção CCFM"
+    )
+    ccfm_summary = RichTextField(
+        blank=True,
+        default=(
+            "<p>O <strong>Centro de Capacitação Física Militar (CCFM)</strong> é o órgão responsável pelo treinamento, "
+            "acompanhamento da higidez física e aplicação do Teste de Aptidão Física (TAF) periódico de todo o efetivo "
+            "do Corpo de Bombeiros Militar da Paraíba. Consulte abaixo os índices oficiais de referência por faixa etária "
+            "e acompanhe as homologações de resultados.</p>"
+        ),
+        verbose_name="Texto Informativo do CCFM"
+    )
+
+    # 6. Webmail
+    webmail_url = models.URLField(
+        default="https://mail.bombeiros.pb.gov.br",
+        verbose_name="Link do Webmail Institucional"
+    )
+    webmail_desc = models.CharField(
+        max_length=255,
+        default="Correio eletrônico corporativo seguro (@bombeiros.pb.gov.br) para comunicação interna oficial.",
+        verbose_name="Descrição do Webmail"
+    )
+
+    # 7. Portal da Cidadania
+    portal_cidadania_url = models.URLField(
+        default="https://portaldacidadania.pb.gov.br",
+        verbose_name="Link do Portal da Cidadania"
+    )
+    portal_cidadania_desc = models.CharField(
+        max_length=255,
+        default="Emissão de contracheques mensais, ficha financeira, informe de rendimentos e margem de consignações.",
+        verbose_name="Descrição do Portal da Cidadania"
+    )
+
+    # 8. PBdoc
+    pbdoc_url = models.URLField(
+        default="https://pbdoc.pb.gov.br",
+        verbose_name="Link do PBdoc"
+    )
+    pbdoc_desc = models.CharField(
+        max_length=255,
+        default="Sistema oficial de processos eletrônicos e documentos digitais do Governo do Estado da Paraíba.",
+        verbose_name="Descrição do PBdoc"
+    )
+
+    # Suporte Técnico DTI
+    dti_support_text = RichTextField(
+        blank=True,
+        default=(
+            "<p>Em caso de dúvidas com senhas, acessos aos sistemas governamentais ou bloqueio de usuário, "
+            "entre em contato com a <strong>Diretoria de Tecnologia da Informação (DTI)</strong> do CBMPB.</p>"
+        ),
+        verbose_name="Orientações de Suporte Técnico"
+    )
+    dti_phone = models.CharField(
+        max_length=50,
+        default="(83) 3218-5700 / Ramal 5715",
+        verbose_name="Telefone / Ramal DTI"
+    )
+    dti_email = models.EmailField(
+        default="dti@bombeiros.pb.gov.br",
+        verbose_name="E-mail do Suporte DTI"
+    )
+
+    parent_page_types = ["home.HomePage"]
+    subpage_types = []
+
+    content_panels = Page.content_panels + [
+        FieldPanel("intro_subtitle"),
+        FieldPanel("security_notice"),
+        MultiFieldPanel([
+            FieldPanel("boletim_url"),
+            FieldPanel("boletim_desc"),
+            FieldPanel("bravo_url"),
+            FieldPanel("bravo_desc"),
+            FieldPanel("ead_url"),
+            FieldPanel("ead_desc"),
+            FieldPanel("seletivos_url"),
+            FieldPanel("seletivos_desc"),
+            FieldPanel("webmail_url"),
+            FieldPanel("webmail_desc"),
+            FieldPanel("portal_cidadania_url"),
+            FieldPanel("portal_cidadania_desc"),
+            FieldPanel("pbdoc_url"),
+            FieldPanel("pbdoc_desc"),
+        ], heading="Links dos 8 Sistemas & Portais Corporativos"),
+        MultiFieldPanel([
+            FieldPanel("ccfm_title"),
+            FieldPanel("ccfm_summary"),
+        ], heading="CCFM - Aptidão Física e TAF"),
+        MultiFieldPanel([
+            FieldPanel("dti_support_text"),
+            FieldPanel("dti_phone"),
+            FieldPanel("dti_email"),
+        ], heading="Suporte da Diretoria de Tecnologia da Informação (DTI)"),
+    ]

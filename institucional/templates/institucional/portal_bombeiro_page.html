@@ -1,0 +1,482 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}cbmpb-portal-bombeiro-page{% endblock %}
+
+{% block content %}
+<!-- 1. HERO DO PORTAL DO BOMBEIRO -->
+<section class="organograma-hero-strip py-4">
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="/"><i class="fa-solid fa-house me-1"></i> Início</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Portal do Bombeiro</li>
+            </ol>
+        </nav>
+
+        <div class="row align-items-center g-4">
+            <div class="col-lg-10 col-xl-9">
+                <span class="badge bg-gold text-dark fw-bold px-3 py-1 mb-2 text-uppercase tracking-wider">
+                    <i class="fa-solid fa-user-shield me-1"></i> ACESSO INTERNO & SERVIÇOS CORPORATIVOS
+                </span>
+                <h1 class="display-6 fw-bold text-white mb-2">{{ page.title }}</h1>
+                <p class="lead mb-0" style="font-size: 1.15rem; color: #F8FAFC;">
+                    {{ page.intro_subtitle }}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. BARRA DE ATALHOS RÁPIDOS INTERNOS -->
+<div class="bg-white border-bottom py-3 shadow-xs sticky-top" style="top: 70px; z-index: 1010;">
+    <div class="container d-flex align-items-center justify-content-center gap-2 flex-wrap">
+        <span class="small fw-bold text-muted me-2"><i class="fa-solid fa-compass text-danger"></i> Navegação rápida:</span>
+        <a href="#sistemas-corporativos" class="btn btn-sm btn-outline-secondary fw-semibold px-3 rounded-pill text-navy">
+            <i class="fa-solid fa-laptop-code text-danger me-1"></i> 8 Sistemas Corporativos
+        </a>
+        <a href="#ccfm-taf" class="btn btn-sm btn-outline-secondary fw-semibold px-3 rounded-pill text-navy">
+            <i class="fa-solid fa-heart-pulse text-warning me-1"></i> CCFM & TAF (Aptidão Física)
+        </a>
+        <a href="#suporte-dti" class="btn btn-sm btn-outline-secondary fw-semibold px-3 rounded-pill text-navy">
+            <i class="fa-solid fa-headset text-primary me-1"></i> Suporte Técnico DTI
+        </a>
+    </div>
+</div>
+
+<!-- 3. ALERTA DE SEGURANÇA E ACESSO RESTRITO -->
+<section class="py-4 bg-light border-bottom">
+    <div class="container">
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden" style="border-left: 5px solid var(--bm-red) !important; background: #FFFFFF;">
+            <div class="card-body p-3 p-md-4">
+                <div class="row align-items-center g-3">
+                    <div class="col-auto">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-danger" style="width: 56px; height: 56px; font-size: 26px;">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
+                            <span class="badge bg-danger text-white fw-bold px-2 py-1">INTRANET MILITAR</span>
+                            <span class="small text-muted fw-bold">USO PESSOAL E INTRANSFERÍVEL</span>
+                        </div>
+                        <div class="text-secondary small mb-0" style="line-height: 1.6;">
+                            {{ page.security_notice|richtext }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 4. GRID DOS 8 SISTEMAS CORPORATIVOS DO BOMBEIRO -->
+<section class="py-5 bg-white border-bottom" id="sistemas-corporativos">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-4 mb-md-5">
+            <span class="section-tag mb-1"><i class="fa-solid fa-network-wired me-1"></i> CENTRAL DE SISTEMAS</span>
+            <h2 class="display-6 fw-bold text-navy mb-2">Sistemas & Serviços Corporativos</h2>
+            <p class="text-muted mb-0">Selecione o serviço abaixo para acessar com suas credenciais funcionais militares.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- 1. Boletim Interno (BG) -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 rounded-3 d-flex flex-column" style="border-top: 4px solid var(--bm-red) !important; background: #FFFFFF; transition: transform 0.2s, box-shadow 0.2s;">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 52px; height: 52px; font-size: 24px; background: linear-gradient(135deg, #C4121A 0%, #8A0B12 100%);">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+                        <span class="badge bg-danger bg-opacity-10 text-danger fw-bold small">Boletins Gerais</span>
+                    </div>
+                    <h5 class="fw-bold text-navy mb-1">Boletim Interno</h5>
+                    <p class="small text-secondary mb-4 flex-grow-1" style="line-height: 1.6;">
+                        {{ page.boletim_desc }}
+                    </p>
+                    <a href="{{ page.boletim_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger btn-sm fw-bold w-100 d-inline-flex align-items-center justify-content-center gap-2">
+                        <span>Acessar Boletins</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2. Portal Bravo -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 rounded-3 d-flex flex-column" style="border-top: 4px solid #D4AF37 !important; background: #FFFFFF; transition: transform 0.2s, box-shadow 0.2s;">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-dark" style="width: 52px; height: 52px; font-size: 24px; background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);">
+                            <i class="fa-solid fa-fire-extinguisher"></i>
+                        </div>
+                        <span class="badge bg-warning bg-opacity-25 text-dark fw-bold small">Operacional</span>
+                    </div>
+                    <h5 class="fw-bold text-navy mb-1">Portal Bravo</h5>
+                    <p class="small text-secondary mb-4 flex-grow-1" style="line-height: 1.6;">
+                        {{ page.bravo_desc }}
+                    </p>
+                    <a href="{{ page.bravo_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm fw-bold w-100 d-inline-flex align-items-center justify-content-center gap-2" style="border-color: #B8860B;">
+                        <span>Acessar Portal Bravo</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3. Cursos e Especializações (EaD) -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 rounded-3 d-flex flex-column" style="border-top: 4px solid var(--bm-navy) !important; background: #FFFFFF; transition: transform 0.2s, box-shadow 0.2s;">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 52px; height: 52px; font-size: 24px; background: linear-gradient(135deg, #0B1B3D 0%, #172F5E 100%);">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <span class="badge bg-primary bg-opacity-10 text-primary fw-bold small">Moodle / DEIP</span>
+                    </div>
+                    <h5 class="fw-bold text-navy mb-1">Cursos & Especializações</h5>
+                    <p class="small text-secondary mb-4 flex-grow-1" style="line-height: 1.6;">
+                        {{ page.ead_desc }}
+                    </p>
+                    <a href="{{ page.ead_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary btn-sm fw-bold w-100 d-inline-flex align-items-center justify-content-center gap-2">
+                        <span>Acessar EaD</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4. Processos Seletivos Internos -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 rounded-3 d-flex flex-column" style="border-top: 4px solid #16A34A !important; background: #FFFFFF; transition: transform 0.2s, box-shadow 0.2s;">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 52px; height: 52px; font-size: 24px; background: linear-gradient(135deg, #16A34A 0%, #15803D 100%);">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                        <span class="badge bg-success bg-opacity-10 text-success fw-bold small">CFC / CFS / CHOA</span>
+                    </div>
+                    <h5 class="fw-bold text-navy mb-1">Processos Seletivos</h5>
+                    <p class="small text-secondary mb-4 flex-grow-1" style="line-height: 1.6;">
+                        {{ page.seletivos_desc }}
+                    </p>
+                    <a href="{{ page.seletivos_url }}" class="btn btn-outline-success btn-sm fw-bold w-100 d-inline-flex align-items-center justify-content-center gap-2">
+                        <span>Ver Seleções Internas</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5. CCFM (Aptidão Física & TAF) -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 rounded-3 d-flex flex-column" style="border-top: 4px solid #E11D48 !important; background: #FFFFFF; transition: transform 0.2s, box-shadow 0.2s;">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 52px; height: 52px; font-size: 24px; background: linear-gradient(135deg, #E11D48 0%, #BE123C 100%);">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <span class="badge bg-danger bg-opacity-10 text-danger fw-bold small">Índices TAF</span>
+                    </div>
+                    <h5 class="fw-bold text-navy mb-1">CCFM (Aptidão Física)</h5>
+                    <p class="small text-secondary mb-4 flex-grow-1" style="line-height: 1.6;">
+                        Centro de Capacitação Física Militar: convocações, testes periódicos e índices do TAF.
+                    </p>
+                    <a href="#ccfm-taf" class="btn btn-outline-danger btn-sm fw-bold w-100 d-inline-flex align-items-center justify-content-center gap-2">
+                        <span>Consultar TAF & Índices</span>
+                        <i class="fa-solid fa-arrow-down"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6. Webmail -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 rounded-3 d-flex flex-column" style="border-top: 4px solid #0284C7 !important; background: #FFFFFF; transition: transform 0.2s, box-shadow 0.2s;">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 52px; height: 52px; font-size: 24px; background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <span class="badge bg-info bg-opacity-10 text-info fw-bold small">@bombeiros.pb</span>
+                    </div>
+                    <h5 class="fw-bold text-navy mb-1">Webmail Institucional</h5>
+                    <p class="small text-secondary mb-4 flex-grow-1" style="line-height: 1.6;">
+                        {{ page.webmail_desc }}
+                    </p>
+                    <a href="{{ page.webmail_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-info btn-sm fw-bold w-100 d-inline-flex align-items-center justify-content-center gap-2">
+                        <span>Acessar Webmail</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7. Portal da Cidadania -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 rounded-3 d-flex flex-column" style="border-top: 4px solid #9333EA !important; background: #FFFFFF; transition: transform 0.2s, box-shadow 0.2s;">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 52px; height: 52px; font-size: 24px; background: linear-gradient(135deg, #9333EA 0%, #7E22CE 100%);">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+                        <span class="badge bg-secondary bg-opacity-10 text-dark fw-bold small">Contracheque</span>
+                    </div>
+                    <h5 class="fw-bold text-navy mb-1">Portal da Cidadania</h5>
+                    <p class="small text-secondary mb-4 flex-grow-1" style="line-height: 1.6;">
+                        {{ page.portal_cidadania_desc }}
+                    </p>
+                    <a href="{{ page.portal_cidadania_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm fw-bold w-100 d-inline-flex align-items-center justify-content-center gap-2">
+                        <span>Acessar Contracheque</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8. PBdoc -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 border-0 shadow-sm p-4 rounded-3 d-flex flex-column" style="border-top: 4px solid #EA580C !important; background: #FFFFFF; transition: transform 0.2s, box-shadow 0.2s;">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 52px; height: 52px; font-size: 24px; background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%);">
+                            <i class="fa-solid fa-folder-tree"></i>
+                        </div>
+                        <span class="badge bg-warning bg-opacity-25 text-dark fw-bold small">Processos Digitais</span>
+                    </div>
+                    <h5 class="fw-bold text-navy mb-1">PBdoc</h5>
+                    <p class="small text-secondary mb-4 flex-grow-1" style="line-height: 1.6;">
+                        {{ page.pbdoc_desc }}
+                    </p>
+                    <a href="{{ page.pbdoc_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger btn-sm fw-bold w-100 d-inline-flex align-items-center justify-content-center gap-2">
+                        <span>Acessar PBdoc</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. SEÇÃO CCFM: RESULTADOS E TABELA OFICIAL DE ÍNDICES DO TAF -->
+<section class="py-5 bg-light border-bottom" id="ccfm-taf">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-4 mb-md-5">
+            <span class="section-tag mb-1"><i class="fa-solid fa-person-running me-1"></i> HIGIDEZ E APTIDÃO FÍSICA</span>
+            <h2 class="display-6 fw-bold text-navy mb-2">{{ page.ccfm_title }}</h2>
+            <p class="text-muted mb-0">Parâmetros normativos de condicionamento físico, tabela oficial de índices mínimos e homologações do TAF.</p>
+        </div>
+
+        <!-- Card de Apresentação do CCFM -->
+        <div class="card border-0 shadow-sm p-4 p-md-5 rounded-3 bg-white mb-4">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-8">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="badge bg-gold text-dark fw-bold px-2 py-1 text-uppercase" style="background-color: #D4AF37 !important; color: #061025 !important;">
+                            <i class="fa-solid fa-medal me-1"></i> COMISSÃO DE AVALIAÇÃO FÍSICA
+                        </span>
+                        <span class="badge bg-danger text-white small fw-bold">TAF PERIÓDICO CBMPB</span>
+                    </div>
+                    <div class="text-secondary mb-0" style="line-height: 1.7; font-size: 0.95rem;">
+                        {{ page.ccfm_summary|richtext }}
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <div class="p-3 bg-light rounded-3 border">
+                        <i class="fa-solid fa-stopwatch-20 text-danger fa-3x mb-2"></i>
+                        <h6 class="fw-bold text-navy mb-1">Aptidão Física Militar</h6>
+                        <span class="small text-muted d-block mb-3">Requisito obrigatório para cursos, promoções e prontidão operacional.</span>
+                        <a href="/institucional/legislacao/?q=TAF" class="btn btn-sm btn-navy text-white fw-bold w-100">
+                            <i class="fa-solid fa-file-pdf me-1"></i> Diretriz Normativa do TAF
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabela Oficial de Índices do TAF (Interativa / Abas Masculino e Feminino) -->
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden bg-white mb-4">
+            <div class="card-header bg-navy text-white p-3 p-md-4 d-flex align-items-center justify-content-between flex-wrap gap-2" style="background: linear-gradient(135deg, #0B1B3D 0%, #152C5B 100%);">
+                <div>
+                    <h5 class="fw-bold text-white mb-1"><i class="fa-solid fa-table-list me-2 text-gold"></i> Tabela de Índices Mínimos do TAF (Referência Oficial)</h5>
+                    <span class="small text-light opacity-75">Valores mínimos exigidos por faixa etária para a obtenção do conceito "APTO"</span>
+                </div>
+                <!-- Seletor de Gênero -->
+                <ul class="nav nav-pills gap-1" id="tafGenderTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active btn-sm fw-bold text-uppercase px-3 py-1" id="masc-tab" data-bs-toggle="pill" data-bs-target="#tab-taf-masc" type="button" role="tab">
+                            <i class="fa-solid fa-mars me-1"></i> Masculino
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link btn-sm fw-bold text-uppercase px-3 py-1" id="fem-tab" data-bs-toggle="pill" data-bs-target="#tab-taf-fem" type="button" role="tab">
+                            <i class="fa-solid fa-venus me-1"></i> Feminino
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="tab-content" id="tafGenderContent">
+                    <!-- ABA MASCULINO -->
+                    <div class="tab-pane fade show active p-3 p-md-4" id="tab-taf-masc" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0 text-center">
+                                <thead class="table-light text-navy small fw-bold text-uppercase">
+                                    <tr>
+                                        <th class="text-start">Faixa Etária</th>
+                                        <th>Corrida 12 min</th>
+                                        <th>Barra Fixa</th>
+                                        <th>Abdominal (1 min)</th>
+                                        <th>Flexão de Braço</th>
+                                        <th>Natação 50m</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="small">
+                                    <tr>
+                                        <td class="text-start fw-bold text-navy">Até 29 anos</td>
+                                        <td><span class="badge bg-danger bg-opacity-10 text-danger fw-bold">2.400 m</span></td>
+                                        <td>5 repetições</td>
+                                        <td>38 repetições</td>
+                                        <td>30 apoios</td>
+                                        <td>Até 1 min 00 s</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start fw-bold text-navy">30 a 34 anos</td>
+                                        <td><span class="badge bg-danger bg-opacity-10 text-danger fw-bold">2.300 m</span></td>
+                                        <td>4 repetições</td>
+                                        <td>35 repetições</td>
+                                        <td>27 apoios</td>
+                                        <td>Até 1 min 05 s</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start fw-bold text-navy">35 a 39 anos</td>
+                                        <td><span class="badge bg-danger bg-opacity-10 text-danger fw-bold">2.200 m</span></td>
+                                        <td>3 repetições</td>
+                                        <td>32 repetições</td>
+                                        <td>24 apoios</td>
+                                        <td>Até 1 min 10 s</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start fw-bold text-navy">40 a 44 anos</td>
+                                        <td><span class="badge bg-danger bg-opacity-10 text-danger fw-bold">2.100 m</span></td>
+                                        <td>2 repetições</td>
+                                        <td>29 repetições</td>
+                                        <td>21 apoios</td>
+                                        <td>Até 1 min 18 s</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start fw-bold text-navy">45 a 49 anos</td>
+                                        <td><span class="badge bg-danger bg-opacity-10 text-danger fw-bold">2.000 m</span></td>
+                                        <td>1 repetição (ou 15s)</td>
+                                        <td>26 repetições</td>
+                                        <td>18 apoios</td>
+                                        <td>Até 1 min 25 s</td>
+                                    </tr>
+                                    <tr class="table-light">
+                                        <td class="text-start fw-bold text-navy">50 anos ou mais</td>
+                                        <td><span class="badge bg-danger bg-opacity-10 text-danger fw-bold">1.800 m</span></td>
+                                        <td>Sustentação (10s)</td>
+                                        <td>22 repetições</td>
+                                        <td>15 apoios</td>
+                                        <td>Até 1 min 35 s</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- ABA FEMININO -->
+                    <div class="tab-pane fade p-3 p-md-4" id="tab-taf-fem" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0 text-center">
+                                <thead class="table-light text-navy small fw-bold text-uppercase">
+                                    <tr>
+                                        <th class="text-start">Faixa Etária</th>
+                                        <th>Corrida 12 min</th>
+                                        <th>Barra (Isometria)</th>
+                                        <th>Abdominal (1 min)</th>
+                                        <th>Flexão de Braço (Solo)</th>
+                                        <th>Natação 50m</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="small">
+                                    <tr>
+                                        <td class="text-start fw-bold text-navy">Até 29 anos</td>
+                                        <td><span class="badge bg-danger bg-opacity-10 text-danger fw-bold">2.000 m</span></td>
+                                        <td>15 segundos</td>
+                                        <td>32 repetições</td>
+                                        <td>22 apoios</td>
+                                        <td>Até 1 min 10 s</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start fw-bold text-navy">30 a 34 anos</td>
+                                        <td><span class="badge bg-danger bg-opacity-10 text-danger fw-bold">1.900 m</span></td>
+                                        <td>12 segundos</td>
+                                        <td>29 repetições</td>
+                                        <td>19 apoios</td>
+                                        <td>Até 1 min 15 s</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start fw-bold text-navy">35 a 39 anos</td>
+                                        <td><span class="badge bg-danger bg-opacity-10 text-danger fw-bold">1.800 m</span></td>
+                                        <td>10 segundos</td>
+                                        <td>26 repetições</td>
+                                        <td>16 apoios</td>
+                                        <td>Até 1 min 22 s</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start fw-bold text-navy">40 a 44 anos</td>
+                                        <td><span class="badge bg-danger bg-opacity-10 text-danger fw-bold">1.700 m</span></td>
+                                        <td>8 segundos</td>
+                                        <td>23 repetições</td>
+                                        <td>13 apoios</td>
+                                        <td>Até 1 min 30 s</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start fw-bold text-navy">45 a 49 anos</td>
+                                        <td><span class="badge bg-danger bg-opacity-10 text-danger fw-bold">1.600 m</span></td>
+                                        <td>6 segundos</td>
+                                        <td>20 repetições</td>
+                                        <td>10 apoios</td>
+                                        <td>Até 1 min 40 s</td>
+                                    </tr>
+                                    <tr class="table-light">
+                                        <td class="text-start fw-bold text-navy">50 anos ou mais</td>
+                                        <td><span class="badge bg-danger bg-opacity-10 text-danger fw-bold">1.500 m</span></td>
+                                        <td>Sustentação (5s)</td>
+                                        <td>16 repetições</td>
+                                        <td>8 apoios</td>
+                                        <td>Até 1 min 50 s</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-light p-3 small text-muted">
+                <i class="fa-solid fa-circle-info text-danger me-1"></i> Os índices apresentados são de caráter referencial, conforme regulamentação geral de educação física militar do CBMPB. Para certames e seleções específicas, prevalecem os parâmetros expressos no respectivo edital de convocação.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 6. SEÇÃO SUPORTE TÉCNICO DTI -->
+<section class="py-5 bg-white" id="suporte-dti">
+    <div class="container">
+        <div class="card border-0 shadow-sm p-4 p-md-5 rounded-3 bg-light" style="border-left: 5px solid var(--bm-navy) !important;">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-8">
+                    <span class="badge bg-navy text-white fw-bold px-2 py-1 mb-2">SUPORTE CORPORATIVO</span>
+                    <h4 class="fw-bold text-navy mb-2">Diretoria de Tecnologia da Informação (DTI)</h4>
+                    <div class="text-secondary small mb-3" style="line-height: 1.65;">
+                        {{ page.dti_support_text|richtext }}
+                    </div>
+                    <div class="d-flex flex-wrap gap-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-phone text-danger"></i>
+                            <span class="small fw-semibold text-navy">{{ page.dti_phone }}</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-envelope text-danger"></i>
+                            <span class="small fw-semibold text-navy">{{ page.dti_email }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center text-lg-end">
+                    <a href="mailto:{{ page.dti_email }}?subject=Solicitacao%20de%20Suporte%20-%20Portal%20do%20Bombeiro" class="btn btn-primary-cbmpb fw-bold px-4 py-2">
+                        <i class="fa-solid fa-headset me-2"></i> Abrir Chamado DTI
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

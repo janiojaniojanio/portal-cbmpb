@@ -144,18 +144,58 @@
                             </ul>
                         </li>
 
-                        <!-- 3. Portal do Bombeiro -->
+                        <!-- 3. Portal do Bombeiro (Acesso Interno) -->
                         <li class="nav-item dropdown">
                             <a class="nav-link nav-link-cbmpb dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Portal do Bombeiro
                             </a>
-                            <ul class="dropdown-menu shadow border-0">
-                                <li><a class="dropdown-item fw-bold text-navy" href="/concursos/?categoria=INTERNO"><i class="fa-solid fa-user-graduate me-2 text-danger"></i>Seleções Internas (CFC, CFS, CHOA)</a></li>
-                                <li><a class="dropdown-item fw-semibold" href="/concursos/"><i class="fa-solid fa-graduation-cap me-2 text-danger"></i>Ensino & Instrução Militar (DEIP)</a></li>
+                            <ul class="dropdown-menu shadow border-0" style="min-width: 320px;">
+                                <li>
+                                    <a class="dropdown-item fw-bold text-navy" href="/portal-do-bombeiro/">
+                                        <i class="fa-solid fa-gauge-high me-2 text-danger"></i>Painel do Bombeiro (Acesso Interno)
+                                    </a>
+                                </li>
                                 <li><hr class="dropdown-divider my-1"></li>
-                                <li><a class="dropdown-item" href="https://boletins.bombeiros.pb.gov.br" target="_blank"><i class="fa-solid fa-file-lines me-2 text-danger"></i>Boletins Gerais (BG)</a></li>
-                                <li><a class="dropdown-item" href="/dspci/?categoria=legislacao#repositorio"><i class="fa-solid fa-scale-balanced me-2 text-danger"></i>Legislação & Regulamentos</a></li>
-                                <li><a class="dropdown-item" href="https://mail.bombeiros.pb.gov.br" target="_blank"><i class="fa-solid fa-envelope me-2 text-danger"></i>Webmail Institucional</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="https://boletins.bombeiros.pb.gov.br" target="_blank" rel="noopener noreferrer">
+                                        <i class="fa-solid fa-file-lines me-2 text-danger"></i>Boletim Interno
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="https://bravo.bombeiros.pb.gov.br" target="_blank" rel="noopener noreferrer">
+                                        <i class="fa-solid fa-fire-extinguisher me-2 text-danger"></i>Portal Bravo
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="https://ead.bombeiros.pb.gov.br" target="_blank" rel="noopener noreferrer">
+                                        <i class="fa-solid fa-graduation-cap me-2 text-danger"></i>Cursos e Especializações (EaD)
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item fw-semibold" href="/concursos/?categoria=INTERNO">
+                                        <i class="fa-solid fa-user-graduate me-2 text-danger"></i>Processos Seletivos Internos
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/portal-do-bombeiro/#ccfm-taf">
+                                        <i class="fa-solid fa-heart-pulse me-2 text-danger"></i>CCFM (Resultados e TAF)
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="https://mail.bombeiros.pb.gov.br" target="_blank" rel="noopener noreferrer">
+                                        <i class="fa-solid fa-envelope me-2 text-danger"></i>Webmail
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="https://portaldacidadania.pb.gov.br" target="_blank" rel="noopener noreferrer">
+                                        <i class="fa-solid fa-wallet me-2 text-danger"></i>Portal da Cidadania
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="https://pbdoc.pb.gov.br" target="_blank" rel="noopener noreferrer">
+                                        <i class="fa-solid fa-folder-tree me-2 text-danger"></i>PBdoc
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 
@@ -282,11 +322,15 @@
                         </button>
                         <div class="collapse" id="mobSubBombeiro" data-bs-parent="#mobileMenuAccordion">
                             <div class="mobile-subnav">
-                                <a href="/concursos/?categoria=INTERNO" data-bs-dismiss="offcanvas"><i class="fa-solid fa-angle-right text-danger"></i> Seleções Internas (CFC/CFS)</a>
-                                <a href="/concursos/" data-bs-dismiss="offcanvas"><i class="fa-solid fa-angle-right text-danger"></i> Ensino Militar (DEIP)</a>
-                                <a href="https://boletins.bombeiros.pb.gov.br" target="_blank"><i class="fa-solid fa-angle-right text-danger"></i> Boletins Gerais (BG)</a>
-                                <a href="/dspci/?categoria=legislacao#repositorio" data-bs-dismiss="offcanvas"><i class="fa-solid fa-angle-right text-danger"></i> Legislação & Regulamentos</a>
-                                <a href="https://mail.bombeiros.pb.gov.br" target="_blank"><i class="fa-solid fa-angle-right text-danger"></i> Webmail Institucional</a>
+                                <a href="/portal-do-bombeiro/" data-bs-dismiss="offcanvas" class="fw-bold text-navy"><i class="fa-solid fa-gauge-high text-danger"></i> Painel do Bombeiro (Acesso Interno)</a>
+                                <a href="https://boletins.bombeiros.pb.gov.br" target="_blank"><i class="fa-solid fa-file-lines text-danger"></i> Boletim Interno</a>
+                                <a href="https://bravo.bombeiros.pb.gov.br" target="_blank"><i class="fa-solid fa-fire-extinguisher text-danger"></i> Portal Bravo</a>
+                                <a href="https://ead.bombeiros.pb.gov.br" target="_blank"><i class="fa-solid fa-graduation-cap text-danger"></i> Cursos e Especializações (EaD)</a>
+                                <a href="/concursos/?categoria=INTERNO" data-bs-dismiss="offcanvas"><i class="fa-solid fa-user-graduate text-danger"></i> Processos Seletivos Internos</a>
+                                <a href="/portal-do-bombeiro/#ccfm-taf" data-bs-dismiss="offcanvas"><i class="fa-solid fa-heart-pulse text-danger"></i> CCFM (Resultados e TAF)</a>
+                                <a href="https://mail.bombeiros.pb.gov.br" target="_blank"><i class="fa-solid fa-envelope text-danger"></i> Webmail</a>
+                                <a href="https://portaldacidadania.pb.gov.br" target="_blank"><i class="fa-solid fa-wallet text-danger"></i> Portal da Cidadania</a>
+                                <a href="https://pbdoc.pb.gov.br" target="_blank"><i class="fa-solid fa-folder-tree text-danger"></i> PBdoc</a>
                             </div>
                         </div>
                     </div>
@@ -416,15 +460,19 @@
                     </ul>
                 </div>
 
-                <!-- 3 & 4. Portal do Bombeiro & Informações -->
+                <!-- 3. Portal do Bombeiro (Acesso Interno) -->
                 <div class="col-lg-2 col-md-6 col-6">
-                    <h5 class="footer-heading">Informações</h5>
+                    <h5 class="footer-heading">Portal do Bombeiro</h5>
                     <ul class="footer-links">
-                        <li><a href="/noticias/"><i class="fa-solid fa-angle-right text-danger"></i> Notícias Oficiais</a></li>
-                        <li><a href="/concursos/?categoria=PUBLICO"><i class="fa-solid fa-angle-right text-danger"></i> Concursos Públicos</a></li>
+                        <li><a href="/portal-do-bombeiro/"><i class="fa-solid fa-angle-right text-danger"></i> Acesso Interno</a></li>
+                        <li><a href="https://boletins.bombeiros.pb.gov.br" target="_blank"><i class="fa-solid fa-angle-right text-danger"></i> Boletim Interno</a></li>
+                        <li><a href="https://bravo.bombeiros.pb.gov.br" target="_blank"><i class="fa-solid fa-angle-right text-danger"></i> Portal Bravo</a></li>
+                        <li><a href="https://ead.bombeiros.pb.gov.br" target="_blank"><i class="fa-solid fa-angle-right text-danger"></i> Cursos e EaD</a></li>
                         <li><a href="/concursos/?categoria=INTERNO"><i class="fa-solid fa-angle-right text-danger"></i> Seleções Internas</a></li>
-                        <li><a href="https://transparencia.pb.gov.br/" target="_blank"><i class="fa-solid fa-angle-right text-danger"></i> Transparência PB</a></li>
-                        <li><a href="https://ouvidoria.pb.gov.br/" target="_blank"><i class="fa-solid fa-angle-right text-danger"></i> Ouvidoria Estadual</a></li>
+                        <li><a href="/portal-do-bombeiro/#ccfm-taf"><i class="fa-solid fa-angle-right text-danger"></i> CCFM (TAF)</a></li>
+                        <li><a href="https://mail.bombeiros.pb.gov.br" target="_blank"><i class="fa-solid fa-angle-right text-danger"></i> Webmail</a></li>
+                        <li><a href="https://portaldacidadania.pb.gov.br" target="_blank"><i class="fa-solid fa-angle-right text-danger"></i> Portal da Cidadania</a></li>
+                        <li><a href="https://pbdoc.pb.gov.br" target="_blank"><i class="fa-solid fa-angle-right text-danger"></i> PBdoc</a></li>
                     </ul>
                 </div>
 
