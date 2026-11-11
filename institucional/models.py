@@ -1287,7 +1287,7 @@ class PortalBombeiroPage(Page):
 
     # 1. Boletim Interno
     boletim_url = models.URLField(
-        default="https://boletins.bombeiros.pb.gov.br",
+        default="https://bravo.bombeiros.pb.gov.br/bravoRH/boletins",
         verbose_name="Link do Boletim Interno (BG)"
     )
     boletim_desc = models.CharField(
@@ -1349,7 +1349,7 @@ class PortalBombeiroPage(Page):
 
     # 6. Webmail
     webmail_url = models.URLField(
-        default="https://mail.bombeiros.pb.gov.br",
+        default="https://webmail.pb.gov.br",
         verbose_name="Link do Webmail Institucional"
     )
     webmail_desc = models.CharField(
@@ -1358,15 +1358,15 @@ class PortalBombeiroPage(Page):
         verbose_name="Descrição do Webmail"
     )
 
-    # 7. Portal da Cidadania
+    # 7. Portal do Servidor
     portal_cidadania_url = models.URLField(
-        default="https://portaldacidadania.pb.gov.br",
-        verbose_name="Link do Portal da Cidadania"
+        default="https://portaldoservidor.pb.gov.br/",
+        verbose_name="Link do Portal do Servidor"
     )
     portal_cidadania_desc = models.CharField(
         max_length=255,
         default="Emissão de contracheques mensais, ficha financeira, informe de rendimentos e margem de consignações.",
-        verbose_name="Descrição do Portal da Cidadania"
+        verbose_name="Descrição do Portal do Servidor"
     )
 
     # 8. PBdoc
